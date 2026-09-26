@@ -213,6 +213,35 @@ Outputs:
 - **Compressed NumPy Array:** `/data/processed/<case_id>/flash_flood_routed_risk_T+{lead_hours}h.npz`
 - **Summary Validation JSON:** `/data/processed/<case_id>/hydrologic_routing_summary_T+{lead_hours}h.json`
 
+### 🔍 Explainable AI (XAI) Module using SHAP:
+
+> **Providing Transparent Operational Reasoning for Disaster Decision-Makers (NDMA / SDMA):**
+> Translates black-box model predictions into plain-language physical diagnoses and visual feature attribution bar charts.
+
+The module (`src/xai/explainability.py`) uses `shap.TreeExplainer` on the trained gradient-boosted multi-task model to isolate exactly which meteorological and topographical variables drive the nowcast risk score for any flagged high-risk grid cell:
+1. **Moisture Influx (IWV Rate):** Rate of column water vapor convergence feeding vertical updrafts.
+2. **Atmospheric Instability (MetPy CAPE):** Available convective buoyant energy fueling vertical expansion.
+3. **Rapid Cloud-Top Cooling ($-d(\text{CTT})/dt$):** Satellite infrared cooling rate indicating explosive cumulonimbus development.
+4. **Low-Level Wind Convergence ($-\nabla_H \cdot \vec{V}$):** Boundary-layer horizontal airflow forcing air mass ascent.
+5. **Terrain Slope & Topography:** Orographic lift and gravitational runoff funneling.
+
+```bash
+# 1. Explain peak cloudburst cell for Amarnath Cloudburst at T+3h lead time:
+python -m src.xai.explainability --case case_01_amarnath_cloudburst_2022 --hazard cloudburst --lead-hours 3
+
+# 2. Explain peak flash flood cell for Wayanad Deluge at T+4h lead time:
+python -m src.xai.explainability --case case_04_wayanad_deluge_2024 --hazard flash_flood --lead-hours 4
+
+# 3. Explain peak severe squall cell for North India at T+3h lead time:
+python -m src.xai.explainability --case case_02_north_india_squall_2018 --hazard severe_thunderstorm --lead-hours 3
+```
+
+Outputs:
+- **Interactive Embedded Bar Chart:** Embedded directly in the Streamlit dashboard (`app/main.py`) when inspecting any hotspot.
+- **Exported Visual Graphic:** `/data/processed/<case_id>/shap_attribution_<hazard>_T+{lead_hours}h.png`
+- **Plain-Language Summary:** Actionable textual reasoning ready for emergency broadcasts and sirens.
+
+
 ---
 
 ## 🛰️ Open Scientific Data Sources

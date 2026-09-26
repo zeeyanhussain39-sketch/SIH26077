@@ -25,7 +25,12 @@ import numpy as np
 # Import internal modules from src
 from src.model.inference import run_nowcast_inference
 from src.data_ingestion.open_meteo_client import fetch_nowcast_atmospheric_features
-from src.xai.explainability import compute_hazard_attributions, explain_prediction_summary
+from src.xai.explainability import (
+    compute_hazard_attributions,
+    explain_prediction_summary,
+    get_default_shap_explainer,
+    generate_shap_bar_chart
+)
 from src.alerts.alert_engine import generate_cap_alert
 from src.feature_engineering.hydrologic_routing import (
     extract_d8_streamlines,
@@ -484,17 +489,60 @@ with right_col:
     """, unsafe_allow_html=True)
 
     st.subheader("🔍 Explainable AI (XAI) Insight")
-    st.caption("Feature attribution for emergency decision-makers (NDMA / SDMA)")
-    st.info(xai_summary)
+    st.caption("SHAP tree attributions interpreting model reasoning for emergency decision-makers (NDMA / SDMA)")
 
-    # Simple feature attribution table
-    attr_df = pd.DataFrame(xai_attributions)
-    attr_df = attr_df.rename(columns={
-        "feature": "Meteorological Feature",
-        "current_value": "Current Value",
-        "relative_importance_pct": "Contribution (%)"
-    })
-    st.dataframe(attr_df[["Meteorological Feature", "Current Value", "Contribution (%)"]], use_container_width=True, hide_index=True)
+    # Hazard Selector for Feature Attribution
+    xai_hazard_label = st.radio(
+        "Explain Risk Drivers for Hazard:",
+        ["🌧️ Cloudburst", "🌊 Flash Flood", "🌩️ Severe Thunderstorm"],
+        horizontal=True,
+        help="Select which hazard head's decision process to inspect using SHAP feature attribution."
+    )
+
+    hazard_key_map = {
+        "🌧️ Cloudburst": "cloudburst",
+        "🌊 Flash Flood": "flash_flood",
+        "🌩️ Severe Thunderstorm": "severe_thunderstorm"
+    }
+    target_hazard_key = hazard_key_map[xai_hazard_label]
+
+    # Compute SHAP explanation for the active grid cell
+    explainer = get_default_shap_explainer()
+    shap_result = explainer.explain_grid_cell(
+        hazard_type=target_hazard_key,
+        features=met_features,
+        lead_hours=lead_time
+    )
+
+    # Plain-Language Operational Summary Box
+    st.markdown(f"""
+    <div style="background: rgba(15, 23, 42, 0.7); border-left: 4px solid #ef4444; padding: 12px 16px; border-radius: 6px; font-size: 0.88rem; margin-bottom: 12px; line-height: 1.5; color: #f1f5f9;">
+        {shap_result['plain_language_summary']}
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Render Horizontal SHAP Feature Attribution Bar Chart
+    shap_fig = generate_shap_bar_chart(
+        explanation_result=shap_result,
+        max_features=6,
+        figsize=(6.2, 3.6),
+        dark_theme=True
+    )
+    st.pyplot(shap_fig, use_container_width=True)
+    plt.close(shap_fig)
+
+    # Detailed Feature Attribution Table Expander
+    with st.expander("📋 Detailed Feature Attribution Breakdown"):
+        table_rows = []
+        for item in shap_result["all_features"]:
+            table_rows.append({
+                "Physical Variable": item["display_name"],
+                "Value": f"{item['value']} {item['unit']}",
+                "SHAP Impact": f"{item['shap_value']:+.3f}",
+                "Contribution": f"{item['contribution_pct']:.1f}%",
+                "Direction": "🔴 Increases Risk" if item["direction"] == "RISK_INCREASING" else "🔵 Dampens Risk"
+            })
+        st.dataframe(pd.DataFrame(table_rows), use_container_width=True, hide_index=True)
 
 # -----------------------------------------------------------------------------
 # Bottom Section: Hydrologic Routing, CAP-v1.2, Architecture, & Datasets
