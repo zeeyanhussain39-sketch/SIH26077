@@ -46,10 +46,13 @@ SIH26077/
 │   │   ├── __init__.py
 │   │   ├── atmospheric_indices.py  # CAPE, CIN, Cloudburst & Flash Flood risk formulas
 │   │   └── feature_extractor.py    # IWV, MetPy CAPE/CIN, convergence, CTT cooling, D8 DEM
-│   ├── model/                # PyTorch Spatio-Temporal Nowcasting Network
+│   ├── model/                # Multi-Task Nowcasting Engine (2 to 6 hours ahead)
 │   │   ├── __init__.py
-│   │   ├── nowcast_net.py    # Multi-horizon ConvNet/ConvLSTM architecture
-│   │   └── inference.py      # Lead-time inference (2 to 6 hours ahead)
+│   │   ├── multitask_model.py # 3-head multi-hazard predictive architecture
+│   │   ├── train_multitask_model.py # Physical weak-supervision training pipeline
+│   │   ├── predict_hazard_grid.py  # Spatial risk grid generator (GeoTIFF & NumPy)
+│   │   ├── nowcast_net.py    # PyTorch Spatio-Temporal backbone (Future production scaling)
+│   │   └── inference.py      # Lead-time inference & uncertainty decay
 │   ├── xai/                  # Model explainability for disaster managers (NDMA/SDMA)
 │   │   ├── __init__.py
 │   │   └── explainability.py # SHAP attribution & hazard driver breakdowns
@@ -162,6 +165,27 @@ Outputs:
 - Multi-channel NetCDF: `/data/processed/<case_id>/feature_cube_<case_id>.nc`
 - Tabular Parquet matrix: `/data/processed/<case_id>/feature_table_<case_id>.parquet`
 - Tabular CSV: `/data/processed/<case_id>/feature_table_<case_id>.csv`
+
+### Running the Multi-Task Model Training & Spatial Inference:
+
+Trains the 3-head multi-task model on physically-grounded weak supervision rules and historical disaster validation anchors. Full architecture details in [docs/MODEL_ARCHITECTURE.md](file:///c:/Users/zeeya/Desktop/SIH26077/docs/MODEL_ARCHITECTURE.md).
+
+```bash
+# 1. Train multi-task model across all 4 historical case studies (156k samples):
+python -m src.model.train_multitask_model
+
+# 2. Run spatial nowcasting inference and generate 3-Band GeoTIFF & NumPy risk grids:
+# Target: Amarnath Cave Cloudburst at T+3h lead time
+python -m src.model.predict_hazard_grid --case case_01_amarnath_cloudburst_2022 --lead-hours 3
+
+# Target: Wayanad Deluge at T+4h lead time
+python -m src.model.predict_hazard_grid --case case_04_wayanad_deluge_2024 --lead-hours 4
+```
+
+Outputs:
+- Multi-Band GeoTIFF: `/data/processed/<case_id>/hazard_risk_grid_<case_id>_T+{lead_hours}h.tif` (Bands: 1=Thunderstorm, 2=Cloudburst, 3=Flash Flood)
+- Compressed NumPy Grid: `/data/processed/<case_id>/hazard_risk_grid_<case_id>_T+{lead_hours}h.npz`
+- Alert Summary JSON: `/data/processed/<case_id>/hazard_summary_<case_id>_T+{lead_hours}h.json`
 
 ---
 
