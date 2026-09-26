@@ -45,7 +45,14 @@ from src.xai.explainability import (
     compute_hazard_attributions,
     explain_prediction_summary,
 )
-from src.alerts.alert_engine import generate_cap_alert
+from src.alerts.alert_engine import (
+    generate_cap_alert,
+    get_default_alert_engine,
+    get_default_feed_manager,
+    get_default_smtp_dispatcher,
+    SmtpAlertDispatcher,
+    CategorizedAlert
+)
 from src.feature_engineering.hydrologic_routing import (
     extract_d8_streamlines,
     generate_synthetic_drainage_streamlines,
@@ -705,6 +712,28 @@ with right_col:
         st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
 
 # -----------------------------------------------------------------------------
+# Alert Module: Auto-register active hotspot alert in Live Feed
+# -----------------------------------------------------------------------------
+alert_engine = get_default_alert_engine()
+feed_manager = get_default_feed_manager()
+current_alert_key = f"{selected_case_id}_s{st.session_state.time_step_idx}_l{lead_time}_h{selected_hs_idx}"
+if "recorded_alert_keys" not in st.session_state:
+    st.session_state.recorded_alert_keys = set()
+
+if current_alert_key not in st.session_state.recorded_alert_keys and dominant_prob >= 0.20:
+    new_alert = alert_engine.evaluate_cell_risk(
+        hazard_type=case_info["primary_hazard_key"],
+        probability=dominant_prob,
+        latitude=active_hs["lat"],
+        longitude=active_hs["lon"],
+        lead_hours=lead_time,
+        location_name=f"{active_hs['name']} ({case_info['title'].split(':')[0].strip()})"
+    )
+    if new_alert:
+        feed_manager.add_alert(new_alert)
+        st.session_state.recorded_alert_keys.add(current_alert_key)
+
+# -----------------------------------------------------------------------------
 # Requirement 4: Timeline Risk Evolution & 2-6 Hour Lead Time Visualization
 # -----------------------------------------------------------------------------
 st.write("")
@@ -748,7 +777,7 @@ st.markdown(f"""
 st.write("")
 tab0, tab1, tab2, tab3 = st.tabs([
     "🌊 Hydrological Routing & Inundation Analysis",
-    "🚨 Common Alerting Protocol (CAP JSON)",
+    "🚨 Categorized Alerts & Dissemination (Feed & Email)",
     "⚙️ System Architecture & Workflow",
     "📖 SIH 26077 Scope & Datasets"
 ])
@@ -789,19 +818,201 @@ with tab0:
         )
 
 with tab1:
-    st.subheader("Standardized Common Alerting Protocol (CAP-v1.2) Output")
-    st.caption("Machine-readable payload ready for integration with national dissemination gateways (SACHET, SMS sirens, State Disaster Management Authorities).")
-    
-    cap_alert = generate_cap_alert(
-        hazard_type=case_info["hazard_type"],
-        severity="Extreme" if dominant_prob >= 0.70 else "Severe",
-        lead_hours=lead_time,
-        latitude=active_hs["lat"],
-        longitude=active_hs["lon"],
-        probability=dominant_prob,
-        instructions="Evacuate immediate riverbanks, drain paths, and vulnerable hill slopes. Prohibit vehicular movement through low-lying culverts."
-    )
-    st.json(cap_alert)
+    st.subheader("🚨 Categorized Early Warnings & Multi-Channel Dissemination")
+    st.caption("Automated threshold-triggered hazard warnings conforming to Common Alerting Protocol (CAP-v1.2) with in-dashboard notification stream and free-tier email dispatch.")
+
+    # Prominent Demo Disclaimer
+    st.markdown("""
+    <div style="background: rgba(30, 41, 59, 0.75); border-left: 4px solid #38bdf8; border-radius: 8px; padding: 14px 18px; margin-bottom: 20px; font-size: 0.86rem; line-height: 1.5; color: #cbd5e1;">
+        <strong>ℹ️ Operational Prototype Notice (Zero Paid Cloud / 100% Free Stack):</strong><br>
+        In strict adherence to the free/open-source requirement (no paid SMS/push services like Twilio, SendGrid, or AWS SNS), this system implements alert delivery via:
+        <ul style="margin: 6px 0 0 0; padding-left: 20px;">
+            <li><strong>(a) Live In-Dashboard Notification Feed:</strong> An active warning queue updating immediately whenever a risk grid cell crosses defined hazard thresholds (Yellow &ge;20%, Orange &ge;40%, Red &ge;70%).</li>
+            <li><strong>(b) Optional Free-Tier Email Alerting via Python <code>smtplib</code>:</strong> Standard library TLS dispatch compatible with free email providers (e.g. Gmail / Outlook with a free App Password), including an automated <strong>Simulated Demo Dispatch Mode</strong> for evaluation without requiring external credentials.</li>
+        </ul>
+        <em>In production, this module acts as the automated trigger feed for national emergency dissemination systems (NDMA SACHET, IMD Doppler Weather Radar bulletins, and telecom Cell Broadcast sirens).</em>
+    </div>
+    """, unsafe_allow_html=True)
+
+    col_feed, col_email = st.columns([1.15, 0.85], gap="large")
+
+    with col_feed:
+        st.markdown("#### 📡 Live In-Dashboard Notification Feed")
+        st.caption("Real-time stream of threshold-exceeding hazard alerts across monitored corridors.")
+
+        # Filter bar and control actions
+        f_c1, f_c2 = st.columns([2, 1])
+        with f_c1:
+            tier_filter = st.selectbox(
+                "Filter Feed by Severity Tier:",
+                ["All Active Alerts", "🔴 RED (Extreme ≥70%)", "🟠 ORANGE (Severe ≥40%)", "🟡 YELLOW (Watch ≥20%)"],
+                key="alert_tier_filter"
+            )
+        with f_c2:
+            st.write("")
+            st.write("")
+            if st.button("🗑️ Clear Live Feed", help="Purges all cached alerts from the local feed manager"):
+                feed_manager.clear()
+                st.session_state.recorded_alert_keys = set()
+                st.rerun()
+
+        filter_min_tier = None
+        if "RED" in tier_filter:
+            filter_min_tier = "RED"
+        elif "ORANGE" in tier_filter:
+            filter_min_tier = "ORANGE"
+        elif "YELLOW" in tier_filter:
+            filter_min_tier = "YELLOW"
+
+        active_feed_alerts = feed_manager.get_feed(min_tier=filter_min_tier)
+
+        if not active_feed_alerts:
+            st.info("No active alerts currently matching the selected filter. Change time step or adjust slider to trigger threshold crossings.")
+        else:
+            for item in active_feed_alerts:
+                tier = item.get("alert_tier", "RED")
+                border_color = "#ef4444" if tier == "RED" else ("#f97316" if tier == "ORANGE" else "#eab308")
+                badge_bg = "#dc2626" if tier == "RED" else ("#ea580c" if tier == "ORANGE" else "#ca8a04")
+                time_win = item.get("time_window", {})
+                is_acked = item.get("acknowledged", False)
+
+                st.markdown(f"""
+                <div style="background: rgba(18, 24, 38, 0.85); border: 1px solid {border_color}; border-left: 6px solid {border_color}; border-radius: 8px; padding: 14px 16px; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.25);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                        <div>
+                            <span style="background: {badge_bg}; color: #ffffff; padding: 3px 8px; border-radius: 4px; font-weight: 700; font-size: 0.76rem; letter-spacing: 0.03em;">
+                                {tier} ALERT • {item.get('severity', 'Severe').upper()}
+                            </span>
+                            <span style="color: #94a3b8; font-size: 0.8rem; margin-left: 8px; font-family: monospace;">
+                                {item.get('alert_id')}
+                            </span>
+                        </div>
+                        <div style="color: {border_color}; font-weight: 700; font-size: 1.05rem;">
+                            {item.get('probability_pct', 80.0):.1f}% Prob
+                        </div>
+                    </div>
+                    <div style="font-size: 0.95rem; font-weight: 600; color: #f8fafc; margin-bottom: 4px;">
+                        ⚠️ {item.get('hazard_title', 'Hazard')} @ {item.get('location_name', 'Sector')}
+                    </div>
+                    <div style="font-size: 0.82rem; color: #94a3b8; margin-bottom: 8px;">
+                        ⏱️ <strong>Estimated Window:</strong> <span style="color: #cbd5e1;">{time_win.get('window_summary', 'N/A')}</span> | 
+                        Horizon: <span style="color: #38bdf8;">T + {item.get('lead_hours', 3)}h</span> (Countdown: {time_win.get('time_to_impact', 'N/A')})
+                    </div>
+                    <div style="font-size: 0.82rem; color: #cbd5e1; margin-bottom: 8px; background: rgba(0,0,0,0.25); padding: 8px 10px; border-radius: 4px;">
+                        <strong>Physical Driver:</strong> {item.get('trigger_reason', '')}
+                    </div>
+                    <div style="font-size: 0.82rem; color: #fca5a5; line-height: 1.4;">
+                        <strong>🚨 NDMA Directive:</strong> {item.get('recommended_action', '')}
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+
+                # Acknowledgment status / action
+                ack_c1, ack_c2 = st.columns([3, 1])
+                with ack_c2:
+                    if is_acked:
+                        st.markdown('<span style="color: #22c55e; font-size: 0.8rem; font-weight: 600;">✅ Operator Acknowledged</span>', unsafe_allow_html=True)
+                    else:
+                        if st.button("Acknowledge", key=f"ack_btn_{item.get('alert_id')}", help="Record operational acknowledgment in the audit log"):
+                            feed_manager.acknowledge_alert(item.get("alert_id"))
+                            st.rerun()
+
+    with col_email:
+        st.markdown("#### ✉️ Free-Tier Email Alert Dispatcher")
+        st.caption("Dispatches emergency alerts via Python's standard `smtplib`. Works with free Gmail/Outlook SMTP (App Password) or Simulated Demo Mode.")
+
+        # Recipient Configuration
+        recipient_input = st.text_input(
+            "Emergency Recipient Email:",
+            value="ndrf-control-room@disaster-response.gov.in",
+            help="Recipient address for the emergency dispatch. Free SMTP will deliver live or log to demo audit trail."
+        )
+
+        # Alert selection for dispatch
+        all_feed = feed_manager.get_feed()
+        if all_feed:
+            alert_options = [f"{a['alert_id']} - {a['hazard_title']} ({a['alert_tier']})" for a in all_feed]
+            selected_alert_str = st.selectbox("Select Alert to Dispatch:", alert_options, index=0)
+            selected_alert_id = selected_alert_str.split(" - ")[0]
+            alert_to_send = next((a for a in all_feed if a["alert_id"] == selected_alert_id), all_feed[0])
+        else:
+            # Fallback to current evaluated state
+            alert_to_send = {
+                "alert_id": "SIH26077-DEMO",
+                "hazard_type": case_info["primary_hazard_key"],
+                "hazard_title": case_info["hazard_type"],
+                "severity": "Extreme" if dominant_prob >= 0.70 else "Severe",
+                "alert_tier": "RED" if dominant_prob >= 0.70 else "ORANGE",
+                "probability_pct": round(dominant_prob * 100.0, 1),
+                "location_name": active_hs["name"],
+                "latitude": active_hs["lat"],
+                "longitude": active_hs["lon"],
+                "lead_hours": lead_time,
+                "time_window": {"window_summary": f"Next {lead_time} Hours", "time_to_impact": f"{lead_time}h 00m"},
+                "trigger_reason": f"High convective probability ({dominant_prob*100:.1f}%) detected in sector.",
+                "recommended_action": "Evacuate low-lying riverbeds and drainage paths."
+            }
+
+        # Optional SMTP Credentials Accordion
+        with st.expander("⚙️ Optional Free-Tier SMTP Provider Settings (Gmail / Outlook)"):
+            st.markdown("""
+            <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 8px;">
+                Enter your free SMTP credentials (e.g. Gmail with a 16-character App Password).<br>
+                <em>If left empty, system operates in <strong>Simulated Demo Dispatch Mode</strong> (generates full responsive HTML email and logs dispatch to audit disk without errors).</em>
+            </div>
+            """, unsafe_allow_html=True)
+            smtp_host_in = st.text_input("SMTP Host", value="smtp.gmail.com")
+            smtp_port_in = st.number_input("SMTP Port", value=587, min_value=25, max_value=65535)
+            smtp_user_in = st.text_input("SMTP Username / Email", value="", help="e.g. your-email@gmail.com")
+            smtp_pass_in = st.text_input("SMTP App Password", value="", type="password", help="Free Gmail App Password (16 characters, no spaces)")
+
+        dispatcher = SmtpAlertDispatcher(
+            smtp_host=smtp_host_in,
+            smtp_port=int(smtp_port_in),
+            smtp_user=smtp_user_in,
+            smtp_password=smtp_pass_in
+        )
+
+        if st.button("🚀 Dispatch Emergency Warning Email", type="primary", use_container_width=True):
+            dispatch_res = dispatcher.dispatch_alert(alert_to_send, recipient_email=recipient_input)
+            st.session_state.last_dispatch_result = dispatch_res
+
+            if dispatch_res["status"] == "SENT_LIVE_SMTP":
+                st.success(f"✅ {dispatch_res['message']}")
+            else:
+                st.info(f"ℹ️ {dispatch_res['message']}")
+
+        # Show embedded responsive email preview
+        preview_html = dispatcher.build_email_html(alert_to_send)
+        st.markdown("**📧 Responsive HTML Email Payload Preview:**")
+        components.html(preview_html, height=380, scrolling=True)
+
+    # -------------------------------------------------------------------------
+    # Expanders for CAP-v1.2 JSON & FastAPI Backend Endpoints
+    # -------------------------------------------------------------------------
+    st.write("")
+    with st.expander("📋 Standardized Common Alerting Protocol (CAP-v1.2 JSON Payload)"):
+        st.caption("Machine-readable payload ready for integration with national dissemination gateways (SACHET, SMS sirens, State Disaster Management Authorities).")
+        st.json(alert_to_send.get("cap_payload", generate_cap_alert(
+            hazard_type=case_info["hazard_type"],
+            severity="Extreme" if dominant_prob >= 0.70 else "Severe",
+            lead_hours=lead_time,
+            latitude=active_hs["lat"],
+            longitude=active_hs["lon"],
+            probability=dominant_prob
+        )))
+
+    with st.expander("📡 FastAPI Backend Integration & REST Endpoints"):
+        st.markdown("""
+        The lightweight FastAPI backend (`api/main.py`) provides headless programmatic integration for state emergency command centers:
+        
+        - `GET /api/v1/alerts/feed`: Returns the active stream of categorized warnings with optional `min_tier` filter (YELLOW, ORANGE, RED).
+        - `POST /api/v1/alerts/evaluate`: Ingests cell hazard probability; triggers categorized alert, inserts into feed, and optionally dispatches email alert.
+        - `POST /api/v1/alerts/dispatch-email`: Dispatches an emergency notification email via standard `smtplib` (live SMTP or simulated demo mode).
+        - `POST /api/v1/alerts/acknowledge`: Allows emergency operators to mark an alert acknowledged in the persistent audit trail.
+        
+        *Start backend with:* `uvicorn api.main:app --reload --port 8000`
+        """)
 
 with tab2:
     st.subheader("End-to-End Modular Pipeline Architecture")

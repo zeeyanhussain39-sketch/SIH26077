@@ -242,6 +242,41 @@ Outputs:
 - **Plain-Language Summary:** Actionable textual reasoning ready for emergency broadcasts and sirens.
 
 
+### 🚨 Categorized Alert Module & Operational Dissemination:
+
+> **Automated Threshold Triggers & Multi-Channel Delivery (100% Free Stack):**
+> When any monitored grid cell crosses defined severe weather thresholds, the system automatically generates categorized alerts with hazard type, pinpoint coordinates, severity tier, estimated time window, physical drivers, and NDMA action directives.
+
+#### Defined Threshold Tiers:
+- 🔴 **Extreme (Red Alert - Probability $\ge 70\%$):** Imminent threat to life and infrastructure; trigger immediate evacuation of drainage nullahs, riverbanks, and camping grounds.
+- 🟠 **Severe (Orange Warning - Probability $40\%-70\%$):** High convective probability; pre-position disaster response teams (NDRF/SDRF) and prepare community shelters.
+- 🟡 **Moderate (Yellow Watch - Probability $20\%-40\%$):** Convective watch; issue public advisories and monitor Doppler radar updates.
+
+#### Zero-Cost Delivery Channels:
+1. **Live In-Dashboard Notification Feed:**
+   - Active real-time feed in the Streamlit UI and REST API.
+   - Color-coded severity badges, time-to-impact countdowns, and operator acknowledgment tracking.
+2. **Optional Free-Tier Email Alerting (`smtplib`):**
+   - Built using Python's standard library `smtplib` with TLS encryption.
+   - Compatible with free email providers (e.g. Gmail SMTP `smtp.gmail.com:587` with a free App Password or Outlook SMTP).
+   - Generates fully responsive HTML emergency emails with severity styling, impact tables, and NDMA directives.
+   - **Simulated Demo Mode:** When credentials are not configured, the system logs the full dispatch payload to `/data/processed/alerts/email_dispatch_log.json` and renders an interactive HTML preview in the dashboard without errors.
+
+> **Operational Prototype Disclaimer:**
+> In accordance with the project's zero-cost constraint (no paid SMS services like Twilio, Sinch, or AWS SNS), free email via `smtplib` and the live in-dashboard feed serve as an operational prototype. In full production, this module directly interfaces with national multi-channel alerting infrastructure, including the **NDMA SACHET Portal**, Common Alerting Protocol (CAP-v1.2) XML feeds, and telecom Cell Broadcast emergency sirens.
+
+#### Programmatic FastAPI Endpoints:
+
+Run the alert API server with:
+```bash
+uvicorn api.main:app --reload --port 8000
+```
+
+- `GET /api/v1/alerts/feed`: Stream active categorized alerts with optional `min_tier` filter (YELLOW, ORANGE, RED).
+- `POST /api/v1/alerts/evaluate`: Ingests cell hazard probability, evaluates warning thresholds, generates CAP alert, updates feed, and optionally dispatches email alert.
+- `POST /api/v1/alerts/dispatch-email`: Dispatches an emergency notification email via standard `smtplib` (live SMTP or simulated demo mode).
+- `POST /api/v1/alerts/acknowledge`: Operator acknowledgment tracking for the audit trail.
+
 ---
 
 ## 🛰️ Open Scientific Data Sources
