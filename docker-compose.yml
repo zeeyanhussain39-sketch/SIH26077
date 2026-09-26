@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # 1. FastAPI Alert Engine & Inference Microservice
+  alert-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sih26077-alert-api
+    command: uvicorn api.main:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=production
+      - API_PORT=8000
+      - API_HOST=0.0.0.0
+    volumes:
+      - ./data/processed:/app/data/processed
+      - ./models:/app/models
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/docs"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # 2. Streamlit Command Dashboard with Folium Maps
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sih26077-dashboard
+    command: streamlit run app/main.py --server.port 8501 --server.address 0.0.0.0
+    ports:
+      - "8501:8501"
+    environment:
+      - STREAMLIT_SERVER_PORT=8501
+      - STREAMLIT_SERVER_ADDRESS=0.0.0.0
+      - ALERT_API_URL=http://alert-api:8000
+    volumes:
+      - ./data/processed:/app/data/processed
+      - ./models:/app/models
+    depends_on:
+      - alert-api
+    restart: unless-stopped
