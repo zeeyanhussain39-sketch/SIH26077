@@ -10,6 +10,7 @@ from .mosdac_downloader import download_mosdac_data
 from .era5_imdaa_downloader import download_era5_data
 from .srtm_dem_downloader import download_srtm_dem
 from .case_studies_manager import process_case_study, process_all_cases, CASE_STUDIES_REGISTRY
+from .data_fusion import SpatioTemporalDataFusion, fuse_case_study_data
 
 __all__ = [
     "load_satellite_netcdf",
@@ -21,4 +22,6 @@ __all__ = [
     "process_case_study",
     "process_all_cases",
     "CASE_STUDIES_REGISTRY",
+    "SpatioTemporalDataFusion",
+    "fuse_case_study_data",
 ]

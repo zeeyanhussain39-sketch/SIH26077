@@ -32,11 +32,16 @@ SIH26077/
 │       └── 01_satellite_radar_eda.ipynb  # Jupyter notebook for satellite/radar EDA
 ├── src/
 │   ├── __init__.py
-│   ├── data_ingestion/       # Ingestion for INSAT-3D/3DR, Doppler Radar, Open-Meteo
+│   ├── data_ingestion/       # Ingestion for INSAT-3D/3DR, Doppler Radar, Open-Meteo, & Data Fusion
 │   │   ├── __init__.py
 │   │   ├── satellite_loader.py
 │   │   ├── radar_loader.py
-│   │   └── open_meteo_client.py
+│   │   ├── open_meteo_client.py
+│   │   ├── mosdac_downloader.py
+│   │   ├── era5_imdaa_downloader.py
+│   │   ├── srtm_dem_downloader.py
+│   │   ├── case_studies_manager.py
+│   │   └── data_fusion.py    # Multi-sensor spatiotemporal alignment & normalization
 │   ├── feature_engineering/  # Atmospheric instability & convective severity indices
 │   │   ├── __init__.py
 │   │   └── atmospheric_indices.py  # CAPE, CIN, Cloudburst & Flash Flood risk formulas
@@ -126,6 +131,18 @@ python -m src.data_ingestion.case_studies_manager --case case_01_amarnath_cloudb
 python -m src.data_ingestion.mosdac_downloader --case case_01_amarnath_cloudburst_2022
 python -m src.data_ingestion.era5_imdaa_downloader --case case_01_amarnath_cloudburst_2022
 python -m src.data_ingestion.srtm_dem_downloader --case case_01_amarnath_cloudburst_2022
+```
+
+### Running the Multi-Sensor Data Fusion Pipeline:
+
+Aligns satellite, reanalysis, and 30m DEM onto a single common spatiotemporal NetCDF grid (`/data/processed/<case_id>/aligned_features_<case_id>.nc`). Detailed methodological formulation is in [docs/DATA_FUSION_METHODOLOGY.md](file:///c:/Users/zeeya/Desktop/SIH26077/docs/DATA_FUSION_METHODOLOGY.md).
+
+```bash
+# Fuse all case studies onto the unified 0.02° grid:
+python -m src.data_ingestion.data_fusion --case all
+
+# Or fuse a specific case study:
+python -m src.data_ingestion.data_fusion --case case_01_amarnath_cloudburst_2022 --res 0.02
 ```
 
 ---
