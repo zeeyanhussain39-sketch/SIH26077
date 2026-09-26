@@ -1,0 +1,3 @@
+build-essential
+libgomp1
+curl
