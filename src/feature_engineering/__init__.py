@@ -9,10 +9,24 @@ from .atmospheric_indices import (
     calculate_cloudburst_risk,
     calculate_flash_flood_risk,
 )
+from .feature_extractor import (
+    compute_integrated_water_vapor,
+    compute_metpy_instability_cape_cin,
+    compute_wind_convergence_and_shear,
+    compute_cloud_top_temperature_and_drop_rate,
+    compute_hydrological_dem_features,
+    extract_case_study_features,
+)
 
 __all__ = [
     "classify_cape_instability",
     "cloud_top_convective_score",
     "calculate_cloudburst_risk",
     "calculate_flash_flood_risk",
+    "compute_integrated_water_vapor",
+    "compute_metpy_instability_cape_cin",
+    "compute_wind_convergence_and_shear",
+    "compute_cloud_top_temperature_and_drop_rate",
+    "compute_hydrological_dem_features",
+    "extract_case_study_features",
 ]

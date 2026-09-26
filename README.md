@@ -44,7 +44,8 @@ SIH26077/
 │   │   └── data_fusion.py    # Multi-sensor spatiotemporal alignment & normalization
 │   ├── feature_engineering/  # Atmospheric instability & convective severity indices
 │   │   ├── __init__.py
-│   │   └── atmospheric_indices.py  # CAPE, CIN, Cloudburst & Flash Flood risk formulas
+│   │   ├── atmospheric_indices.py  # CAPE, CIN, Cloudburst & Flash Flood risk formulas
+│   │   └── feature_extractor.py    # IWV, MetPy CAPE/CIN, convergence, CTT cooling, D8 DEM
 │   ├── model/                # PyTorch Spatio-Temporal Nowcasting Network
 │   │   ├── __init__.py
 │   │   ├── nowcast_net.py    # Multi-horizon ConvNet/ConvLSTM architecture
@@ -144,6 +145,23 @@ python -m src.data_ingestion.data_fusion --case all
 # Or fuse a specific case study:
 python -m src.data_ingestion.data_fusion --case case_01_amarnath_cloudburst_2022 --res 0.02
 ```
+
+### Running the Severe Weather Feature Engineering Pipeline:
+
+Extracts physical features (Integrated Water Vapor + d(IWV)/dt, MetPy CAPE/CIN, convergence, shear, CTT cooling rate, D8 flow accumulation). Detailed formulations in [docs/FEATURE_ENGINEERING.md](file:///c:/Users/zeeya/Desktop/SIH26077/docs/FEATURE_ENGINEERING.md).
+
+```bash
+# Extract feature cubes and tabular matrices for all case studies:
+python -m src.feature_engineering.feature_extractor --case all
+
+# Or extract for an individual case:
+python -m src.feature_engineering.feature_extractor --case case_01_amarnath_cloudburst_2022
+```
+
+Outputs:
+- Multi-channel NetCDF: `/data/processed/<case_id>/feature_cube_<case_id>.nc`
+- Tabular Parquet matrix: `/data/processed/<case_id>/feature_table_<case_id>.parquet`
+- Tabular CSV: `/data/processed/<case_id>/feature_table_<case_id>.csv`
 
 ---
 
