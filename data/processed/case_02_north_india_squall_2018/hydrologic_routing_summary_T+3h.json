@@ -1,0 +1,11 @@
+{
+  "case_id": "case_02_north_india_squall_2018",
+  "lead_hours": 3,
+  "mean_cloudburst_risk": 0.316,
+  "mean_routed_flood_risk": 0.352,
+  "channel_flash_flood_risk_mean": 0.747,
+  "ridge_flash_flood_risk_mean": 0.195,
+  "peak_flood_risk": 0.98,
+  "geotiff_path": "C:\\Users\\zeeya\\Desktop\\SIH26077\\data\\processed\\case_02_north_india_squall_2018\\flash_flood_routed_risk_T+3h.tif",
+  "png_comparison_path": "C:\\Users\\zeeya\\Desktop\\SIH26077\\data\\processed\\case_02_north_india_squall_2018\\flood_vs_rain_comparison_T+3h.png"
+}

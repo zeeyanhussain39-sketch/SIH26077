@@ -56,6 +56,14 @@ data/raw/*
 !data/raw/.gitkeep
 data/processed/*
 !data/processed/.gitkeep
+!data/processed/*/
+!data/processed/**/*.png
+!data/processed/**/*.tif
+!data/processed/**/*.json
+!data/processed/**/*.parquet
+!data/processed/**/*.npz
+*.nc
+*.csv
 
 # IDEs & OS specific files
 .vscode/

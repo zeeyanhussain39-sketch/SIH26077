@@ -1,0 +1,33 @@
+{
+  "case_id": "case_01_amarnath_cloudburst_2022",
+  "lead_hours": 3,
+  "lead_time_target": "T+3h",
+  "reference_time_utc": "2022-07-08 12:30:00",
+  "peak_hazard_location": {
+    "latitude": 34.34,
+    "longitude": 75.64
+  },
+  "max_risk_scores": {
+    "severe_thunderstorm": {
+      "probability": 0.914,
+      "alert_level": "RED (Extreme Danger)"
+    },
+    "cloudburst": {
+      "probability": 0.914,
+      "alert_level": "RED (Extreme Danger)"
+    },
+    "flash_flood": {
+      "probability": 0.95,
+      "alert_level": "RED (Extreme Danger)"
+    }
+  },
+  "high_risk_area_coverage_pct": {
+    "thunderstorm": 13.5,
+    "cloudburst": 22.1,
+    "flash_flood": 0.1
+  },
+  "artifacts_generated": {
+    "geotiff_path": "C:\\Users\\zeeya\\Desktop\\SIH26077\\data\\processed\\case_01_amarnath_cloudburst_2022\\hazard_risk_grid_case_01_amarnath_cloudburst_2022_T+3h.tif",
+    "numpy_archive_path": "C:\\Users\\zeeya\\Desktop\\SIH26077\\data\\processed\\case_01_amarnath_cloudburst_2022\\hazard_risk_grid_case_01_amarnath_cloudburst_2022_T+3h.npz"
+  }
+}

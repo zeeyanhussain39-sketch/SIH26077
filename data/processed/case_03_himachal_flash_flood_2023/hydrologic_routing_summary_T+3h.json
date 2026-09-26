@@ -1,0 +1,11 @@
+{
+  "case_id": "case_03_himachal_flash_flood_2023",
+  "lead_hours": 3,
+  "mean_cloudburst_risk": 0.321,
+  "mean_routed_flood_risk": 0.405,
+  "channel_flash_flood_risk_mean": 0.753,
+  "ridge_flash_flood_risk_mean": 0.247,
+  "peak_flood_risk": 0.98,
+  "geotiff_path": "C:\\Users\\zeeya\\Desktop\\SIH26077\\data\\processed\\case_03_himachal_flash_flood_2023\\flash_flood_routed_risk_T+3h.tif",
+  "png_comparison_path": "C:\\Users\\zeeya\\Desktop\\SIH26077\\data\\processed\\case_03_himachal_flash_flood_2023\\flood_vs_rain_comparison_T+3h.png"
+}

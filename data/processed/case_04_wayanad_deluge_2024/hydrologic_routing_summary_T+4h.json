@@ -1,0 +1,11 @@
+{
+  "case_id": "case_04_wayanad_deluge_2024",
+  "lead_hours": 4,
+  "mean_cloudburst_risk": 0.294,
+  "mean_routed_flood_risk": 0.399,
+  "channel_flash_flood_risk_mean": 0.756,
+  "ridge_flash_flood_risk_mean": 0.223,
+  "peak_flood_risk": 0.98,
+  "geotiff_path": "C:\\Users\\zeeya\\Desktop\\SIH26077\\data\\processed\\case_04_wayanad_deluge_2024\\flash_flood_routed_risk_T+4h.tif",
+  "png_comparison_path": "C:\\Users\\zeeya\\Desktop\\SIH26077\\data\\processed\\case_04_wayanad_deluge_2024\\flood_vs_rain_comparison_T+4h.png"
+}

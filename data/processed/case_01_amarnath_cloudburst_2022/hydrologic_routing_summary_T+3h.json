@@ -1,0 +1,11 @@
+{
+  "case_id": "case_01_amarnath_cloudburst_2022",
+  "lead_hours": 3,
+  "mean_cloudburst_risk": 0.213,
+  "mean_routed_flood_risk": 0.239,
+  "channel_flash_flood_risk_mean": 0.393,
+  "ridge_flash_flood_risk_mean": 0.172,
+  "peak_flood_risk": 0.98,
+  "geotiff_path": "C:\\Users\\zeeya\\Desktop\\SIH26077\\data\\processed\\case_01_amarnath_cloudburst_2022\\flash_flood_routed_risk_T+3h.tif",
+  "png_comparison_path": "C:\\Users\\zeeya\\Desktop\\SIH26077\\data\\processed\\case_01_amarnath_cloudburst_2022\\flood_vs_rain_comparison_T+3h.png"
+}

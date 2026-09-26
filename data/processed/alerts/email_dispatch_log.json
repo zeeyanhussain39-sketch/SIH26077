@@ -1,0 +1,42 @@
+[
+  {
+    "alert_id": "SIH26077-B90AF97C",
+    "recipient": "test@example.com",
+    "subject": "[EXTREME ALERT] Flash Flood - Target Catchment Basin",
+    "timestamp": "2026-09-26T18:01:30.906290+00:00",
+    "status": "SIMULATED_DEMO_DISPATCH",
+    "message": "Simulated email delivery to test@example.com. (To enable live transmission, provide SMTP_USER and SMTP_PASSWORD or enter credentials in the dashboard)."
+  },
+  {
+    "alert_id": "SIH26077-58D700D1",
+    "recipient": "sdrf-response@kerala.gov.in",
+    "subject": "[EXTREME ALERT] Flash Flood - Chooralmala Nullah, Wayanad",
+    "timestamp": "2026-09-26T17:58:26.278864+00:00",
+    "status": "SIMULATED_DEMO_DISPATCH",
+    "message": "Simulated email delivery to sdrf-response@kerala.gov.in. (To enable live transmission, provide SMTP_USER and SMTP_PASSWORD or enter credentials in the dashboard)."
+  },
+  {
+    "alert_id": "SIH26077-B1DF44F1",
+    "recipient": "district-disaster-mgmt@jk.gov.in",
+    "subject": "[EXTREME ALERT] Cloudburst - Amarnath Holy Cave & Nullah",
+    "timestamp": "2026-09-26T17:58:26.232070+00:00",
+    "status": "SIMULATED_DEMO_DISPATCH",
+    "message": "Simulated email delivery to district-disaster-mgmt@jk.gov.in. (To enable live transmission, provide SMTP_USER and SMTP_PASSWORD or enter credentials in the dashboard)."
+  },
+  {
+    "alert_id": "SIH26077-A4C9FD0A",
+    "recipient": "disaster-team@state.gov.in",
+    "subject": "[EXTREME ALERT] Cloudburst - Amarnath Holy Cave",
+    "timestamp": "2026-09-26T17:57:07.978439+00:00",
+    "status": "SIMULATED_DEMO_DISPATCH",
+    "message": "Simulated email delivery to disaster-team@state.gov.in. (To enable live transmission, provide SMTP_USER and SMTP_PASSWORD or enter credentials in the dashboard)."
+  },
+  {
+    "alert_id": "SIH26077-F54F4F16",
+    "recipient": "disaster-team@state.gov.in",
+    "subject": "\ud83d\udea8 [EXTREME ALERT] Cloudburst - Amarnath Holy Cave",
+    "timestamp": "2026-09-26T17:56:26.274450+00:00",
+    "status": "SIMULATED_DEMO_DISPATCH",
+    "message": "Simulated email delivery to disaster-team@state.gov.in. (To enable live transmission, provide SMTP_USER and SMTP_PASSWORD or enter credentials in the dashboard)."
+  }
+]
