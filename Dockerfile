@@ -36,5 +36,5 @@ EXPOSE 8501 8000
 # Make entrypoint executable
 RUN chmod +x scripts/*.sh 2>/dev/null || true
 
-# Default command: launch both FastAPI backend and Streamlit dashboard
-CMD ["sh", "-c", "uvicorn api.main:app --host 0.0.0.0 --port 8000 & streamlit run app/main.py --server.port 8501 --server.address 0.0.0.0"]
+# Default command: launch FastAPI in background and bind Streamlit to Render's dynamic $PORT (fallback 8501)
+CMD ["sh", "-c", "uvicorn api.main:app --host 0.0.0.0 --port 8000 & streamlit run app/main.py --server.port ${PORT:-8501} --server.address 0.0.0.0 --server.enableCORS false --server.enableXsrfProtection false"]
