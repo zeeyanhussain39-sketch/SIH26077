@@ -21,10 +21,15 @@ import argparse
 from pathlib import Path
 from typing import Dict, Any, Optional, Tuple
 import numpy as np
-import pandas as pd
 import xarray as xr
-import rasterio
-from rasterio.transform import from_bounds
+try:
+    import rasterio
+    from rasterio.transform import from_bounds
+    HAS_RASTERIO = True
+except Exception as _rasterio_err:
+    rasterio = None
+    from_bounds = None
+    HAS_RASTERIO = False
 
 from src.model.multitask_model import MultiTaskSevereWeatherModel
 

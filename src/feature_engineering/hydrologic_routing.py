@@ -28,11 +28,14 @@ from typing import Dict, Any, Optional, Tuple
 import numpy as np
 import xarray as xr
 import matplotlib.pyplot as plt
-import matplotlib.colors as mcolors
-import rasterio
-from rasterio.transform import from_bounds
-
-PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+try:
+    import rasterio
+    from rasterio.transform import from_bounds
+    HAS_RASTERIO = True
+except Exception as _rasterio_err:
+    rasterio = None
+    from_bounds = None
+    HAS_RASTERIO = False
 PROCESSED_DATA_DIR = PROJECT_ROOT / "data" / "processed"
 
 
@@ -187,46 +190,49 @@ def generate_flash_flood_routing_map(
     nrows, ncols = elev.shape
     west, east = float(np.min(lons)), float(np.max(lons))
     south, north = float(np.min(lats)), float(np.max(lats))
-    transform = from_bounds(west, south, east, north, ncols, nrows)
-
-    # Flip vertically if latitudes ascending for standard North-up GeoTIFF
-    flip = (lats[0] < lats[-1])
-    tif_cb = np.flipud(cb_risk) if flip else cb_risk
-    tif_ff = np.flipud(routed_flood_risk) if flip else routed_flood_risk
-    tif_q = np.flipud(q_routed) if flip else q_routed
-    tif_elev = np.flipud(elev) if flip else elev
-
     tif_path = output_dir / f"flash_flood_routed_risk_T+{lead_hours}h.tif"
-    print(f"[HydrologicRouting] Exporting Multi-Band GeoTIFF: {tif_path.name}...")
+    if HAS_RASTERIO and rasterio is not None and from_bounds is not None:
+        transform = from_bounds(west, south, east, north, ncols, nrows)
+        flip = (lats[0] < lats[-1])
+        tif_cb = np.flipud(cb_risk) if flip else cb_risk
+        tif_ff = np.flipud(routed_flood_risk) if flip else routed_flood_risk
+        tif_q = np.flipud(q_routed) if flip else q_routed
+        tif_elev = np.flipud(elev) if flip else elev
 
-    with rasterio.open(
-        tif_path,
-        "w",
-        driver="GTiff",
-        height=nrows,
-        width=ncols,
-        count=4,
-        dtype=np.float32,
-        crs="EPSG:4326",
-        transform=transform,
-        nodata=-9999.0
-    ) as dst:
-        dst.write(tif_cb.astype(np.float32), 1)
-        dst.write(tif_ff.astype(np.float32), 2)
-        dst.write(tif_q.astype(np.float32), 3)
-        dst.write(tif_elev.astype(np.float32), 4)
+        print(f"[HydrologicRouting] Exporting Multi-Band GeoTIFF: {tif_path.name}...")
+        try:
+            with rasterio.open(
+                tif_path,
+                "w",
+                driver="GTiff",
+                height=nrows,
+                width=ncols,
+                count=4,
+                dtype=np.float32,
+                crs="EPSG:4326",
+                transform=transform,
+                nodata=-9999.0
+            ) as dst:
+                dst.write(tif_cb.astype(np.float32), 1)
+                dst.write(tif_ff.astype(np.float32), 2)
+                dst.write(tif_q.astype(np.float32), 3)
+                dst.write(tif_elev.astype(np.float32), 4)
 
-        dst.set_band_description(1, "Atmospheric Cloudburst Probability (0-1)")
-        dst.set_band_description(2, "Hydrologically Routed Flash Flood Probability (0-1)")
-        dst.set_band_description(3, "Accumulated Runoff Discharge Volume (m3/s proxy)")
-        dst.set_band_description(4, "Topographic Elevation MSL (m)")
+                dst.set_band_description(1, "Atmospheric Cloudburst Probability (0-1)")
+                dst.set_band_description(2, "Hydrologically Routed Flash Flood Probability (0-1)")
+                dst.set_band_description(3, "Accumulated Runoff Discharge Volume (m3/s proxy)")
+                dst.set_band_description(4, "Topographic Elevation MSL (m)")
 
-        dst.update_tags(
-            case_id=case_id,
-            forecast_horizon=f"T+{lead_hours}h",
-            hydrologic_algorithm="D8 Steepest Descent Topological Runoff Routing",
-            sih_problem_statement="26077"
-        )
+                dst.update_tags(
+                    case_id=case_id,
+                    forecast_horizon=f"T+{lead_hours}h",
+                    hydrologic_algorithm="D8 Steepest Descent Topological Runoff Routing",
+                    sih_problem_statement="26077"
+                )
+        except Exception as _e:
+            print(f"[HydrologicRouting] Notice: GeoTIFF write skipped: {_e}")
+    else:
+        print("[HydrologicRouting] rasterio unavailable, skipping GeoTIFF export (using in-memory PNG).")
 
     # 5. Export High-Resolution Comparison Visualization (PNG)
     png_path = output_dir / f"flood_vs_rain_comparison_T+{lead_hours}h.png"

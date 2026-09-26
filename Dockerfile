@@ -18,7 +18,10 @@ WORKDIR /app
 # Install minimal OS dependencies required for GDAL/rasterio and compilation
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
+    libexpat1 \
     libgomp1 \
+    libgl1 \
+    libglib2.0-0 \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
@@ -30,11 +33,11 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # Copy application source code
 COPY . .
 
-# Expose ports: 8501 (Streamlit UI), 8000 (FastAPI Backend)
-EXPOSE 8501 8000
+# Expose ports: 10000 (Render default), 8501 (Local default)
+EXPOSE 10000 8501
 
 # Make entrypoint executable
 RUN chmod +x scripts/*.sh 2>/dev/null || true
 
-# Default command: launch FastAPI in background and bind Streamlit to Render's dynamic $PORT (fallback 8501)
-CMD ["sh", "-c", "uvicorn api.main:app --host 0.0.0.0 --port 8000 & streamlit run app/main.py --server.port ${PORT:-8501} --server.address 0.0.0.0 --server.enableCORS false --server.enableXsrfProtection false"]
+# Default command: launch Streamlit command dashboard bound to dynamic $PORT
+CMD ["sh", "-c", "streamlit run app/main.py --server.port ${PORT:-10000} --server.address 0.0.0.0 --server.enableCORS false --server.enableXsrfProtection false --server.headless true"]
