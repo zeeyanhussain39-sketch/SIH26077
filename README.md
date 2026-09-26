@@ -187,6 +187,32 @@ Outputs:
 - Compressed NumPy Grid: `/data/processed/<case_id>/hazard_risk_grid_<case_id>_T+{lead_hours}h.npz`
 - Alert Summary JSON: `/data/processed/<case_id>/hazard_summary_<case_id>_T+{lead_hours}h.json`
 
+### 🌊 Hydrologic Runoff Routing & Flash Flood Concentration Engine:
+
+> **Addressing SIH Problem Statement 26077 Specific Requirement:**
+> Translates *"heavy rain predicted here"* (atmospheric convective footprint) into *"flooding is likely to concentrate here"* (hydrological valley/channel convergence).
+
+In mountainous and hilly catchments (e.g., Himalayas, Western Ghats), rain falling on high-relief knife-edge ridges sheds away rapidly under gravity. The flash-flood-specific risk map is **visibly distinct** from the raw precipitation footprint:
+- **Ridge Knife-Edges:** Experience zero flood ponding despite torrential rain (flash flood risk drops to $15\%–25\%$).
+- **Valley Drainage Ravines & Nullahs:** Funnel upstream gravitational discharge, surging into dangerous flash flood inundation ($75\%–98\%$).
+
+```bash
+# 1. Run hydrologic routing on Amarnath Cave Cloudburst (July 2022) at T+3h lead time:
+python -m src.feature_engineering.hydrologic_routing --case case_01_amarnath_cloudburst_2022 --lead-hours 3
+
+# 2. Run hydrologic routing on Wayanad Deluge (July 2024) at T+4h lead time:
+python -m src.feature_engineering.hydrologic_routing --case case_04_wayanad_deluge_2024 --lead-hours 4
+
+# 3. Run hydrologic routing on Himachal Beas Deluge (July 2023) at T+3h lead time:
+python -m src.feature_engineering.hydrologic_routing --case case_03_himachal_flash_flood_2023 --lead-hours 3
+```
+
+Outputs:
+- **Multi-Band GeoTIFF:** `/data/processed/<case_id>/flash_flood_routed_risk_T+{lead_hours}h.tif` (Bands: 1=Routed Flash Flood Risk, 2=Raw Cloudburst Footprint, 3=Accumulated Discharge, 4=DEM Elevation)
+- **4-Panel Demonstration Graphic:** `/data/processed/<case_id>/flood_vs_rain_comparison_T+{lead_hours}h.png` (Visually contrasting diffuse atmospheric rain footprint against dendritic valley flood convergence)
+- **Compressed NumPy Array:** `/data/processed/<case_id>/flash_flood_routed_risk_T+{lead_hours}h.npz`
+- **Summary Validation JSON:** `/data/processed/<case_id>/hydrologic_routing_summary_T+{lead_hours}h.json`
+
 ---
 
 ## 🛰️ Open Scientific Data Sources

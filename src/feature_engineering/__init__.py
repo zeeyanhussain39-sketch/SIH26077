@@ -17,6 +17,12 @@ from .feature_extractor import (
     compute_hydrological_dem_features,
     extract_case_study_features,
 )
+from .hydrologic_routing import (
+    route_precipitation_to_flash_flood_risk,
+    generate_flash_flood_routing_map,
+    extract_d8_streamlines,
+    generate_synthetic_drainage_streamlines,
+)
 
 __all__ = [
     "classify_cape_instability",
@@ -29,4 +35,8 @@ __all__ = [
     "compute_cloud_top_temperature_and_drop_rate",
     "compute_hydrological_dem_features",
     "extract_case_study_features",
+    "route_precipitation_to_flash_flood_risk",
+    "generate_flash_flood_routing_map",
+    "extract_d8_streamlines",
+    "generate_synthetic_drainage_streamlines",
 ]
