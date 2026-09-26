@@ -29,6 +29,7 @@ fastapi>=0.100.0
 uvicorn>=0.23.0
 pydantic>=2.0.0
 
-# Networking & Open Data Ingestion (Free Open-Meteo, MOSDAC, IMD endpoints)
+# Networking & Open Data Ingestion (Free Open-Meteo, MOSDAC, IMD, CDS ERA5)
 requests>=2.31.0
 aiohttp>=3.9.0
+cdsapi>=0.7.0

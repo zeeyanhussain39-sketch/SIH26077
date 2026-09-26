@@ -155,14 +155,14 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # -----------------------------------------------------------------------------
-# Preset Vulnerability Zones (Himalayan / Western Ghats / Coastal Cloudburst Corridors)
+# Benchmark Historical Case Studies & Severe Weather Hotspots (SIH 26077)
 # -----------------------------------------------------------------------------
 PRESET_HOTSPOTS = {
-    "Dehradun & Garhwal (Uttarakhand - Himalayan Cloudburst Corridor)": {"lat": 30.3165, "lon": 78.0322, "slope": 32.0, "elev": "Hilly / Mountainous"},
-    "Wayanad Catchment (Kerala - Western Ghats Extreme Precipitation)": {"lat": 11.6854, "lon": 76.1320, "slope": 26.0, "elev": "Hilly Basin"},
-    "Mumbai Metropolitan (Maharashtra - Convective Deluge & Urban Inundation)": {"lat": 19.0760, "lon": 72.8777, "slope": 5.0, "elev": "Coastal Plain"},
-    "Dharamshala / Kangra (Himachal Pradesh - High-Orographic Rain Hotspot)": {"lat": 32.2190, "lon": 76.3234, "slope": 35.0, "elev": "Foothills / Valley"},
-    "Custom Location (Enter Coordinates)": {"lat": 28.6139, "lon": 77.2090, "slope": 8.0, "elev": "Custom"}
+    "Case 1: Amarnath Cave Cloudburst (July 8, 2022 - J&K)": {"lat": 34.215, "lon": 75.503, "slope": 34.0, "elev": "Glaciated High-Altitude Ridge (3,888m)", "case_id": "case_01_amarnath_cloudburst_2022"},
+    "Case 2: North India Severe Squall & Derecho (May 2, 2018 - Agra/Bharatpur)": {"lat": 27.180, "lon": 78.010, "slope": 3.0, "elev": "Indo-Gangetic Plain (170m)", "case_id": "case_02_north_india_squall_2018"},
+    "Case 3: Himachal Pradesh Beas River Deluge (July 9-10, 2023 - Mandi/Kullu)": {"lat": 31.710, "lon": 76.930, "slope": 36.0, "elev": "Steep Himalayan River Basin (1,250m)", "case_id": "case_03_himachal_flash_flood_2023"},
+    "Case 4: Wayanad Extreme Orographic Deluge & Debris Flow (July 29-30, 2024 - Kerala)": {"lat": 11.530, "lon": 76.180, "slope": 28.0, "elev": "Western Ghats Escarpment (900m)", "case_id": "case_04_wayanad_deluge_2024"},
+    "Custom Location (Enter Coordinates)": {"lat": 28.6139, "lon": 77.2090, "slope": 8.0, "elev": "Custom", "case_id": None}
 }
 
 # -----------------------------------------------------------------------------
