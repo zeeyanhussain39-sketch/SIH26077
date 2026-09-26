@@ -33,6 +33,13 @@ ENV/
 env.bak/
 venv.bak/
 
+# Environment variables & secrets
+.env
+*.env
+.env.*
+!.env.example
+.cdsapirc
+
 # Jupyter Notebook checkpoints
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
