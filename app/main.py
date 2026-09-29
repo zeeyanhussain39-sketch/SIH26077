@@ -328,6 +328,19 @@ def get_cached_zone_explanation(hazard_type: str, features_json: str, lead_hours
     )
 
 
+@st.cache_data(show_spinner=False)
+def load_scripted_shap_cache() -> Dict[str, Any]:
+    """Loads precomputed SHAP explanations for benchmark scripted scenarios for instantaneous UI load."""
+    cache_path = PROCESSED_DATA_DIR / "scripted_shap_cache.json"
+    if cache_path.exists():
+        try:
+            with open(cache_path, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            pass
+    return {}
+
+
 def generate_convective_radar_chart(features: Dict[str, float], dark_theme: bool = True) -> plt.Figure:
     """Generates a 5-axis polar radar chart contrasting current convective precursors vs severe threshold."""
     categories = ['Moisture (IWV)', 'Buoyancy (CAPE)', 'Updraft (CTT)', 'Kinematics (Shear)', 'Topography (Slope)']
@@ -1054,13 +1067,19 @@ with right_col:
             "lead_hours": float(lead_time)
         }
 
-    # Execute SHAP explanation for the zone (cached per hazard & features)
+    # Execute SHAP explanation for the zone (instant lookup from precomputed cache if available)
     hazard_to_explain = case_info["primary_hazard_key"]
-    shap_explanation = get_cached_zone_explanation(
-        hazard_type=hazard_to_explain,
-        features_json=json.dumps(zone_features, sort_keys=True),
-        lead_hours=int(lead_time)
-    )
+    shap_cache = load_scripted_shap_cache()
+    cached_sc = shap_cache.get(st.session_state.get("selected_scenario_id", ""))
+
+    if is_scripted_mode and cached_sc and str(st.session_state.scripted_stage_idx) in cached_sc and st.session_state.selected_hotspot_idx == 0:
+        shap_explanation = cached_sc[str(st.session_state.scripted_stage_idx)]
+    else:
+        shap_explanation = get_cached_zone_explanation(
+            hazard_type=hazard_to_explain,
+            features_json=json.dumps(zone_features, sort_keys=True),
+            lead_hours=int(lead_time)
+        )
 
     # 1. Plain-Language Operational Reasoning
     st.markdown(f"""<div style="background: rgba(15, 23, 42, 0.75); border-left: 4px solid #ef4444; padding: 12px 16px; border-radius: 6px; font-size: 0.86rem; margin-bottom: 12px; line-height: 1.5; color: #f1f5f9;">

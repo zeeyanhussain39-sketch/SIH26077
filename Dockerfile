@@ -39,5 +39,5 @@ EXPOSE 10000 8501
 # Make entrypoint executable
 RUN chmod +x scripts/*.sh 2>/dev/null || true
 
-# Default command: launch Streamlit command dashboard bound to dynamic $PORT
-CMD ["sh", "-c", "streamlit run app/main.py --server.port ${PORT:-10000} --server.address 0.0.0.0 --server.enableCORS false --server.enableXsrfProtection false --server.headless true"]
+# Default command: launch Streamlit command dashboard bound to dynamic $PORT with fast startup flags
+CMD ["sh", "-c", "streamlit run app/main.py --server.port ${PORT:-10000} --server.address 0.0.0.0 --server.enableCORS false --server.enableXsrfProtection false --server.headless true --browser.gatherUsageStats false --server.fileWatcherType none"]

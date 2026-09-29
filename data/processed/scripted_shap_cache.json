@@ -1,0 +1,2816 @@
+{
+  "scenario_01_amarnath_cloudburst": {
+    "0": {
+      "hazard_type": "cloudburst",
+      "hazard_title": "Cloudburst",
+      "predicted_probability": 0.0002,
+      "lead_hours": 4,
+      "base_value": -8.2838,
+      "all_features": [
+        {
+          "feature_id": "layer_iwv_rate_of_change_mm_hr",
+          "display_name": "Moisture Influx Rate (IWV Rate)",
+          "value": 1.4,
+          "unit": "mm/hr",
+          "shap_value": 0.317,
+          "contribution_pct": 64.3,
+          "direction": "RISK_INCREASING",
+          "description": "Intense atmospheric water vapor convergence rapidly refueling storm updrafts."
+        },
+        {
+          "feature_id": "layer_terrain_slope_deg",
+          "display_name": "Terrain Slope Gradient",
+          "value": 34.0,
+          "unit": "\u00b0",
+          "shap_value": -0.3117,
+          "contribution_pct": 30.0,
+          "direction": "RISK_DAMPENING",
+          "description": "Steep mountain topography inducing rapid orographic lift and high runoff velocity."
+        },
+        {
+          "feature_id": "layer_precip_rate_mm_hr",
+          "display_name": "Surface Precipitation Rate",
+          "value": 6.5,
+          "unit": "mm/hr",
+          "shap_value": -0.1465,
+          "contribution_pct": 14.1,
+          "direction": "RISK_DAMPENING",
+          "description": "Extreme localized cloudburst rainfall exceeding 50\u2013100 mm/hr."
+        },
+        {
+          "feature_id": "layer_cloud_top_temp_k",
+          "display_name": "Cloud Top Temperature (CTT)",
+          "value": 248.0,
+          "unit": "K",
+          "shap_value": -0.0664,
+          "contribution_pct": 6.4,
+          "direction": "RISK_DAMPENING",
+          "description": "Deep penetrative convective anvil penetrating the tropopause (-50\u00b0C to -70\u00b0C)."
+        },
+        {
+          "feature_id": "layer_iwv_mm",
+          "display_name": "Total Column Water Vapor (IWV)",
+          "value": 36.2,
+          "unit": "mm",
+          "shap_value": 0.0519,
+          "contribution_pct": 10.5,
+          "direction": "RISK_INCREASING",
+          "description": "Abundant atmospheric moisture reservoir available for precipitation."
+        },
+        {
+          "feature_id": "layer_elevation_m",
+          "display_name": "Surface Elevation (DEM)",
+          "value": 3888.0,
+          "unit": "m",
+          "shap_value": 0.044,
+          "contribution_pct": 8.9,
+          "direction": "RISK_INCREASING",
+          "description": "High-altitude mountainous basin or glaciated valley."
+        },
+        {
+          "feature_id": "layer_deep_layer_wind_shear_mps",
+          "display_name": "Deep-Layer Bulk Shear",
+          "value": 14.5,
+          "unit": "m/s",
+          "shap_value": 0.0231,
+          "contribution_pct": 4.7,
+          "direction": "RISK_INCREASING",
+          "description": "High tropospheric shear sustaining severe squall lines and mesoscale convective systems."
+        },
+        {
+          "feature_id": "layer_metpy_cape_j_kg",
+          "display_name": "Convective Instability (CAPE)",
+          "value": 1450.0,
+          "unit": "J/kg",
+          "shap_value": 0.022,
+          "contribution_pct": 4.5,
+          "direction": "RISK_INCREASING",
+          "description": "Extreme buoyant convective energy driving explosive vertical thunderstorm updrafts."
+        },
+        {
+          "feature_id": "layer_vertical_wind_shear_mps",
+          "display_name": "Low-Level Wind Shear",
+          "value": 9.2,
+          "unit": "m/s",
+          "shap_value": -0.0184,
+          "contribution_pct": 1.8,
+          "direction": "RISK_DAMPENING",
+          "description": "Strong bulk vertical wind shear organizing multicell or supercell storms."
+        },
+        {
+          "feature_id": "layer_ctt_cooling_rate_k_hr",
+          "display_name": "Rapid Cloud Cooling (-d(CTT)/dt)",
+          "value": 4.2,
+          "unit": "K/hr",
+          "shap_value": 0.0177,
+          "contribution_pct": 3.6,
+          "direction": "RISK_INCREASING",
+          "description": "Violent cloud-top expansion and cooling signifying an intensifying cumulonimbus core."
+        },
+        {
+          "feature_id": "layer_flow_accumulation",
+          "display_name": "Drainage Flow Accumulation",
+          "value": 120.0,
+          "unit": "cells",
+          "shap_value": 0.0087,
+          "contribution_pct": 1.8,
+          "direction": "RISK_INCREASING",
+          "description": "Convergent hydrological channel concentrating upstream deluge into flash flooding."
+        },
+        {
+          "feature_id": "layer_metpy_cin_j_kg",
+          "display_name": "Convective Inhibition (CIN)",
+          "value": -38.0,
+          "unit": "J/kg",
+          "shap_value": 0.0081,
+          "contribution_pct": 1.6,
+          "direction": "RISK_INCREASING",
+          "description": "Uncapped atmosphere with zero convective resistance."
+        },
+        {
+          "feature_id": "layer_low_level_convergence_s1",
+          "display_name": "Low-Level Wind Convergence",
+          "value": 0.0,
+          "unit": "10\u207b\u2075 s\u207b\u00b9",
+          "shap_value": -0.0035,
+          "contribution_pct": 0.3,
+          "direction": "RISK_DAMPENING",
+          "description": "Strong boundary-layer wind convergence forcing continuous air parcel ascent."
+        },
+        {
+          "feature_id": "lead_hours",
+          "display_name": "Prediction Lead Time Horizon",
+          "value": 4.0,
+          "unit": "hours",
+          "shap_value": 0.0004,
+          "contribution_pct": 0.1,
+          "direction": "RISK_INCREASING",
+          "description": "Extended forecast lead time with higher physical entropy."
+        }
+      ],
+      "top_drivers": [
+        {
+          "feature_id": "layer_iwv_rate_of_change_mm_hr",
+          "display_name": "Moisture Influx Rate (IWV Rate)",
+          "value": 1.4,
+          "unit": "mm/hr",
+          "shap_value": 0.317,
+          "contribution_pct": 64.3,
+          "direction": "RISK_INCREASING",
+          "description": "Intense atmospheric water vapor convergence rapidly refueling storm updrafts."
+        },
+        {
+          "feature_id": "layer_iwv_mm",
+          "display_name": "Total Column Water Vapor (IWV)",
+          "value": 36.2,
+          "unit": "mm",
+          "shap_value": 0.0519,
+          "contribution_pct": 10.5,
+          "direction": "RISK_INCREASING",
+          "description": "Abundant atmospheric moisture reservoir available for precipitation."
+        },
+        {
+          "feature_id": "layer_elevation_m",
+          "display_name": "Surface Elevation (DEM)",
+          "value": 3888.0,
+          "unit": "m",
+          "shap_value": 0.044,
+          "contribution_pct": 8.9,
+          "direction": "RISK_INCREASING",
+          "description": "High-altitude mountainous basin or glaciated valley."
+        },
+        {
+          "feature_id": "layer_deep_layer_wind_shear_mps",
+          "display_name": "Deep-Layer Bulk Shear",
+          "value": 14.5,
+          "unit": "m/s",
+          "shap_value": 0.0231,
+          "contribution_pct": 4.7,
+          "direction": "RISK_INCREASING",
+          "description": "High tropospheric shear sustaining severe squall lines and mesoscale convective systems."
+        },
+        {
+          "feature_id": "layer_metpy_cape_j_kg",
+          "display_name": "Convective Instability (CAPE)",
+          "value": 1450.0,
+          "unit": "J/kg",
+          "shap_value": 0.022,
+          "contribution_pct": 4.5,
+          "direction": "RISK_INCREASING",
+          "description": "Extreme buoyant convective energy driving explosive vertical thunderstorm updrafts."
+        }
+      ],
+      "top_dampeners": [
+        {
+          "feature_id": "layer_terrain_slope_deg",
+          "display_name": "Terrain Slope Gradient",
+          "value": 34.0,
+          "unit": "\u00b0",
+          "shap_value": -0.3117,
+          "contribution_pct": 30.0,
+          "direction": "RISK_DAMPENING",
+          "description": "Steep mountain topography inducing rapid orographic lift and high runoff velocity."
+        },
+        {
+          "feature_id": "layer_precip_rate_mm_hr",
+          "display_name": "Surface Precipitation Rate",
+          "value": 6.5,
+          "unit": "mm/hr",
+          "shap_value": -0.1465,
+          "contribution_pct": 14.1,
+          "direction": "RISK_DAMPENING",
+          "description": "Extreme localized cloudburst rainfall exceeding 50\u2013100 mm/hr."
+        },
+        {
+          "feature_id": "layer_cloud_top_temp_k",
+          "display_name": "Cloud Top Temperature (CTT)",
+          "value": 248.0,
+          "unit": "K",
+          "shap_value": -0.0664,
+          "contribution_pct": 6.4,
+          "direction": "RISK_DAMPENING",
+          "description": "Deep penetrative convective anvil penetrating the tropopause (-50\u00b0C to -70\u00b0C)."
+        }
+      ],
+      "plain_language_summary": "\u26a0\ufe0f **CLOUDBURST / EXTREME RAIN DELUGE RISK ALERT (0.0% probability at T+4h lead time):**\nThe high risk score is driven primarily by **Moisture Influx Rate (IWV Rate)** (1.4 mm/hr, contributing 64.3% of elevated risk) combined with **Total Column Water Vapor (IWV)** (36.2 mm, contributing 10.5%) and **Surface Elevation (DEM)** (3888.0 m). Physical Diagnosis: Extreme atmospheric moisture convergence coupled with rapid cloud-top cooling confirms an intensely fueled convective tower capable of localized extreme precipitation (>100 mm/hr)."
+    },
+    "1": {
+      "hazard_type": "cloudburst",
+      "hazard_title": "Cloudburst",
+      "predicted_probability": 0.0153,
+      "lead_hours": 3,
+      "base_value": -8.2838,
+      "all_features": [
+        {
+          "feature_id": "layer_cloud_top_temp_k",
+          "display_name": "Cloud Top Temperature (CTT)",
+          "value": 228.0,
+          "unit": "K",
+          "shap_value": 1.9853,
+          "contribution_pct": 37.7,
+          "direction": "RISK_INCREASING",
+          "description": "Deep penetrative convective anvil penetrating the tropopause (-50\u00b0C to -70\u00b0C)."
+        },
+        {
+          "feature_id": "layer_precip_rate_mm_hr",
+          "display_name": "Surface Precipitation Rate",
+          "value": 28.0,
+          "unit": "mm/hr",
+          "shap_value": 1.7621,
+          "contribution_pct": 33.5,
+          "direction": "RISK_INCREASING",
+          "description": "Extreme localized cloudburst rainfall exceeding 50\u2013100 mm/hr."
+        },
+        {
+          "feature_id": "layer_terrain_slope_deg",
+          "display_name": "Terrain Slope Gradient",
+          "value": 34.0,
+          "unit": "\u00b0",
+          "shap_value": -0.8076,
+          "contribution_pct": 12.6,
+          "direction": "RISK_DAMPENING",
+          "description": "Steep mountain topography inducing rapid orographic lift and high runoff velocity."
+        },
+        {
+          "feature_id": "layer_iwv_rate_of_change_mm_hr",
+          "display_name": "Moisture Influx Rate (IWV Rate)",
+          "value": 3.8,
+          "unit": "mm/hr",
+          "shap_value": 0.7097,
+          "contribution_pct": 13.5,
+          "direction": "RISK_INCREASING",
+          "description": "Intense atmospheric water vapor convergence rapidly refueling storm updrafts."
+        },
+        {
+          "feature_id": "layer_elevation_m",
+          "display_name": "Surface Elevation (DEM)",
+          "value": 3888.0,
+          "unit": "m",
+          "shap_value": -0.3109,
+          "contribution_pct": 4.9,
+          "direction": "RISK_DAMPENING",
+          "description": "High-altitude mountainous basin or glaciated valley."
+        },
+        {
+          "feature_id": "layer_ctt_cooling_rate_k_hr",
+          "display_name": "Rapid Cloud Cooling (-d(CTT)/dt)",
+          "value": 16.5,
+          "unit": "K/hr",
+          "shap_value": 0.2411,
+          "contribution_pct": 4.6,
+          "direction": "RISK_INCREASING",
+          "description": "Violent cloud-top expansion and cooling signifying an intensifying cumulonimbus core."
+        },
+        {
+          "feature_id": "layer_deep_layer_wind_shear_mps",
+          "display_name": "Deep-Layer Bulk Shear",
+          "value": 19.8,
+          "unit": "m/s",
+          "shap_value": 0.2167,
+          "contribution_pct": 4.1,
+          "direction": "RISK_INCREASING",
+          "description": "High tropospheric shear sustaining severe squall lines and mesoscale convective systems."
+        },
+        {
+          "feature_id": "layer_iwv_mm",
+          "display_name": "Total Column Water Vapor (IWV)",
+          "value": 44.5,
+          "unit": "mm",
+          "shap_value": 0.1808,
+          "contribution_pct": 3.4,
+          "direction": "RISK_INCREASING",
+          "description": "Abundant atmospheric moisture reservoir available for precipitation."
+        },
+        {
+          "feature_id": "layer_metpy_cin_j_kg",
+          "display_name": "Convective Inhibition (CIN)",
+          "value": -12.0,
+          "unit": "J/kg",
+          "shap_value": 0.0656,
+          "contribution_pct": 1.2,
+          "direction": "RISK_INCREASING",
+          "description": "Strong atmospheric capping inversion suppressing premature convection."
+        },
+        {
+          "feature_id": "layer_flow_accumulation",
+          "display_name": "Drainage Flow Accumulation",
+          "value": 120.0,
+          "unit": "cells",
+          "shap_value": 0.0524,
+          "contribution_pct": 1.0,
+          "direction": "RISK_INCREASING",
+          "description": "Convergent hydrological channel concentrating upstream deluge into flash flooding."
+        },
+        {
+          "feature_id": "layer_metpy_cape_j_kg",
+          "display_name": "Convective Instability (CAPE)",
+          "value": 2650.0,
+          "unit": "J/kg",
+          "shap_value": 0.0472,
+          "contribution_pct": 0.9,
+          "direction": "RISK_INCREASING",
+          "description": "Extreme buoyant convective energy driving explosive vertical thunderstorm updrafts."
+        },
+        {
+          "feature_id": "layer_vertical_wind_shear_mps",
+          "display_name": "Low-Level Wind Shear",
+          "value": 13.5,
+          "unit": "m/s",
+          "shap_value": -0.0142,
+          "contribution_pct": 0.2,
+          "direction": "RISK_DAMPENING",
+          "description": "Strong bulk vertical wind shear organizing multicell or supercell storms."
+        },
+        {
+          "feature_id": "layer_low_level_convergence_s1",
+          "display_name": "Low-Level Wind Convergence",
+          "value": 0.0,
+          "unit": "10\u207b\u2075 s\u207b\u00b9",
+          "shap_value": -0.009,
+          "contribution_pct": 0.1,
+          "direction": "RISK_DAMPENING",
+          "description": "Strong boundary-layer wind convergence forcing continuous air parcel ascent."
+        },
+        {
+          "feature_id": "lead_hours",
+          "display_name": "Prediction Lead Time Horizon",
+          "value": 3.0,
+          "unit": "hours",
+          "shap_value": -0.0023,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "Extended forecast lead time with higher physical entropy."
+        }
+      ],
+      "top_drivers": [
+        {
+          "feature_id": "layer_cloud_top_temp_k",
+          "display_name": "Cloud Top Temperature (CTT)",
+          "value": 228.0,
+          "unit": "K",
+          "shap_value": 1.9853,
+          "contribution_pct": 37.7,
+          "direction": "RISK_INCREASING",
+          "description": "Deep penetrative convective anvil penetrating the tropopause (-50\u00b0C to -70\u00b0C)."
+        },
+        {
+          "feature_id": "layer_precip_rate_mm_hr",
+          "display_name": "Surface Precipitation Rate",
+          "value": 28.0,
+          "unit": "mm/hr",
+          "shap_value": 1.7621,
+          "contribution_pct": 33.5,
+          "direction": "RISK_INCREASING",
+          "description": "Extreme localized cloudburst rainfall exceeding 50\u2013100 mm/hr."
+        },
+        {
+          "feature_id": "layer_iwv_rate_of_change_mm_hr",
+          "display_name": "Moisture Influx Rate (IWV Rate)",
+          "value": 3.8,
+          "unit": "mm/hr",
+          "shap_value": 0.7097,
+          "contribution_pct": 13.5,
+          "direction": "RISK_INCREASING",
+          "description": "Intense atmospheric water vapor convergence rapidly refueling storm updrafts."
+        },
+        {
+          "feature_id": "layer_ctt_cooling_rate_k_hr",
+          "display_name": "Rapid Cloud Cooling (-d(CTT)/dt)",
+          "value": 16.5,
+          "unit": "K/hr",
+          "shap_value": 0.2411,
+          "contribution_pct": 4.6,
+          "direction": "RISK_INCREASING",
+          "description": "Violent cloud-top expansion and cooling signifying an intensifying cumulonimbus core."
+        },
+        {
+          "feature_id": "layer_deep_layer_wind_shear_mps",
+          "display_name": "Deep-Layer Bulk Shear",
+          "value": 19.8,
+          "unit": "m/s",
+          "shap_value": 0.2167,
+          "contribution_pct": 4.1,
+          "direction": "RISK_INCREASING",
+          "description": "High tropospheric shear sustaining severe squall lines and mesoscale convective systems."
+        }
+      ],
+      "top_dampeners": [
+        {
+          "feature_id": "layer_terrain_slope_deg",
+          "display_name": "Terrain Slope Gradient",
+          "value": 34.0,
+          "unit": "\u00b0",
+          "shap_value": -0.8076,
+          "contribution_pct": 12.6,
+          "direction": "RISK_DAMPENING",
+          "description": "Steep mountain topography inducing rapid orographic lift and high runoff velocity."
+        },
+        {
+          "feature_id": "layer_elevation_m",
+          "display_name": "Surface Elevation (DEM)",
+          "value": 3888.0,
+          "unit": "m",
+          "shap_value": -0.3109,
+          "contribution_pct": 4.9,
+          "direction": "RISK_DAMPENING",
+          "description": "High-altitude mountainous basin or glaciated valley."
+        },
+        {
+          "feature_id": "layer_vertical_wind_shear_mps",
+          "display_name": "Low-Level Wind Shear",
+          "value": 13.5,
+          "unit": "m/s",
+          "shap_value": -0.0142,
+          "contribution_pct": 0.2,
+          "direction": "RISK_DAMPENING",
+          "description": "Strong bulk vertical wind shear organizing multicell or supercell storms."
+        }
+      ],
+      "plain_language_summary": "\u26a0\ufe0f **CLOUDBURST / EXTREME RAIN DELUGE RISK ALERT (1.5% probability at T+3h lead time):**\nThe high risk score is driven primarily by **Cloud Top Temperature (CTT)** (228.0 K, contributing 37.7% of elevated risk) combined with **Surface Precipitation Rate** (28.0 mm/hr, contributing 33.5%) and **Moisture Influx Rate (IWV Rate)** (3.8 mm/hr). Physical Diagnosis: Extreme atmospheric moisture convergence coupled with rapid cloud-top cooling confirms an intensely fueled convective tower capable of localized extreme precipitation (>100 mm/hr)."
+    },
+    "2": {
+      "hazard_type": "cloudburst",
+      "hazard_title": "Cloudburst",
+      "predicted_probability": 0.5086,
+      "lead_hours": 2,
+      "base_value": -8.2838,
+      "all_features": [
+        {
+          "feature_id": "layer_cloud_top_temp_k",
+          "display_name": "Cloud Top Temperature (CTT)",
+          "value": 204.0,
+          "unit": "K",
+          "shap_value": 7.5957,
+          "contribution_pct": 66.3,
+          "direction": "RISK_INCREASING",
+          "description": "Deep penetrative convective anvil penetrating the tropopause (-50\u00b0C to -70\u00b0C)."
+        },
+        {
+          "feature_id": "layer_terrain_slope_deg",
+          "display_name": "Terrain Slope Gradient",
+          "value": 34.0,
+          "unit": "\u00b0",
+          "shap_value": -2.9958,
+          "contribution_pct": 20.6,
+          "direction": "RISK_DAMPENING",
+          "description": "Steep mountain topography inducing rapid orographic lift and high runoff velocity."
+        },
+        {
+          "feature_id": "layer_elevation_m",
+          "display_name": "Surface Elevation (DEM)",
+          "value": 3888.0,
+          "unit": "m",
+          "shap_value": 1.2472,
+          "contribution_pct": 10.9,
+          "direction": "RISK_INCREASING",
+          "description": "High-altitude mountainous basin or glaciated valley."
+        },
+        {
+          "feature_id": "layer_iwv_rate_of_change_mm_hr",
+          "display_name": "Moisture Influx Rate (IWV Rate)",
+          "value": 5.4,
+          "unit": "mm/hr",
+          "shap_value": 0.9559,
+          "contribution_pct": 8.3,
+          "direction": "RISK_INCREASING",
+          "description": "Intense atmospheric water vapor convergence rapidly refueling storm updrafts."
+        },
+        {
+          "feature_id": "layer_precip_rate_mm_hr",
+          "display_name": "Surface Precipitation Rate",
+          "value": 78.0,
+          "unit": "mm/hr",
+          "shap_value": 0.602,
+          "contribution_pct": 5.3,
+          "direction": "RISK_INCREASING",
+          "description": "Extreme localized cloudburst rainfall exceeding 50\u2013100 mm/hr."
+        },
+        {
+          "feature_id": "layer_ctt_cooling_rate_k_hr",
+          "display_name": "Rapid Cloud Cooling (-d(CTT)/dt)",
+          "value": 22.0,
+          "unit": "K/hr",
+          "shap_value": 0.5434,
+          "contribution_pct": 4.7,
+          "direction": "RISK_INCREASING",
+          "description": "Violent cloud-top expansion and cooling signifying an intensifying cumulonimbus core."
+        },
+        {
+          "feature_id": "layer_flow_accumulation",
+          "display_name": "Drainage Flow Accumulation",
+          "value": 120.0,
+          "unit": "cells",
+          "shap_value": 0.3558,
+          "contribution_pct": 3.1,
+          "direction": "RISK_INCREASING",
+          "description": "Convergent hydrological channel concentrating upstream deluge into flash flooding."
+        },
+        {
+          "feature_id": "layer_metpy_cin_j_kg",
+          "display_name": "Convective Inhibition (CIN)",
+          "value": -2.0,
+          "unit": "J/kg",
+          "shap_value": 0.1319,
+          "contribution_pct": 1.2,
+          "direction": "RISK_INCREASING",
+          "description": "Strong atmospheric capping inversion suppressing premature convection."
+        },
+        {
+          "feature_id": "layer_vertical_wind_shear_mps",
+          "display_name": "Low-Level Wind Shear",
+          "value": 16.8,
+          "unit": "m/s",
+          "shap_value": -0.1063,
+          "contribution_pct": 0.7,
+          "direction": "RISK_DAMPENING",
+          "description": "Strong bulk vertical wind shear organizing multicell or supercell storms."
+        },
+        {
+          "feature_id": "layer_iwv_mm",
+          "display_name": "Total Column Water Vapor (IWV)",
+          "value": 52.0,
+          "unit": "mm",
+          "shap_value": -0.0148,
+          "contribution_pct": 0.1,
+          "direction": "RISK_DAMPENING",
+          "description": "Abundant atmospheric moisture reservoir available for precipitation."
+        },
+        {
+          "feature_id": "layer_low_level_convergence_s1",
+          "display_name": "Low-Level Wind Convergence",
+          "value": 0.0001,
+          "unit": "10\u207b\u2075 s\u207b\u00b9",
+          "shap_value": -0.0129,
+          "contribution_pct": 0.1,
+          "direction": "RISK_DAMPENING",
+          "description": "Strong boundary-layer wind convergence forcing continuous air parcel ascent."
+        },
+        {
+          "feature_id": "layer_deep_layer_wind_shear_mps",
+          "display_name": "Deep-Layer Bulk Shear",
+          "value": 24.2,
+          "unit": "m/s",
+          "shap_value": 0.011,
+          "contribution_pct": 0.1,
+          "direction": "RISK_INCREASING",
+          "description": "High tropospheric shear sustaining severe squall lines and mesoscale convective systems."
+        },
+        {
+          "feature_id": "layer_metpy_cape_j_kg",
+          "display_name": "Convective Instability (CAPE)",
+          "value": 3450.0,
+          "unit": "J/kg",
+          "shap_value": 0.0036,
+          "contribution_pct": 0.0,
+          "direction": "RISK_INCREASING",
+          "description": "Extreme buoyant convective energy driving explosive vertical thunderstorm updrafts."
+        },
+        {
+          "feature_id": "lead_hours",
+          "display_name": "Prediction Lead Time Horizon",
+          "value": 2.0,
+          "unit": "hours",
+          "shap_value": 0.0018,
+          "contribution_pct": 0.0,
+          "direction": "RISK_INCREASING",
+          "description": "Immediate nowcasting horizon."
+        }
+      ],
+      "top_drivers": [
+        {
+          "feature_id": "layer_cloud_top_temp_k",
+          "display_name": "Cloud Top Temperature (CTT)",
+          "value": 204.0,
+          "unit": "K",
+          "shap_value": 7.5957,
+          "contribution_pct": 66.3,
+          "direction": "RISK_INCREASING",
+          "description": "Deep penetrative convective anvil penetrating the tropopause (-50\u00b0C to -70\u00b0C)."
+        },
+        {
+          "feature_id": "layer_elevation_m",
+          "display_name": "Surface Elevation (DEM)",
+          "value": 3888.0,
+          "unit": "m",
+          "shap_value": 1.2472,
+          "contribution_pct": 10.9,
+          "direction": "RISK_INCREASING",
+          "description": "High-altitude mountainous basin or glaciated valley."
+        },
+        {
+          "feature_id": "layer_iwv_rate_of_change_mm_hr",
+          "display_name": "Moisture Influx Rate (IWV Rate)",
+          "value": 5.4,
+          "unit": "mm/hr",
+          "shap_value": 0.9559,
+          "contribution_pct": 8.3,
+          "direction": "RISK_INCREASING",
+          "description": "Intense atmospheric water vapor convergence rapidly refueling storm updrafts."
+        },
+        {
+          "feature_id": "layer_precip_rate_mm_hr",
+          "display_name": "Surface Precipitation Rate",
+          "value": 78.0,
+          "unit": "mm/hr",
+          "shap_value": 0.602,
+          "contribution_pct": 5.3,
+          "direction": "RISK_INCREASING",
+          "description": "Extreme localized cloudburst rainfall exceeding 50\u2013100 mm/hr."
+        },
+        {
+          "feature_id": "layer_ctt_cooling_rate_k_hr",
+          "display_name": "Rapid Cloud Cooling (-d(CTT)/dt)",
+          "value": 22.0,
+          "unit": "K/hr",
+          "shap_value": 0.5434,
+          "contribution_pct": 4.7,
+          "direction": "RISK_INCREASING",
+          "description": "Violent cloud-top expansion and cooling signifying an intensifying cumulonimbus core."
+        }
+      ],
+      "top_dampeners": [
+        {
+          "feature_id": "layer_terrain_slope_deg",
+          "display_name": "Terrain Slope Gradient",
+          "value": 34.0,
+          "unit": "\u00b0",
+          "shap_value": -2.9958,
+          "contribution_pct": 20.6,
+          "direction": "RISK_DAMPENING",
+          "description": "Steep mountain topography inducing rapid orographic lift and high runoff velocity."
+        },
+        {
+          "feature_id": "layer_vertical_wind_shear_mps",
+          "display_name": "Low-Level Wind Shear",
+          "value": 16.8,
+          "unit": "m/s",
+          "shap_value": -0.1063,
+          "contribution_pct": 0.7,
+          "direction": "RISK_DAMPENING",
+          "description": "Strong bulk vertical wind shear organizing multicell or supercell storms."
+        },
+        {
+          "feature_id": "layer_iwv_mm",
+          "display_name": "Total Column Water Vapor (IWV)",
+          "value": 52.0,
+          "unit": "mm",
+          "shap_value": -0.0148,
+          "contribution_pct": 0.1,
+          "direction": "RISK_DAMPENING",
+          "description": "Abundant atmospheric moisture reservoir available for precipitation."
+        }
+      ],
+      "plain_language_summary": "\u26a0\ufe0f **CLOUDBURST / EXTREME RAIN DELUGE RISK ALERT (50.9% probability at T+2h lead time):**\nThe high risk score is driven primarily by **Cloud Top Temperature (CTT)** (204.0 K, contributing 66.3% of elevated risk) combined with **Surface Elevation (DEM)** (3888.0 m, contributing 10.9%) and **Moisture Influx Rate (IWV Rate)** (5.4 mm/hr). Physical Diagnosis: Extreme atmospheric moisture convergence coupled with rapid cloud-top cooling confirms an intensely fueled convective tower capable of localized extreme precipitation (>100 mm/hr)."
+    },
+    "3": {
+      "hazard_type": "cloudburst",
+      "hazard_title": "Cloudburst",
+      "predicted_probability": 0.5086,
+      "lead_hours": 2,
+      "base_value": -8.2838,
+      "all_features": [
+        {
+          "feature_id": "layer_cloud_top_temp_k",
+          "display_name": "Cloud Top Temperature (CTT)",
+          "value": 201.0,
+          "unit": "K",
+          "shap_value": 7.5237,
+          "contribution_pct": 65.4,
+          "direction": "RISK_INCREASING",
+          "description": "Deep penetrative convective anvil penetrating the tropopause (-50\u00b0C to -70\u00b0C)."
+        },
+        {
+          "feature_id": "layer_terrain_slope_deg",
+          "display_name": "Terrain Slope Gradient",
+          "value": 34.0,
+          "unit": "\u00b0",
+          "shap_value": -2.9059,
+          "contribution_pct": 19.8,
+          "direction": "RISK_DAMPENING",
+          "description": "Steep mountain topography inducing rapid orographic lift and high runoff velocity."
+        },
+        {
+          "feature_id": "layer_elevation_m",
+          "display_name": "Surface Elevation (DEM)",
+          "value": 3888.0,
+          "unit": "m",
+          "shap_value": 1.2183,
+          "contribution_pct": 10.6,
+          "direction": "RISK_INCREASING",
+          "description": "High-altitude mountainous basin or glaciated valley."
+        },
+        {
+          "feature_id": "layer_iwv_rate_of_change_mm_hr",
+          "display_name": "Moisture Influx Rate (IWV Rate)",
+          "value": 4.9,
+          "unit": "mm/hr",
+          "shap_value": 1.0739,
+          "contribution_pct": 9.3,
+          "direction": "RISK_INCREASING",
+          "description": "Intense atmospheric water vapor convergence rapidly refueling storm updrafts."
+        },
+        {
+          "feature_id": "layer_ctt_cooling_rate_k_hr",
+          "display_name": "Rapid Cloud Cooling (-d(CTT)/dt)",
+          "value": 14.0,
+          "unit": "K/hr",
+          "shap_value": 0.6584,
+          "contribution_pct": 5.7,
+          "direction": "RISK_INCREASING",
+          "description": "Violent cloud-top expansion and cooling signifying an intensifying cumulonimbus core."
+        },
+        {
+          "feature_id": "layer_precip_rate_mm_hr",
+          "display_name": "Surface Precipitation Rate",
+          "value": 95.0,
+          "unit": "mm/hr",
+          "shap_value": 0.58,
+          "contribution_pct": 5.0,
+          "direction": "RISK_INCREASING",
+          "description": "Extreme localized cloudburst rainfall exceeding 50\u2013100 mm/hr."
+        },
+        {
+          "feature_id": "layer_flow_accumulation",
+          "display_name": "Drainage Flow Accumulation",
+          "value": 120.0,
+          "unit": "cells",
+          "shap_value": 0.3553,
+          "contribution_pct": 3.1,
+          "direction": "RISK_INCREASING",
+          "description": "Convergent hydrological channel concentrating upstream deluge into flash flooding."
+        },
+        {
+          "feature_id": "layer_iwv_mm",
+          "display_name": "Total Column Water Vapor (IWV)",
+          "value": 54.0,
+          "unit": "mm",
+          "shap_value": -0.1828,
+          "contribution_pct": 1.2,
+          "direction": "RISK_DAMPENING",
+          "description": "Abundant atmospheric moisture reservoir available for precipitation."
+        },
+        {
+          "feature_id": "layer_vertical_wind_shear_mps",
+          "display_name": "Low-Level Wind Shear",
+          "value": 17.0,
+          "unit": "m/s",
+          "shap_value": -0.1025,
+          "contribution_pct": 0.7,
+          "direction": "RISK_DAMPENING",
+          "description": "Strong bulk vertical wind shear organizing multicell or supercell storms."
+        },
+        {
+          "feature_id": "layer_metpy_cin_j_kg",
+          "display_name": "Convective Inhibition (CIN)",
+          "value": 0.0,
+          "unit": "J/kg",
+          "shap_value": 0.0791,
+          "contribution_pct": 0.7,
+          "direction": "RISK_INCREASING",
+          "description": "Strong atmospheric capping inversion suppressing premature convection."
+        },
+        {
+          "feature_id": "layer_metpy_cape_j_kg",
+          "display_name": "Convective Instability (CAPE)",
+          "value": 3600.0,
+          "unit": "J/kg",
+          "shap_value": 0.0223,
+          "contribution_pct": 0.2,
+          "direction": "RISK_INCREASING",
+          "description": "Extreme buoyant convective energy driving explosive vertical thunderstorm updrafts."
+        },
+        {
+          "feature_id": "layer_deep_layer_wind_shear_mps",
+          "display_name": "Deep-Layer Bulk Shear",
+          "value": 25.0,
+          "unit": "m/s",
+          "shap_value": -0.0018,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "High tropospheric shear sustaining severe squall lines and mesoscale convective systems."
+        },
+        {
+          "feature_id": "lead_hours",
+          "display_name": "Prediction Lead Time Horizon",
+          "value": 2.0,
+          "unit": "hours",
+          "shap_value": 0.0018,
+          "contribution_pct": 0.0,
+          "direction": "RISK_INCREASING",
+          "description": "Immediate nowcasting horizon."
+        },
+        {
+          "feature_id": "layer_low_level_convergence_s1",
+          "display_name": "Low-Level Wind Convergence",
+          "value": 0.0001,
+          "unit": "10\u207b\u2075 s\u207b\u00b9",
+          "shap_value": -0.0015,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "Strong boundary-layer wind convergence forcing continuous air parcel ascent."
+        }
+      ],
+      "top_drivers": [
+        {
+          "feature_id": "layer_cloud_top_temp_k",
+          "display_name": "Cloud Top Temperature (CTT)",
+          "value": 201.0,
+          "unit": "K",
+          "shap_value": 7.5237,
+          "contribution_pct": 65.4,
+          "direction": "RISK_INCREASING",
+          "description": "Deep penetrative convective anvil penetrating the tropopause (-50\u00b0C to -70\u00b0C)."
+        },
+        {
+          "feature_id": "layer_elevation_m",
+          "display_name": "Surface Elevation (DEM)",
+          "value": 3888.0,
+          "unit": "m",
+          "shap_value": 1.2183,
+          "contribution_pct": 10.6,
+          "direction": "RISK_INCREASING",
+          "description": "High-altitude mountainous basin or glaciated valley."
+        },
+        {
+          "feature_id": "layer_iwv_rate_of_change_mm_hr",
+          "display_name": "Moisture Influx Rate (IWV Rate)",
+          "value": 4.9,
+          "unit": "mm/hr",
+          "shap_value": 1.0739,
+          "contribution_pct": 9.3,
+          "direction": "RISK_INCREASING",
+          "description": "Intense atmospheric water vapor convergence rapidly refueling storm updrafts."
+        },
+        {
+          "feature_id": "layer_ctt_cooling_rate_k_hr",
+          "display_name": "Rapid Cloud Cooling (-d(CTT)/dt)",
+          "value": 14.0,
+          "unit": "K/hr",
+          "shap_value": 0.6584,
+          "contribution_pct": 5.7,
+          "direction": "RISK_INCREASING",
+          "description": "Violent cloud-top expansion and cooling signifying an intensifying cumulonimbus core."
+        },
+        {
+          "feature_id": "layer_precip_rate_mm_hr",
+          "display_name": "Surface Precipitation Rate",
+          "value": 95.0,
+          "unit": "mm/hr",
+          "shap_value": 0.58,
+          "contribution_pct": 5.0,
+          "direction": "RISK_INCREASING",
+          "description": "Extreme localized cloudburst rainfall exceeding 50\u2013100 mm/hr."
+        }
+      ],
+      "top_dampeners": [
+        {
+          "feature_id": "layer_terrain_slope_deg",
+          "display_name": "Terrain Slope Gradient",
+          "value": 34.0,
+          "unit": "\u00b0",
+          "shap_value": -2.9059,
+          "contribution_pct": 19.8,
+          "direction": "RISK_DAMPENING",
+          "description": "Steep mountain topography inducing rapid orographic lift and high runoff velocity."
+        },
+        {
+          "feature_id": "layer_iwv_mm",
+          "display_name": "Total Column Water Vapor (IWV)",
+          "value": 54.0,
+          "unit": "mm",
+          "shap_value": -0.1828,
+          "contribution_pct": 1.2,
+          "direction": "RISK_DAMPENING",
+          "description": "Abundant atmospheric moisture reservoir available for precipitation."
+        },
+        {
+          "feature_id": "layer_vertical_wind_shear_mps",
+          "display_name": "Low-Level Wind Shear",
+          "value": 17.0,
+          "unit": "m/s",
+          "shap_value": -0.1025,
+          "contribution_pct": 0.7,
+          "direction": "RISK_DAMPENING",
+          "description": "Strong bulk vertical wind shear organizing multicell or supercell storms."
+        }
+      ],
+      "plain_language_summary": "\u26a0\ufe0f **CLOUDBURST / EXTREME RAIN DELUGE RISK ALERT (50.9% probability at T+2h lead time):**\nThe high risk score is driven primarily by **Cloud Top Temperature (CTT)** (201.0 K, contributing 65.4% of elevated risk) combined with **Surface Elevation (DEM)** (3888.0 m, contributing 10.6%) and **Moisture Influx Rate (IWV Rate)** (4.9 mm/hr). Physical Diagnosis: Extreme atmospheric moisture convergence coupled with rapid cloud-top cooling confirms an intensely fueled convective tower capable of localized extreme precipitation (>100 mm/hr)."
+    }
+  },
+  "scenario_02_north_india_squall": {
+    "0": {
+      "hazard_type": "severe_thunderstorm",
+      "hazard_title": "Severe Thunderstorm",
+      "predicted_probability": 0.9991,
+      "lead_hours": 4,
+      "base_value": 2.3733,
+      "all_features": [
+        {
+          "feature_id": "layer_vertical_wind_shear_mps",
+          "display_name": "Low-Level Wind Shear",
+          "value": 14.5,
+          "unit": "m/s",
+          "shap_value": 8.4527,
+          "contribution_pct": 75.1,
+          "direction": "RISK_INCREASING",
+          "description": "Strong bulk vertical wind shear organizing multicell or supercell storms."
+        },
+        {
+          "feature_id": "layer_terrain_slope_deg",
+          "display_name": "Terrain Slope Gradient",
+          "value": 3.0,
+          "unit": "\u00b0",
+          "shap_value": -6.0145,
+          "contribution_pct": 33.6,
+          "direction": "RISK_DAMPENING",
+          "description": "Gentle or flat terrain with higher surface infiltration."
+        },
+        {
+          "feature_id": "layer_low_level_convergence_s1",
+          "display_name": "Low-Level Wind Convergence",
+          "value": 0.0,
+          "unit": "10\u207b\u2075 s\u207b\u00b9",
+          "shap_value": 1.7396,
+          "contribution_pct": 15.5,
+          "direction": "RISK_INCREASING",
+          "description": "Strong boundary-layer wind convergence forcing continuous air parcel ascent."
+        },
+        {
+          "feature_id": "layer_cloud_top_temp_k",
+          "display_name": "Cloud Top Temperature (CTT)",
+          "value": 262.0,
+          "unit": "K",
+          "shap_value": -0.5089,
+          "contribution_pct": 2.8,
+          "direction": "RISK_DAMPENING",
+          "description": "Warm shallow cloud cover."
+        },
+        {
+          "feature_id": "layer_elevation_m",
+          "display_name": "Surface Elevation (DEM)",
+          "value": 170.0,
+          "unit": "m",
+          "shap_value": 0.4229,
+          "contribution_pct": 3.8,
+          "direction": "RISK_INCREASING",
+          "description": "Lowland plain or coastal elevation."
+        },
+        {
+          "feature_id": "layer_precip_rate_mm_hr",
+          "display_name": "Surface Precipitation Rate",
+          "value": 0.0,
+          "unit": "mm/hr",
+          "shap_value": 0.2823,
+          "contribution_pct": 2.5,
+          "direction": "RISK_INCREASING",
+          "description": "Light or moderate precipitation."
+        },
+        {
+          "feature_id": "layer_metpy_cin_j_kg",
+          "display_name": "Convective Inhibition (CIN)",
+          "value": -62.0,
+          "unit": "J/kg",
+          "shap_value": 0.2221,
+          "contribution_pct": 2.0,
+          "direction": "RISK_INCREASING",
+          "description": "Uncapped atmosphere with zero convective resistance."
+        },
+        {
+          "feature_id": "layer_ctt_cooling_rate_k_hr",
+          "display_name": "Rapid Cloud Cooling (-d(CTT)/dt)",
+          "value": 2.5,
+          "unit": "K/hr",
+          "shap_value": -0.1082,
+          "contribution_pct": 0.6,
+          "direction": "RISK_DAMPENING",
+          "description": "Slow or dissipating cloud growth."
+        },
+        {
+          "feature_id": "lead_hours",
+          "display_name": "Prediction Lead Time Horizon",
+          "value": 4.0,
+          "unit": "hours",
+          "shap_value": 0.089,
+          "contribution_pct": 0.8,
+          "direction": "RISK_INCREASING",
+          "description": "Extended forecast lead time with higher physical entropy."
+        },
+        {
+          "feature_id": "layer_flow_accumulation",
+          "display_name": "Drainage Flow Accumulation",
+          "value": 12.0,
+          "unit": "cells",
+          "shap_value": 0.0318,
+          "contribution_pct": 0.3,
+          "direction": "RISK_INCREASING",
+          "description": "Convergent hydrological channel concentrating upstream deluge into flash flooding."
+        },
+        {
+          "feature_id": "layer_deep_layer_wind_shear_mps",
+          "display_name": "Deep-Layer Bulk Shear",
+          "value": 21.0,
+          "unit": "m/s",
+          "shap_value": 0.0104,
+          "contribution_pct": 0.1,
+          "direction": "RISK_INCREASING",
+          "description": "High tropospheric shear sustaining severe squall lines and mesoscale convective systems."
+        },
+        {
+          "feature_id": "layer_iwv_mm",
+          "display_name": "Total Column Water Vapor (IWV)",
+          "value": 42.0,
+          "unit": "mm",
+          "shap_value": 0.0062,
+          "contribution_pct": 0.1,
+          "direction": "RISK_INCREASING",
+          "description": "Abundant atmospheric moisture reservoir available for precipitation."
+        },
+        {
+          "feature_id": "layer_iwv_rate_of_change_mm_hr",
+          "display_name": "Moisture Influx Rate (IWV Rate)",
+          "value": 2.1,
+          "unit": "mm/hr",
+          "shap_value": -0.0045,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "Intense atmospheric water vapor convergence rapidly refueling storm updrafts."
+        },
+        {
+          "feature_id": "layer_metpy_cape_j_kg",
+          "display_name": "Convective Instability (CAPE)",
+          "value": 1950.0,
+          "unit": "J/kg",
+          "shap_value": -0.0003,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "Extreme buoyant convective energy driving explosive vertical thunderstorm updrafts."
+        }
+      ],
+      "top_drivers": [
+        {
+          "feature_id": "layer_vertical_wind_shear_mps",
+          "display_name": "Low-Level Wind Shear",
+          "value": 14.5,
+          "unit": "m/s",
+          "shap_value": 8.4527,
+          "contribution_pct": 75.1,
+          "direction": "RISK_INCREASING",
+          "description": "Strong bulk vertical wind shear organizing multicell or supercell storms."
+        },
+        {
+          "feature_id": "layer_low_level_convergence_s1",
+          "display_name": "Low-Level Wind Convergence",
+          "value": 0.0,
+          "unit": "10\u207b\u2075 s\u207b\u00b9",
+          "shap_value": 1.7396,
+          "contribution_pct": 15.5,
+          "direction": "RISK_INCREASING",
+          "description": "Strong boundary-layer wind convergence forcing continuous air parcel ascent."
+        },
+        {
+          "feature_id": "layer_elevation_m",
+          "display_name": "Surface Elevation (DEM)",
+          "value": 170.0,
+          "unit": "m",
+          "shap_value": 0.4229,
+          "contribution_pct": 3.8,
+          "direction": "RISK_INCREASING",
+          "description": "Lowland plain or coastal elevation."
+        },
+        {
+          "feature_id": "layer_precip_rate_mm_hr",
+          "display_name": "Surface Precipitation Rate",
+          "value": 0.0,
+          "unit": "mm/hr",
+          "shap_value": 0.2823,
+          "contribution_pct": 2.5,
+          "direction": "RISK_INCREASING",
+          "description": "Light or moderate precipitation."
+        },
+        {
+          "feature_id": "layer_metpy_cin_j_kg",
+          "display_name": "Convective Inhibition (CIN)",
+          "value": -62.0,
+          "unit": "J/kg",
+          "shap_value": 0.2221,
+          "contribution_pct": 2.0,
+          "direction": "RISK_INCREASING",
+          "description": "Uncapped atmosphere with zero convective resistance."
+        }
+      ],
+      "top_dampeners": [
+        {
+          "feature_id": "layer_terrain_slope_deg",
+          "display_name": "Terrain Slope Gradient",
+          "value": 3.0,
+          "unit": "\u00b0",
+          "shap_value": -6.0145,
+          "contribution_pct": 33.6,
+          "direction": "RISK_DAMPENING",
+          "description": "Gentle or flat terrain with higher surface infiltration."
+        },
+        {
+          "feature_id": "layer_cloud_top_temp_k",
+          "display_name": "Cloud Top Temperature (CTT)",
+          "value": 262.0,
+          "unit": "K",
+          "shap_value": -0.5089,
+          "contribution_pct": 2.8,
+          "direction": "RISK_DAMPENING",
+          "description": "Warm shallow cloud cover."
+        },
+        {
+          "feature_id": "layer_ctt_cooling_rate_k_hr",
+          "display_name": "Rapid Cloud Cooling (-d(CTT)/dt)",
+          "value": 2.5,
+          "unit": "K/hr",
+          "shap_value": -0.1082,
+          "contribution_pct": 0.6,
+          "direction": "RISK_DAMPENING",
+          "description": "Slow or dissipating cloud growth."
+        }
+      ],
+      "plain_language_summary": "\u26a0\ufe0f **SEVERE THUNDERSTORM & SQUALL RISK ALERT (99.9% probability at T+4h lead time):**\nThe high risk score is driven primarily by **Low-Level Wind Shear** (14.5 m/s, contributing 75.1% of elevated risk) combined with **Low-Level Wind Convergence** (0.0 10\u207b\u2075 s\u207b\u00b9, contributing 15.5%) and **Surface Elevation (DEM)** (170.0 m). Physical Diagnosis: Strong vertical shear and high CAPE support organized mesoscale storm updrafts with damaging straight-line winds and high-frequency lightning."
+    },
+    "1": {
+      "hazard_type": "severe_thunderstorm",
+      "hazard_title": "Severe Thunderstorm",
+      "predicted_probability": 0.9993,
+      "lead_hours": 3,
+      "base_value": 2.3733,
+      "all_features": [
+        {
+          "feature_id": "layer_ctt_cooling_rate_k_hr",
+          "display_name": "Rapid Cloud Cooling (-d(CTT)/dt)",
+          "value": 18.0,
+          "unit": "K/hr",
+          "shap_value": 5.2404,
+          "contribution_pct": 58.5,
+          "direction": "RISK_INCREASING",
+          "description": "Violent cloud-top expansion and cooling signifying an intensifying cumulonimbus core."
+        },
+        {
+          "feature_id": "layer_terrain_slope_deg",
+          "display_name": "Terrain Slope Gradient",
+          "value": 3.0,
+          "unit": "\u00b0",
+          "shap_value": -3.8802,
+          "contribution_pct": 29.7,
+          "direction": "RISK_DAMPENING",
+          "description": "Gentle or flat terrain with higher surface infiltration."
+        },
+        {
+          "feature_id": "layer_vertical_wind_shear_mps",
+          "display_name": "Low-Level Wind Shear",
+          "value": 19.8,
+          "unit": "m/s",
+          "shap_value": 2.5097,
+          "contribution_pct": 28.0,
+          "direction": "RISK_INCREASING",
+          "description": "Strong bulk vertical wind shear organizing multicell or supercell storms."
+        },
+        {
+          "feature_id": "layer_low_level_convergence_s1",
+          "display_name": "Low-Level Wind Convergence",
+          "value": 0.0,
+          "unit": "10\u207b\u2075 s\u207b\u00b9",
+          "shap_value": 0.6431,
+          "contribution_pct": 7.2,
+          "direction": "RISK_INCREASING",
+          "description": "Strong boundary-layer wind convergence forcing continuous air parcel ascent."
+        },
+        {
+          "feature_id": "layer_cloud_top_temp_k",
+          "display_name": "Cloud Top Temperature (CTT)",
+          "value": 222.0,
+          "unit": "K",
+          "shap_value": 0.3092,
+          "contribution_pct": 3.5,
+          "direction": "RISK_INCREASING",
+          "description": "Deep penetrative convective anvil penetrating the tropopause (-50\u00b0C to -70\u00b0C)."
+        },
+        {
+          "feature_id": "layer_elevation_m",
+          "display_name": "Surface Elevation (DEM)",
+          "value": 170.0,
+          "unit": "m",
+          "shap_value": 0.2254,
+          "contribution_pct": 2.5,
+          "direction": "RISK_INCREASING",
+          "description": "Lowland plain or coastal elevation."
+        },
+        {
+          "feature_id": "layer_metpy_cin_j_kg",
+          "display_name": "Convective Inhibition (CIN)",
+          "value": -14.0,
+          "unit": "J/kg",
+          "shap_value": -0.1059,
+          "contribution_pct": 0.8,
+          "direction": "RISK_DAMPENING",
+          "description": "Strong atmospheric capping inversion suppressing premature convection."
+        },
+        {
+          "feature_id": "layer_deep_layer_wind_shear_mps",
+          "display_name": "Deep-Layer Bulk Shear",
+          "value": 25.5,
+          "unit": "m/s",
+          "shap_value": -0.0504,
+          "contribution_pct": 0.4,
+          "direction": "RISK_DAMPENING",
+          "description": "High tropospheric shear sustaining severe squall lines and mesoscale convective systems."
+        },
+        {
+          "feature_id": "lead_hours",
+          "display_name": "Prediction Lead Time Horizon",
+          "value": 3.0,
+          "unit": "hours",
+          "shap_value": -0.0367,
+          "contribution_pct": 0.3,
+          "direction": "RISK_DAMPENING",
+          "description": "Extended forecast lead time with higher physical entropy."
+        },
+        {
+          "feature_id": "layer_iwv_mm",
+          "display_name": "Total Column Water Vapor (IWV)",
+          "value": 48.0,
+          "unit": "mm",
+          "shap_value": -0.0316,
+          "contribution_pct": 0.2,
+          "direction": "RISK_DAMPENING",
+          "description": "Abundant atmospheric moisture reservoir available for precipitation."
+        },
+        {
+          "feature_id": "layer_flow_accumulation",
+          "display_name": "Drainage Flow Accumulation",
+          "value": 12.0,
+          "unit": "cells",
+          "shap_value": 0.0179,
+          "contribution_pct": 0.2,
+          "direction": "RISK_INCREASING",
+          "description": "Convergent hydrological channel concentrating upstream deluge into flash flooding."
+        },
+        {
+          "feature_id": "layer_iwv_rate_of_change_mm_hr",
+          "display_name": "Moisture Influx Rate (IWV Rate)",
+          "value": 3.6,
+          "unit": "mm/hr",
+          "shap_value": -0.0074,
+          "contribution_pct": 0.1,
+          "direction": "RISK_DAMPENING",
+          "description": "Intense atmospheric water vapor convergence rapidly refueling storm updrafts."
+        },
+        {
+          "feature_id": "layer_precip_rate_mm_hr",
+          "display_name": "Surface Precipitation Rate",
+          "value": 18.0,
+          "unit": "mm/hr",
+          "shap_value": 0.0072,
+          "contribution_pct": 0.1,
+          "direction": "RISK_INCREASING",
+          "description": "Extreme localized cloudburst rainfall exceeding 50\u2013100 mm/hr."
+        },
+        {
+          "feature_id": "layer_metpy_cape_j_kg",
+          "display_name": "Convective Instability (CAPE)",
+          "value": 2900.0,
+          "unit": "J/kg",
+          "shap_value": 0.0028,
+          "contribution_pct": 0.0,
+          "direction": "RISK_INCREASING",
+          "description": "Extreme buoyant convective energy driving explosive vertical thunderstorm updrafts."
+        }
+      ],
+      "top_drivers": [
+        {
+          "feature_id": "layer_ctt_cooling_rate_k_hr",
+          "display_name": "Rapid Cloud Cooling (-d(CTT)/dt)",
+          "value": 18.0,
+          "unit": "K/hr",
+          "shap_value": 5.2404,
+          "contribution_pct": 58.5,
+          "direction": "RISK_INCREASING",
+          "description": "Violent cloud-top expansion and cooling signifying an intensifying cumulonimbus core."
+        },
+        {
+          "feature_id": "layer_vertical_wind_shear_mps",
+          "display_name": "Low-Level Wind Shear",
+          "value": 19.8,
+          "unit": "m/s",
+          "shap_value": 2.5097,
+          "contribution_pct": 28.0,
+          "direction": "RISK_INCREASING",
+          "description": "Strong bulk vertical wind shear organizing multicell or supercell storms."
+        },
+        {
+          "feature_id": "layer_low_level_convergence_s1",
+          "display_name": "Low-Level Wind Convergence",
+          "value": 0.0,
+          "unit": "10\u207b\u2075 s\u207b\u00b9",
+          "shap_value": 0.6431,
+          "contribution_pct": 7.2,
+          "direction": "RISK_INCREASING",
+          "description": "Strong boundary-layer wind convergence forcing continuous air parcel ascent."
+        },
+        {
+          "feature_id": "layer_cloud_top_temp_k",
+          "display_name": "Cloud Top Temperature (CTT)",
+          "value": 222.0,
+          "unit": "K",
+          "shap_value": 0.3092,
+          "contribution_pct": 3.5,
+          "direction": "RISK_INCREASING",
+          "description": "Deep penetrative convective anvil penetrating the tropopause (-50\u00b0C to -70\u00b0C)."
+        },
+        {
+          "feature_id": "layer_elevation_m",
+          "display_name": "Surface Elevation (DEM)",
+          "value": 170.0,
+          "unit": "m",
+          "shap_value": 0.2254,
+          "contribution_pct": 2.5,
+          "direction": "RISK_INCREASING",
+          "description": "Lowland plain or coastal elevation."
+        }
+      ],
+      "top_dampeners": [
+        {
+          "feature_id": "layer_terrain_slope_deg",
+          "display_name": "Terrain Slope Gradient",
+          "value": 3.0,
+          "unit": "\u00b0",
+          "shap_value": -3.8802,
+          "contribution_pct": 29.7,
+          "direction": "RISK_DAMPENING",
+          "description": "Gentle or flat terrain with higher surface infiltration."
+        },
+        {
+          "feature_id": "layer_metpy_cin_j_kg",
+          "display_name": "Convective Inhibition (CIN)",
+          "value": -14.0,
+          "unit": "J/kg",
+          "shap_value": -0.1059,
+          "contribution_pct": 0.8,
+          "direction": "RISK_DAMPENING",
+          "description": "Strong atmospheric capping inversion suppressing premature convection."
+        },
+        {
+          "feature_id": "layer_deep_layer_wind_shear_mps",
+          "display_name": "Deep-Layer Bulk Shear",
+          "value": 25.5,
+          "unit": "m/s",
+          "shap_value": -0.0504,
+          "contribution_pct": 0.4,
+          "direction": "RISK_DAMPENING",
+          "description": "High tropospheric shear sustaining severe squall lines and mesoscale convective systems."
+        }
+      ],
+      "plain_language_summary": "\u26a0\ufe0f **SEVERE THUNDERSTORM & SQUALL RISK ALERT (99.9% probability at T+3h lead time):**\nThe high risk score is driven primarily by **Rapid Cloud Cooling (-d(CTT)/dt)** (18.0 K/hr, contributing 58.5% of elevated risk) combined with **Low-Level Wind Shear** (19.8 m/s, contributing 28.0%) and **Low-Level Wind Convergence** (0.0 10\u207b\u2075 s\u207b\u00b9). Physical Diagnosis: Strong vertical shear and high CAPE support organized mesoscale storm updrafts with damaging straight-line winds and high-frequency lightning."
+    },
+    "2": {
+      "hazard_type": "severe_thunderstorm",
+      "hazard_title": "Severe Thunderstorm",
+      "predicted_probability": 0.9996,
+      "lead_hours": 2,
+      "base_value": 2.3733,
+      "all_features": [
+        {
+          "feature_id": "layer_ctt_cooling_rate_k_hr",
+          "display_name": "Rapid Cloud Cooling (-d(CTT)/dt)",
+          "value": 19.5,
+          "unit": "K/hr",
+          "shap_value": 5.2306,
+          "contribution_pct": 56.4,
+          "direction": "RISK_INCREASING",
+          "description": "Violent cloud-top expansion and cooling signifying an intensifying cumulonimbus core."
+        },
+        {
+          "feature_id": "layer_terrain_slope_deg",
+          "display_name": "Terrain Slope Gradient",
+          "value": 3.0,
+          "unit": "\u00b0",
+          "shap_value": -3.7526,
+          "contribution_pct": 28.5,
+          "direction": "RISK_DAMPENING",
+          "description": "Gentle or flat terrain with higher surface infiltration."
+        },
+        {
+          "feature_id": "layer_vertical_wind_shear_mps",
+          "display_name": "Low-Level Wind Shear",
+          "value": 22.0,
+          "unit": "m/s",
+          "shap_value": 2.7324,
+          "contribution_pct": 29.5,
+          "direction": "RISK_INCREASING",
+          "description": "Strong bulk vertical wind shear organizing multicell or supercell storms."
+        },
+        {
+          "feature_id": "layer_low_level_convergence_s1",
+          "display_name": "Low-Level Wind Convergence",
+          "value": 0.0001,
+          "unit": "10\u207b\u2075 s\u207b\u00b9",
+          "shap_value": 0.7282,
+          "contribution_pct": 7.8,
+          "direction": "RISK_INCREASING",
+          "description": "Strong boundary-layer wind convergence forcing continuous air parcel ascent."
+        },
+        {
+          "feature_id": "layer_cloud_top_temp_k",
+          "display_name": "Cloud Top Temperature (CTT)",
+          "value": 208.0,
+          "unit": "K",
+          "shap_value": 0.2915,
+          "contribution_pct": 3.1,
+          "direction": "RISK_INCREASING",
+          "description": "Deep penetrative convective anvil penetrating the tropopause (-50\u00b0C to -70\u00b0C)."
+        },
+        {
+          "feature_id": "layer_elevation_m",
+          "display_name": "Surface Elevation (DEM)",
+          "value": 170.0,
+          "unit": "m",
+          "shap_value": 0.2196,
+          "contribution_pct": 2.4,
+          "direction": "RISK_INCREASING",
+          "description": "Lowland plain or coastal elevation."
+        },
+        {
+          "feature_id": "layer_deep_layer_wind_shear_mps",
+          "display_name": "Deep-Layer Bulk Shear",
+          "value": 27.0,
+          "unit": "m/s",
+          "shap_value": -0.0563,
+          "contribution_pct": 0.4,
+          "direction": "RISK_DAMPENING",
+          "description": "High tropospheric shear sustaining severe squall lines and mesoscale convective systems."
+        },
+        {
+          "feature_id": "layer_flow_accumulation",
+          "display_name": "Drainage Flow Accumulation",
+          "value": 12.0,
+          "unit": "cells",
+          "shap_value": 0.0415,
+          "contribution_pct": 0.4,
+          "direction": "RISK_INCREASING",
+          "description": "Convergent hydrological channel concentrating upstream deluge into flash flooding."
+        },
+        {
+          "feature_id": "layer_iwv_rate_of_change_mm_hr",
+          "display_name": "Moisture Influx Rate (IWV Rate)",
+          "value": 4.2,
+          "unit": "mm/hr",
+          "shap_value": -0.0412,
+          "contribution_pct": 0.3,
+          "direction": "RISK_DAMPENING",
+          "description": "Intense atmospheric water vapor convergence rapidly refueling storm updrafts."
+        },
+        {
+          "feature_id": "layer_precip_rate_mm_hr",
+          "display_name": "Surface Precipitation Rate",
+          "value": 38.0,
+          "unit": "mm/hr",
+          "shap_value": -0.0292,
+          "contribution_pct": 0.2,
+          "direction": "RISK_DAMPENING",
+          "description": "Extreme localized cloudburst rainfall exceeding 50\u2013100 mm/hr."
+        },
+        {
+          "feature_id": "layer_metpy_cin_j_kg",
+          "display_name": "Convective Inhibition (CIN)",
+          "value": 0.0,
+          "unit": "J/kg",
+          "shap_value": 0.0259,
+          "contribution_pct": 0.3,
+          "direction": "RISK_INCREASING",
+          "description": "Strong atmospheric capping inversion suppressing premature convection."
+        },
+        {
+          "feature_id": "layer_metpy_cape_j_kg",
+          "display_name": "Convective Instability (CAPE)",
+          "value": 3400.0,
+          "unit": "J/kg",
+          "shap_value": 0.0032,
+          "contribution_pct": 0.0,
+          "direction": "RISK_INCREASING",
+          "description": "Extreme buoyant convective energy driving explosive vertical thunderstorm updrafts."
+        },
+        {
+          "feature_id": "layer_iwv_mm",
+          "display_name": "Total Column Water Vapor (IWV)",
+          "value": 51.0,
+          "unit": "mm",
+          "shap_value": 0.0029,
+          "contribution_pct": 0.0,
+          "direction": "RISK_INCREASING",
+          "description": "Abundant atmospheric moisture reservoir available for precipitation."
+        },
+        {
+          "feature_id": "lead_hours",
+          "display_name": "Prediction Lead Time Horizon",
+          "value": 2.0,
+          "unit": "hours",
+          "shap_value": 0.0015,
+          "contribution_pct": 0.0,
+          "direction": "RISK_INCREASING",
+          "description": "Immediate nowcasting horizon."
+        }
+      ],
+      "top_drivers": [
+        {
+          "feature_id": "layer_ctt_cooling_rate_k_hr",
+          "display_name": "Rapid Cloud Cooling (-d(CTT)/dt)",
+          "value": 19.5,
+          "unit": "K/hr",
+          "shap_value": 5.2306,
+          "contribution_pct": 56.4,
+          "direction": "RISK_INCREASING",
+          "description": "Violent cloud-top expansion and cooling signifying an intensifying cumulonimbus core."
+        },
+        {
+          "feature_id": "layer_vertical_wind_shear_mps",
+          "display_name": "Low-Level Wind Shear",
+          "value": 22.0,
+          "unit": "m/s",
+          "shap_value": 2.7324,
+          "contribution_pct": 29.5,
+          "direction": "RISK_INCREASING",
+          "description": "Strong bulk vertical wind shear organizing multicell or supercell storms."
+        },
+        {
+          "feature_id": "layer_low_level_convergence_s1",
+          "display_name": "Low-Level Wind Convergence",
+          "value": 0.0001,
+          "unit": "10\u207b\u2075 s\u207b\u00b9",
+          "shap_value": 0.7282,
+          "contribution_pct": 7.8,
+          "direction": "RISK_INCREASING",
+          "description": "Strong boundary-layer wind convergence forcing continuous air parcel ascent."
+        },
+        {
+          "feature_id": "layer_cloud_top_temp_k",
+          "display_name": "Cloud Top Temperature (CTT)",
+          "value": 208.0,
+          "unit": "K",
+          "shap_value": 0.2915,
+          "contribution_pct": 3.1,
+          "direction": "RISK_INCREASING",
+          "description": "Deep penetrative convective anvil penetrating the tropopause (-50\u00b0C to -70\u00b0C)."
+        },
+        {
+          "feature_id": "layer_elevation_m",
+          "display_name": "Surface Elevation (DEM)",
+          "value": 170.0,
+          "unit": "m",
+          "shap_value": 0.2196,
+          "contribution_pct": 2.4,
+          "direction": "RISK_INCREASING",
+          "description": "Lowland plain or coastal elevation."
+        }
+      ],
+      "top_dampeners": [
+        {
+          "feature_id": "layer_terrain_slope_deg",
+          "display_name": "Terrain Slope Gradient",
+          "value": 3.0,
+          "unit": "\u00b0",
+          "shap_value": -3.7526,
+          "contribution_pct": 28.5,
+          "direction": "RISK_DAMPENING",
+          "description": "Gentle or flat terrain with higher surface infiltration."
+        },
+        {
+          "feature_id": "layer_deep_layer_wind_shear_mps",
+          "display_name": "Deep-Layer Bulk Shear",
+          "value": 27.0,
+          "unit": "m/s",
+          "shap_value": -0.0563,
+          "contribution_pct": 0.4,
+          "direction": "RISK_DAMPENING",
+          "description": "High tropospheric shear sustaining severe squall lines and mesoscale convective systems."
+        },
+        {
+          "feature_id": "layer_iwv_rate_of_change_mm_hr",
+          "display_name": "Moisture Influx Rate (IWV Rate)",
+          "value": 4.2,
+          "unit": "mm/hr",
+          "shap_value": -0.0412,
+          "contribution_pct": 0.3,
+          "direction": "RISK_DAMPENING",
+          "description": "Intense atmospheric water vapor convergence rapidly refueling storm updrafts."
+        }
+      ],
+      "plain_language_summary": "\u26a0\ufe0f **SEVERE THUNDERSTORM & SQUALL RISK ALERT (100.0% probability at T+2h lead time):**\nThe high risk score is driven primarily by **Rapid Cloud Cooling (-d(CTT)/dt)** (19.5 K/hr, contributing 56.4% of elevated risk) combined with **Low-Level Wind Shear** (22.0 m/s, contributing 29.5%) and **Low-Level Wind Convergence** (0.0001 10\u207b\u2075 s\u207b\u00b9). Physical Diagnosis: Strong vertical shear and high CAPE support organized mesoscale storm updrafts with damaging straight-line winds and high-frequency lightning."
+    },
+    "3": {
+      "hazard_type": "severe_thunderstorm",
+      "hazard_title": "Severe Thunderstorm",
+      "predicted_probability": 0.9996,
+      "lead_hours": 2,
+      "base_value": 2.3733,
+      "all_features": [
+        {
+          "feature_id": "layer_ctt_cooling_rate_k_hr",
+          "display_name": "Rapid Cloud Cooling (-d(CTT)/dt)",
+          "value": 12.0,
+          "unit": "K/hr",
+          "shap_value": 5.2287,
+          "contribution_pct": 56.4,
+          "direction": "RISK_INCREASING",
+          "description": "Violent cloud-top expansion and cooling signifying an intensifying cumulonimbus core."
+        },
+        {
+          "feature_id": "layer_terrain_slope_deg",
+          "display_name": "Terrain Slope Gradient",
+          "value": 3.0,
+          "unit": "\u00b0",
+          "shap_value": -3.7522,
+          "contribution_pct": 28.5,
+          "direction": "RISK_DAMPENING",
+          "description": "Gentle or flat terrain with higher surface infiltration."
+        },
+        {
+          "feature_id": "layer_vertical_wind_shear_mps",
+          "display_name": "Low-Level Wind Shear",
+          "value": 24.0,
+          "unit": "m/s",
+          "shap_value": 2.7319,
+          "contribution_pct": 29.4,
+          "direction": "RISK_INCREASING",
+          "description": "Strong bulk vertical wind shear organizing multicell or supercell storms."
+        },
+        {
+          "feature_id": "layer_low_level_convergence_s1",
+          "display_name": "Low-Level Wind Convergence",
+          "value": 0.0001,
+          "unit": "10\u207b\u2075 s\u207b\u00b9",
+          "shap_value": 0.7283,
+          "contribution_pct": 7.9,
+          "direction": "RISK_INCREASING",
+          "description": "Strong boundary-layer wind convergence forcing continuous air parcel ascent."
+        },
+        {
+          "feature_id": "layer_cloud_top_temp_k",
+          "display_name": "Cloud Top Temperature (CTT)",
+          "value": 205.0,
+          "unit": "K",
+          "shap_value": 0.2943,
+          "contribution_pct": 3.2,
+          "direction": "RISK_INCREASING",
+          "description": "Deep penetrative convective anvil penetrating the tropopause (-50\u00b0C to -70\u00b0C)."
+        },
+        {
+          "feature_id": "layer_elevation_m",
+          "display_name": "Surface Elevation (DEM)",
+          "value": 170.0,
+          "unit": "m",
+          "shap_value": 0.2204,
+          "contribution_pct": 2.4,
+          "direction": "RISK_INCREASING",
+          "description": "Lowland plain or coastal elevation."
+        },
+        {
+          "feature_id": "layer_deep_layer_wind_shear_mps",
+          "display_name": "Deep-Layer Bulk Shear",
+          "value": 28.5,
+          "unit": "m/s",
+          "shap_value": -0.0563,
+          "contribution_pct": 0.4,
+          "direction": "RISK_DAMPENING",
+          "description": "High tropospheric shear sustaining severe squall lines and mesoscale convective systems."
+        },
+        {
+          "feature_id": "layer_flow_accumulation",
+          "display_name": "Drainage Flow Accumulation",
+          "value": 12.0,
+          "unit": "cells",
+          "shap_value": 0.0415,
+          "contribution_pct": 0.4,
+          "direction": "RISK_INCREASING",
+          "description": "Convergent hydrological channel concentrating upstream deluge into flash flooding."
+        },
+        {
+          "feature_id": "layer_iwv_rate_of_change_mm_hr",
+          "display_name": "Moisture Influx Rate (IWV Rate)",
+          "value": 3.8,
+          "unit": "mm/hr",
+          "shap_value": -0.0411,
+          "contribution_pct": 0.3,
+          "direction": "RISK_DAMPENING",
+          "description": "Intense atmospheric water vapor convergence rapidly refueling storm updrafts."
+        },
+        {
+          "feature_id": "layer_precip_rate_mm_hr",
+          "display_name": "Surface Precipitation Rate",
+          "value": 45.0,
+          "unit": "mm/hr",
+          "shap_value": -0.0292,
+          "contribution_pct": 0.2,
+          "direction": "RISK_DAMPENING",
+          "description": "Extreme localized cloudburst rainfall exceeding 50\u2013100 mm/hr."
+        },
+        {
+          "feature_id": "layer_metpy_cin_j_kg",
+          "display_name": "Convective Inhibition (CIN)",
+          "value": 0.0,
+          "unit": "J/kg",
+          "shap_value": 0.026,
+          "contribution_pct": 0.3,
+          "direction": "RISK_INCREASING",
+          "description": "Strong atmospheric capping inversion suppressing premature convection."
+        },
+        {
+          "feature_id": "layer_metpy_cape_j_kg",
+          "display_name": "Convective Instability (CAPE)",
+          "value": 3550.0,
+          "unit": "J/kg",
+          "shap_value": 0.0024,
+          "contribution_pct": 0.0,
+          "direction": "RISK_INCREASING",
+          "description": "Extreme buoyant convective energy driving explosive vertical thunderstorm updrafts."
+        },
+        {
+          "feature_id": "layer_iwv_mm",
+          "display_name": "Total Column Water Vapor (IWV)",
+          "value": 52.0,
+          "unit": "mm",
+          "shap_value": 0.0018,
+          "contribution_pct": 0.0,
+          "direction": "RISK_INCREASING",
+          "description": "Abundant atmospheric moisture reservoir available for precipitation."
+        },
+        {
+          "feature_id": "lead_hours",
+          "display_name": "Prediction Lead Time Horizon",
+          "value": 2.0,
+          "unit": "hours",
+          "shap_value": 0.0015,
+          "contribution_pct": 0.0,
+          "direction": "RISK_INCREASING",
+          "description": "Immediate nowcasting horizon."
+        }
+      ],
+      "top_drivers": [
+        {
+          "feature_id": "layer_ctt_cooling_rate_k_hr",
+          "display_name": "Rapid Cloud Cooling (-d(CTT)/dt)",
+          "value": 12.0,
+          "unit": "K/hr",
+          "shap_value": 5.2287,
+          "contribution_pct": 56.4,
+          "direction": "RISK_INCREASING",
+          "description": "Violent cloud-top expansion and cooling signifying an intensifying cumulonimbus core."
+        },
+        {
+          "feature_id": "layer_vertical_wind_shear_mps",
+          "display_name": "Low-Level Wind Shear",
+          "value": 24.0,
+          "unit": "m/s",
+          "shap_value": 2.7319,
+          "contribution_pct": 29.4,
+          "direction": "RISK_INCREASING",
+          "description": "Strong bulk vertical wind shear organizing multicell or supercell storms."
+        },
+        {
+          "feature_id": "layer_low_level_convergence_s1",
+          "display_name": "Low-Level Wind Convergence",
+          "value": 0.0001,
+          "unit": "10\u207b\u2075 s\u207b\u00b9",
+          "shap_value": 0.7283,
+          "contribution_pct": 7.9,
+          "direction": "RISK_INCREASING",
+          "description": "Strong boundary-layer wind convergence forcing continuous air parcel ascent."
+        },
+        {
+          "feature_id": "layer_cloud_top_temp_k",
+          "display_name": "Cloud Top Temperature (CTT)",
+          "value": 205.0,
+          "unit": "K",
+          "shap_value": 0.2943,
+          "contribution_pct": 3.2,
+          "direction": "RISK_INCREASING",
+          "description": "Deep penetrative convective anvil penetrating the tropopause (-50\u00b0C to -70\u00b0C)."
+        },
+        {
+          "feature_id": "layer_elevation_m",
+          "display_name": "Surface Elevation (DEM)",
+          "value": 170.0,
+          "unit": "m",
+          "shap_value": 0.2204,
+          "contribution_pct": 2.4,
+          "direction": "RISK_INCREASING",
+          "description": "Lowland plain or coastal elevation."
+        }
+      ],
+      "top_dampeners": [
+        {
+          "feature_id": "layer_terrain_slope_deg",
+          "display_name": "Terrain Slope Gradient",
+          "value": 3.0,
+          "unit": "\u00b0",
+          "shap_value": -3.7522,
+          "contribution_pct": 28.5,
+          "direction": "RISK_DAMPENING",
+          "description": "Gentle or flat terrain with higher surface infiltration."
+        },
+        {
+          "feature_id": "layer_deep_layer_wind_shear_mps",
+          "display_name": "Deep-Layer Bulk Shear",
+          "value": 28.5,
+          "unit": "m/s",
+          "shap_value": -0.0563,
+          "contribution_pct": 0.4,
+          "direction": "RISK_DAMPENING",
+          "description": "High tropospheric shear sustaining severe squall lines and mesoscale convective systems."
+        },
+        {
+          "feature_id": "layer_iwv_rate_of_change_mm_hr",
+          "display_name": "Moisture Influx Rate (IWV Rate)",
+          "value": 3.8,
+          "unit": "mm/hr",
+          "shap_value": -0.0411,
+          "contribution_pct": 0.3,
+          "direction": "RISK_DAMPENING",
+          "description": "Intense atmospheric water vapor convergence rapidly refueling storm updrafts."
+        }
+      ],
+      "plain_language_summary": "\u26a0\ufe0f **SEVERE THUNDERSTORM & SQUALL RISK ALERT (100.0% probability at T+2h lead time):**\nThe high risk score is driven primarily by **Rapid Cloud Cooling (-d(CTT)/dt)** (12.0 K/hr, contributing 56.4% of elevated risk) combined with **Low-Level Wind Shear** (24.0 m/s, contributing 29.4%) and **Low-Level Wind Convergence** (0.0001 10\u207b\u2075 s\u207b\u00b9). Physical Diagnosis: Strong vertical shear and high CAPE support organized mesoscale storm updrafts with damaging straight-line winds and high-frequency lightning."
+    }
+  },
+  "scenario_03_himachal_deluge": {
+    "0": {
+      "hazard_type": "flash_flood",
+      "hazard_title": "Flash Flood",
+      "predicted_probability": 0.9998,
+      "lead_hours": 5,
+      "base_value": -6.3276,
+      "all_features": [
+        {
+          "feature_id": "layer_terrain_slope_deg",
+          "display_name": "Terrain Slope Gradient",
+          "value": 36.0,
+          "unit": "\u00b0",
+          "shap_value": 13.8982,
+          "contribution_pct": 93.7,
+          "direction": "RISK_INCREASING",
+          "description": "Steep mountain topography inducing rapid orographic lift and high runoff velocity."
+        },
+        {
+          "feature_id": "layer_precip_rate_mm_hr",
+          "display_name": "Surface Precipitation Rate",
+          "value": 14.0,
+          "unit": "mm/hr",
+          "shap_value": 0.6387,
+          "contribution_pct": 4.3,
+          "direction": "RISK_INCREASING",
+          "description": "Extreme localized cloudburst rainfall exceeding 50\u2013100 mm/hr."
+        },
+        {
+          "feature_id": "layer_flow_accumulation",
+          "display_name": "Drainage Flow Accumulation",
+          "value": 180.0,
+          "unit": "cells",
+          "shap_value": 0.2431,
+          "contribution_pct": 1.6,
+          "direction": "RISK_INCREASING",
+          "description": "Convergent hydrological channel concentrating upstream deluge into flash flooding."
+        },
+        {
+          "feature_id": "layer_iwv_rate_of_change_mm_hr",
+          "display_name": "Moisture Influx Rate (IWV Rate)",
+          "value": 2.8,
+          "unit": "mm/hr",
+          "shap_value": 0.0288,
+          "contribution_pct": 0.2,
+          "direction": "RISK_INCREASING",
+          "description": "Intense atmospheric water vapor convergence rapidly refueling storm updrafts."
+        },
+        {
+          "feature_id": "layer_deep_layer_wind_shear_mps",
+          "display_name": "Deep-Layer Bulk Shear",
+          "value": 16.5,
+          "unit": "m/s",
+          "shap_value": 0.0091,
+          "contribution_pct": 0.1,
+          "direction": "RISK_INCREASING",
+          "description": "High tropospheric shear sustaining severe squall lines and mesoscale convective systems."
+        },
+        {
+          "feature_id": "layer_elevation_m",
+          "display_name": "Surface Elevation (DEM)",
+          "value": 1250.0,
+          "unit": "m",
+          "shap_value": -0.0072,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "High-altitude mountainous basin or glaciated valley."
+        },
+        {
+          "feature_id": "layer_vertical_wind_shear_mps",
+          "display_name": "Low-Level Wind Shear",
+          "value": 11.0,
+          "unit": "m/s",
+          "shap_value": 0.0071,
+          "contribution_pct": 0.0,
+          "direction": "RISK_INCREASING",
+          "description": "Strong bulk vertical wind shear organizing multicell or supercell storms."
+        },
+        {
+          "feature_id": "layer_metpy_cin_j_kg",
+          "display_name": "Convective Inhibition (CIN)",
+          "value": -25.0,
+          "unit": "J/kg",
+          "shap_value": -0.005,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "Strong atmospheric capping inversion suppressing premature convection."
+        },
+        {
+          "feature_id": "lead_hours",
+          "display_name": "Prediction Lead Time Horizon",
+          "value": 5.0,
+          "unit": "hours",
+          "shap_value": -0.0028,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "Extended forecast lead time with higher physical entropy."
+        },
+        {
+          "feature_id": "layer_cloud_top_temp_k",
+          "display_name": "Cloud Top Temperature (CTT)",
+          "value": 242.0,
+          "unit": "K",
+          "shap_value": -0.0021,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "Deep penetrative convective anvil penetrating the tropopause (-50\u00b0C to -70\u00b0C)."
+        },
+        {
+          "feature_id": "layer_iwv_mm",
+          "display_name": "Total Column Water Vapor (IWV)",
+          "value": 52.0,
+          "unit": "mm",
+          "shap_value": 0.0017,
+          "contribution_pct": 0.0,
+          "direction": "RISK_INCREASING",
+          "description": "Abundant atmospheric moisture reservoir available for precipitation."
+        },
+        {
+          "feature_id": "layer_metpy_cape_j_kg",
+          "display_name": "Convective Instability (CAPE)",
+          "value": 1600.0,
+          "unit": "J/kg",
+          "shap_value": -0.0011,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "Extreme buoyant convective energy driving explosive vertical thunderstorm updrafts."
+        },
+        {
+          "feature_id": "layer_ctt_cooling_rate_k_hr",
+          "display_name": "Rapid Cloud Cooling (-d(CTT)/dt)",
+          "value": 5.0,
+          "unit": "K/hr",
+          "shap_value": 0.0003,
+          "contribution_pct": 0.0,
+          "direction": "RISK_INCREASING",
+          "description": "Violent cloud-top expansion and cooling signifying an intensifying cumulonimbus core."
+        },
+        {
+          "feature_id": "layer_low_level_convergence_s1",
+          "display_name": "Low-Level Wind Convergence",
+          "value": 0.0,
+          "unit": "10\u207b\u2075 s\u207b\u00b9",
+          "shap_value": -0.0001,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "Strong boundary-layer wind convergence forcing continuous air parcel ascent."
+        }
+      ],
+      "top_drivers": [
+        {
+          "feature_id": "layer_terrain_slope_deg",
+          "display_name": "Terrain Slope Gradient",
+          "value": 36.0,
+          "unit": "\u00b0",
+          "shap_value": 13.8982,
+          "contribution_pct": 93.7,
+          "direction": "RISK_INCREASING",
+          "description": "Steep mountain topography inducing rapid orographic lift and high runoff velocity."
+        },
+        {
+          "feature_id": "layer_precip_rate_mm_hr",
+          "display_name": "Surface Precipitation Rate",
+          "value": 14.0,
+          "unit": "mm/hr",
+          "shap_value": 0.6387,
+          "contribution_pct": 4.3,
+          "direction": "RISK_INCREASING",
+          "description": "Extreme localized cloudburst rainfall exceeding 50\u2013100 mm/hr."
+        },
+        {
+          "feature_id": "layer_flow_accumulation",
+          "display_name": "Drainage Flow Accumulation",
+          "value": 180.0,
+          "unit": "cells",
+          "shap_value": 0.2431,
+          "contribution_pct": 1.6,
+          "direction": "RISK_INCREASING",
+          "description": "Convergent hydrological channel concentrating upstream deluge into flash flooding."
+        },
+        {
+          "feature_id": "layer_iwv_rate_of_change_mm_hr",
+          "display_name": "Moisture Influx Rate (IWV Rate)",
+          "value": 2.8,
+          "unit": "mm/hr",
+          "shap_value": 0.0288,
+          "contribution_pct": 0.2,
+          "direction": "RISK_INCREASING",
+          "description": "Intense atmospheric water vapor convergence rapidly refueling storm updrafts."
+        },
+        {
+          "feature_id": "layer_deep_layer_wind_shear_mps",
+          "display_name": "Deep-Layer Bulk Shear",
+          "value": 16.5,
+          "unit": "m/s",
+          "shap_value": 0.0091,
+          "contribution_pct": 0.1,
+          "direction": "RISK_INCREASING",
+          "description": "High tropospheric shear sustaining severe squall lines and mesoscale convective systems."
+        }
+      ],
+      "top_dampeners": [
+        {
+          "feature_id": "layer_elevation_m",
+          "display_name": "Surface Elevation (DEM)",
+          "value": 1250.0,
+          "unit": "m",
+          "shap_value": -0.0072,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "High-altitude mountainous basin or glaciated valley."
+        },
+        {
+          "feature_id": "layer_metpy_cin_j_kg",
+          "display_name": "Convective Inhibition (CIN)",
+          "value": -25.0,
+          "unit": "J/kg",
+          "shap_value": -0.005,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "Strong atmospheric capping inversion suppressing premature convection."
+        },
+        {
+          "feature_id": "lead_hours",
+          "display_name": "Prediction Lead Time Horizon",
+          "value": 5.0,
+          "unit": "hours",
+          "shap_value": -0.0028,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "Extended forecast lead time with higher physical entropy."
+        }
+      ],
+      "plain_language_summary": "\u26a0\ufe0f **TOPOGRAPHIC FLASH FLOOD RISK ALERT (100.0% probability at T+5h lead time):**\nThe high risk score is driven primarily by **Terrain Slope Gradient** (36.0 \u00b0, contributing 93.7% of elevated risk) combined with **Surface Precipitation Rate** (14.0 mm/hr, contributing 4.3%) and **Drainage Flow Accumulation** (180.0 cells). Physical Diagnosis: Steep terrain gradients and high flow accumulation funnel gravitational runoff directly into drainage gullies and riverbeds, dramatically elevating flash flood vulnerability."
+    },
+    "1": {
+      "hazard_type": "flash_flood",
+      "hazard_title": "Flash Flood",
+      "predicted_probability": 0.9998,
+      "lead_hours": 4,
+      "base_value": -6.3276,
+      "all_features": [
+        {
+          "feature_id": "layer_terrain_slope_deg",
+          "display_name": "Terrain Slope Gradient",
+          "value": 36.0,
+          "unit": "\u00b0",
+          "shap_value": 13.5954,
+          "contribution_pct": 91.7,
+          "direction": "RISK_INCREASING",
+          "description": "Steep mountain topography inducing rapid orographic lift and high runoff velocity."
+        },
+        {
+          "feature_id": "layer_precip_rate_mm_hr",
+          "display_name": "Surface Precipitation Rate",
+          "value": 38.0,
+          "unit": "mm/hr",
+          "shap_value": 0.8526,
+          "contribution_pct": 5.8,
+          "direction": "RISK_INCREASING",
+          "description": "Extreme localized cloudburst rainfall exceeding 50\u2013100 mm/hr."
+        },
+        {
+          "feature_id": "layer_flow_accumulation",
+          "display_name": "Drainage Flow Accumulation",
+          "value": 180.0,
+          "unit": "cells",
+          "shap_value": 0.3446,
+          "contribution_pct": 2.3,
+          "direction": "RISK_INCREASING",
+          "description": "Convergent hydrological channel concentrating upstream deluge into flash flooding."
+        },
+        {
+          "feature_id": "layer_iwv_mm",
+          "display_name": "Total Column Water Vapor (IWV)",
+          "value": 56.0,
+          "unit": "mm",
+          "shap_value": 0.0116,
+          "contribution_pct": 0.1,
+          "direction": "RISK_INCREASING",
+          "description": "Abundant atmospheric moisture reservoir available for precipitation."
+        },
+        {
+          "feature_id": "layer_iwv_rate_of_change_mm_hr",
+          "display_name": "Moisture Influx Rate (IWV Rate)",
+          "value": 4.1,
+          "unit": "mm/hr",
+          "shap_value": 0.0101,
+          "contribution_pct": 0.1,
+          "direction": "RISK_INCREASING",
+          "description": "Intense atmospheric water vapor convergence rapidly refueling storm updrafts."
+        },
+        {
+          "feature_id": "layer_elevation_m",
+          "display_name": "Surface Elevation (DEM)",
+          "value": 1250.0,
+          "unit": "m",
+          "shap_value": -0.0063,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "High-altitude mountainous basin or glaciated valley."
+        },
+        {
+          "feature_id": "layer_low_level_convergence_s1",
+          "display_name": "Low-Level Wind Convergence",
+          "value": 0.0,
+          "unit": "10\u207b\u2075 s\u207b\u00b9",
+          "shap_value": 0.0051,
+          "contribution_pct": 0.0,
+          "direction": "RISK_INCREASING",
+          "description": "Strong boundary-layer wind convergence forcing continuous air parcel ascent."
+        },
+        {
+          "feature_id": "layer_metpy_cape_j_kg",
+          "display_name": "Convective Instability (CAPE)",
+          "value": 2400.0,
+          "unit": "J/kg",
+          "shap_value": -0.0031,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "Extreme buoyant convective energy driving explosive vertical thunderstorm updrafts."
+        },
+        {
+          "feature_id": "layer_deep_layer_wind_shear_mps",
+          "display_name": "Deep-Layer Bulk Shear",
+          "value": 19.5,
+          "unit": "m/s",
+          "shap_value": -0.0019,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "High tropospheric shear sustaining severe squall lines and mesoscale convective systems."
+        },
+        {
+          "feature_id": "layer_vertical_wind_shear_mps",
+          "display_name": "Low-Level Wind Shear",
+          "value": 14.2,
+          "unit": "m/s",
+          "shap_value": 0.0016,
+          "contribution_pct": 0.0,
+          "direction": "RISK_INCREASING",
+          "description": "Strong bulk vertical wind shear organizing multicell or supercell storms."
+        },
+        {
+          "feature_id": "layer_metpy_cin_j_kg",
+          "display_name": "Convective Inhibition (CIN)",
+          "value": -8.0,
+          "unit": "J/kg",
+          "shap_value": 0.0015,
+          "contribution_pct": 0.0,
+          "direction": "RISK_INCREASING",
+          "description": "Strong atmospheric capping inversion suppressing premature convection."
+        },
+        {
+          "feature_id": "layer_ctt_cooling_rate_k_hr",
+          "display_name": "Rapid Cloud Cooling (-d(CTT)/dt)",
+          "value": 14.0,
+          "unit": "K/hr",
+          "shap_value": -0.0015,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "Violent cloud-top expansion and cooling signifying an intensifying cumulonimbus core."
+        },
+        {
+          "feature_id": "lead_hours",
+          "display_name": "Prediction Lead Time Horizon",
+          "value": 4.0,
+          "unit": "hours",
+          "shap_value": -0.0014,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "Extended forecast lead time with higher physical entropy."
+        },
+        {
+          "feature_id": "layer_cloud_top_temp_k",
+          "display_name": "Cloud Top Temperature (CTT)",
+          "value": 224.0,
+          "unit": "K",
+          "shap_value": 0.0005,
+          "contribution_pct": 0.0,
+          "direction": "RISK_INCREASING",
+          "description": "Deep penetrative convective anvil penetrating the tropopause (-50\u00b0C to -70\u00b0C)."
+        }
+      ],
+      "top_drivers": [
+        {
+          "feature_id": "layer_terrain_slope_deg",
+          "display_name": "Terrain Slope Gradient",
+          "value": 36.0,
+          "unit": "\u00b0",
+          "shap_value": 13.5954,
+          "contribution_pct": 91.7,
+          "direction": "RISK_INCREASING",
+          "description": "Steep mountain topography inducing rapid orographic lift and high runoff velocity."
+        },
+        {
+          "feature_id": "layer_precip_rate_mm_hr",
+          "display_name": "Surface Precipitation Rate",
+          "value": 38.0,
+          "unit": "mm/hr",
+          "shap_value": 0.8526,
+          "contribution_pct": 5.8,
+          "direction": "RISK_INCREASING",
+          "description": "Extreme localized cloudburst rainfall exceeding 50\u2013100 mm/hr."
+        },
+        {
+          "feature_id": "layer_flow_accumulation",
+          "display_name": "Drainage Flow Accumulation",
+          "value": 180.0,
+          "unit": "cells",
+          "shap_value": 0.3446,
+          "contribution_pct": 2.3,
+          "direction": "RISK_INCREASING",
+          "description": "Convergent hydrological channel concentrating upstream deluge into flash flooding."
+        },
+        {
+          "feature_id": "layer_iwv_mm",
+          "display_name": "Total Column Water Vapor (IWV)",
+          "value": 56.0,
+          "unit": "mm",
+          "shap_value": 0.0116,
+          "contribution_pct": 0.1,
+          "direction": "RISK_INCREASING",
+          "description": "Abundant atmospheric moisture reservoir available for precipitation."
+        },
+        {
+          "feature_id": "layer_iwv_rate_of_change_mm_hr",
+          "display_name": "Moisture Influx Rate (IWV Rate)",
+          "value": 4.1,
+          "unit": "mm/hr",
+          "shap_value": 0.0101,
+          "contribution_pct": 0.1,
+          "direction": "RISK_INCREASING",
+          "description": "Intense atmospheric water vapor convergence rapidly refueling storm updrafts."
+        }
+      ],
+      "top_dampeners": [
+        {
+          "feature_id": "layer_elevation_m",
+          "display_name": "Surface Elevation (DEM)",
+          "value": 1250.0,
+          "unit": "m",
+          "shap_value": -0.0063,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "High-altitude mountainous basin or glaciated valley."
+        },
+        {
+          "feature_id": "layer_metpy_cape_j_kg",
+          "display_name": "Convective Instability (CAPE)",
+          "value": 2400.0,
+          "unit": "J/kg",
+          "shap_value": -0.0031,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "Extreme buoyant convective energy driving explosive vertical thunderstorm updrafts."
+        },
+        {
+          "feature_id": "layer_deep_layer_wind_shear_mps",
+          "display_name": "Deep-Layer Bulk Shear",
+          "value": 19.5,
+          "unit": "m/s",
+          "shap_value": -0.0019,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "High tropospheric shear sustaining severe squall lines and mesoscale convective systems."
+        }
+      ],
+      "plain_language_summary": "\u26a0\ufe0f **TOPOGRAPHIC FLASH FLOOD RISK ALERT (100.0% probability at T+4h lead time):**\nThe high risk score is driven primarily by **Terrain Slope Gradient** (36.0 \u00b0, contributing 91.7% of elevated risk) combined with **Surface Precipitation Rate** (38.0 mm/hr, contributing 5.8%) and **Drainage Flow Accumulation** (180.0 cells). Physical Diagnosis: Steep terrain gradients and high flow accumulation funnel gravitational runoff directly into drainage gullies and riverbeds, dramatically elevating flash flood vulnerability."
+    },
+    "2": {
+      "hazard_type": "flash_flood",
+      "hazard_title": "Flash Flood",
+      "predicted_probability": 0.9998,
+      "lead_hours": 2,
+      "base_value": -6.3276,
+      "all_features": [
+        {
+          "feature_id": "layer_terrain_slope_deg",
+          "display_name": "Terrain Slope Gradient",
+          "value": 36.0,
+          "unit": "\u00b0",
+          "shap_value": 13.5975,
+          "contribution_pct": 91.7,
+          "direction": "RISK_INCREASING",
+          "description": "Steep mountain topography inducing rapid orographic lift and high runoff velocity."
+        },
+        {
+          "feature_id": "layer_precip_rate_mm_hr",
+          "display_name": "Surface Precipitation Rate",
+          "value": 68.0,
+          "unit": "mm/hr",
+          "shap_value": 0.851,
+          "contribution_pct": 5.7,
+          "direction": "RISK_INCREASING",
+          "description": "Extreme localized cloudburst rainfall exceeding 50\u2013100 mm/hr."
+        },
+        {
+          "feature_id": "layer_flow_accumulation",
+          "display_name": "Drainage Flow Accumulation",
+          "value": 180.0,
+          "unit": "cells",
+          "shap_value": 0.3493,
+          "contribution_pct": 2.4,
+          "direction": "RISK_INCREASING",
+          "description": "Convergent hydrological channel concentrating upstream deluge into flash flooding."
+        },
+        {
+          "feature_id": "layer_iwv_rate_of_change_mm_hr",
+          "display_name": "Moisture Influx Rate (IWV Rate)",
+          "value": 5.2,
+          "unit": "mm/hr",
+          "shap_value": 0.0097,
+          "contribution_pct": 0.1,
+          "direction": "RISK_INCREASING",
+          "description": "Intense atmospheric water vapor convergence rapidly refueling storm updrafts."
+        },
+        {
+          "feature_id": "layer_iwv_mm",
+          "display_name": "Total Column Water Vapor (IWV)",
+          "value": 60.0,
+          "unit": "mm",
+          "shap_value": 0.0063,
+          "contribution_pct": 0.0,
+          "direction": "RISK_INCREASING",
+          "description": "Abundant atmospheric moisture reservoir available for precipitation."
+        },
+        {
+          "feature_id": "layer_elevation_m",
+          "display_name": "Surface Elevation (DEM)",
+          "value": 1250.0,
+          "unit": "m",
+          "shap_value": -0.006,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "High-altitude mountainous basin or glaciated valley."
+        },
+        {
+          "feature_id": "layer_low_level_convergence_s1",
+          "display_name": "Low-Level Wind Convergence",
+          "value": 0.0001,
+          "unit": "10\u207b\u2075 s\u207b\u00b9",
+          "shap_value": 0.0053,
+          "contribution_pct": 0.0,
+          "direction": "RISK_INCREASING",
+          "description": "Strong boundary-layer wind convergence forcing continuous air parcel ascent."
+        },
+        {
+          "feature_id": "lead_hours",
+          "display_name": "Prediction Lead Time Horizon",
+          "value": 2.0,
+          "unit": "hours",
+          "shap_value": 0.0039,
+          "contribution_pct": 0.0,
+          "direction": "RISK_INCREASING",
+          "description": "Immediate nowcasting horizon."
+        },
+        {
+          "feature_id": "layer_metpy_cin_j_kg",
+          "display_name": "Convective Inhibition (CIN)",
+          "value": 0.0,
+          "unit": "J/kg",
+          "shap_value": -0.0032,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "Strong atmospheric capping inversion suppressing premature convection."
+        },
+        {
+          "feature_id": "layer_metpy_cape_j_kg",
+          "display_name": "Convective Instability (CAPE)",
+          "value": 3100.0,
+          "unit": "J/kg",
+          "shap_value": -0.0031,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "Extreme buoyant convective energy driving explosive vertical thunderstorm updrafts."
+        },
+        {
+          "feature_id": "layer_deep_layer_wind_shear_mps",
+          "display_name": "Deep-Layer Bulk Shear",
+          "value": 22.0,
+          "unit": "m/s",
+          "shap_value": -0.0016,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "High tropospheric shear sustaining severe squall lines and mesoscale convective systems."
+        },
+        {
+          "feature_id": "layer_ctt_cooling_rate_k_hr",
+          "display_name": "Rapid Cloud Cooling (-d(CTT)/dt)",
+          "value": 20.0,
+          "unit": "K/hr",
+          "shap_value": -0.0011,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "Violent cloud-top expansion and cooling signifying an intensifying cumulonimbus core."
+        },
+        {
+          "feature_id": "layer_vertical_wind_shear_mps",
+          "display_name": "Low-Level Wind Shear",
+          "value": 17.0,
+          "unit": "m/s",
+          "shap_value": 0.0009,
+          "contribution_pct": 0.0,
+          "direction": "RISK_INCREASING",
+          "description": "Strong bulk vertical wind shear organizing multicell or supercell storms."
+        },
+        {
+          "feature_id": "layer_cloud_top_temp_k",
+          "display_name": "Cloud Top Temperature (CTT)",
+          "value": 210.0,
+          "unit": "K",
+          "shap_value": 0.0001,
+          "contribution_pct": 0.0,
+          "direction": "RISK_INCREASING",
+          "description": "Deep penetrative convective anvil penetrating the tropopause (-50\u00b0C to -70\u00b0C)."
+        }
+      ],
+      "top_drivers": [
+        {
+          "feature_id": "layer_terrain_slope_deg",
+          "display_name": "Terrain Slope Gradient",
+          "value": 36.0,
+          "unit": "\u00b0",
+          "shap_value": 13.5975,
+          "contribution_pct": 91.7,
+          "direction": "RISK_INCREASING",
+          "description": "Steep mountain topography inducing rapid orographic lift and high runoff velocity."
+        },
+        {
+          "feature_id": "layer_precip_rate_mm_hr",
+          "display_name": "Surface Precipitation Rate",
+          "value": 68.0,
+          "unit": "mm/hr",
+          "shap_value": 0.851,
+          "contribution_pct": 5.7,
+          "direction": "RISK_INCREASING",
+          "description": "Extreme localized cloudburst rainfall exceeding 50\u2013100 mm/hr."
+        },
+        {
+          "feature_id": "layer_flow_accumulation",
+          "display_name": "Drainage Flow Accumulation",
+          "value": 180.0,
+          "unit": "cells",
+          "shap_value": 0.3493,
+          "contribution_pct": 2.4,
+          "direction": "RISK_INCREASING",
+          "description": "Convergent hydrological channel concentrating upstream deluge into flash flooding."
+        },
+        {
+          "feature_id": "layer_iwv_rate_of_change_mm_hr",
+          "display_name": "Moisture Influx Rate (IWV Rate)",
+          "value": 5.2,
+          "unit": "mm/hr",
+          "shap_value": 0.0097,
+          "contribution_pct": 0.1,
+          "direction": "RISK_INCREASING",
+          "description": "Intense atmospheric water vapor convergence rapidly refueling storm updrafts."
+        },
+        {
+          "feature_id": "layer_iwv_mm",
+          "display_name": "Total Column Water Vapor (IWV)",
+          "value": 60.0,
+          "unit": "mm",
+          "shap_value": 0.0063,
+          "contribution_pct": 0.0,
+          "direction": "RISK_INCREASING",
+          "description": "Abundant atmospheric moisture reservoir available for precipitation."
+        }
+      ],
+      "top_dampeners": [
+        {
+          "feature_id": "layer_elevation_m",
+          "display_name": "Surface Elevation (DEM)",
+          "value": 1250.0,
+          "unit": "m",
+          "shap_value": -0.006,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "High-altitude mountainous basin or glaciated valley."
+        },
+        {
+          "feature_id": "layer_metpy_cin_j_kg",
+          "display_name": "Convective Inhibition (CIN)",
+          "value": 0.0,
+          "unit": "J/kg",
+          "shap_value": -0.0032,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "Strong atmospheric capping inversion suppressing premature convection."
+        },
+        {
+          "feature_id": "layer_metpy_cape_j_kg",
+          "display_name": "Convective Instability (CAPE)",
+          "value": 3100.0,
+          "unit": "J/kg",
+          "shap_value": -0.0031,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "Extreme buoyant convective energy driving explosive vertical thunderstorm updrafts."
+        }
+      ],
+      "plain_language_summary": "\u26a0\ufe0f **TOPOGRAPHIC FLASH FLOOD RISK ALERT (100.0% probability at T+2h lead time):**\nThe high risk score is driven primarily by **Terrain Slope Gradient** (36.0 \u00b0, contributing 91.7% of elevated risk) combined with **Surface Precipitation Rate** (68.0 mm/hr, contributing 5.7%) and **Drainage Flow Accumulation** (180.0 cells). Physical Diagnosis: Steep terrain gradients and high flow accumulation funnel gravitational runoff directly into drainage gullies and riverbeds, dramatically elevating flash flood vulnerability."
+    },
+    "3": {
+      "hazard_type": "flash_flood",
+      "hazard_title": "Flash Flood",
+      "predicted_probability": 0.9998,
+      "lead_hours": 2,
+      "base_value": -6.3276,
+      "all_features": [
+        {
+          "feature_id": "layer_terrain_slope_deg",
+          "display_name": "Terrain Slope Gradient",
+          "value": 36.0,
+          "unit": "\u00b0",
+          "shap_value": 13.5936,
+          "contribution_pct": 91.7,
+          "direction": "RISK_INCREASING",
+          "description": "Steep mountain topography inducing rapid orographic lift and high runoff velocity."
+        },
+        {
+          "feature_id": "layer_precip_rate_mm_hr",
+          "display_name": "Surface Precipitation Rate",
+          "value": 82.0,
+          "unit": "mm/hr",
+          "shap_value": 0.8491,
+          "contribution_pct": 5.7,
+          "direction": "RISK_INCREASING",
+          "description": "Extreme localized cloudburst rainfall exceeding 50\u2013100 mm/hr."
+        },
+        {
+          "feature_id": "layer_flow_accumulation",
+          "display_name": "Drainage Flow Accumulation",
+          "value": 180.0,
+          "unit": "cells",
+          "shap_value": 0.3476,
+          "contribution_pct": 2.3,
+          "direction": "RISK_INCREASING",
+          "description": "Convergent hydrological channel concentrating upstream deluge into flash flooding."
+        },
+        {
+          "feature_id": "layer_iwv_mm",
+          "display_name": "Total Column Water Vapor (IWV)",
+          "value": 62.0,
+          "unit": "mm",
+          "shap_value": 0.0114,
+          "contribution_pct": 0.1,
+          "direction": "RISK_INCREASING",
+          "description": "Abundant atmospheric moisture reservoir available for precipitation."
+        },
+        {
+          "feature_id": "layer_iwv_rate_of_change_mm_hr",
+          "display_name": "Moisture Influx Rate (IWV Rate)",
+          "value": 4.5,
+          "unit": "mm/hr",
+          "shap_value": 0.01,
+          "contribution_pct": 0.1,
+          "direction": "RISK_INCREASING",
+          "description": "Intense atmospheric water vapor convergence rapidly refueling storm updrafts."
+        },
+        {
+          "feature_id": "layer_elevation_m",
+          "display_name": "Surface Elevation (DEM)",
+          "value": 1250.0,
+          "unit": "m",
+          "shap_value": -0.0056,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "High-altitude mountainous basin or glaciated valley."
+        },
+        {
+          "feature_id": "layer_cloud_top_temp_k",
+          "display_name": "Cloud Top Temperature (CTT)",
+          "value": 208.0,
+          "unit": "K",
+          "shap_value": 0.0041,
+          "contribution_pct": 0.0,
+          "direction": "RISK_INCREASING",
+          "description": "Deep penetrative convective anvil penetrating the tropopause (-50\u00b0C to -70\u00b0C)."
+        },
+        {
+          "feature_id": "lead_hours",
+          "display_name": "Prediction Lead Time Horizon",
+          "value": 2.0,
+          "unit": "hours",
+          "shap_value": 0.0041,
+          "contribution_pct": 0.0,
+          "direction": "RISK_INCREASING",
+          "description": "Immediate nowcasting horizon."
+        },
+        {
+          "feature_id": "layer_low_level_convergence_s1",
+          "display_name": "Low-Level Wind Convergence",
+          "value": 0.0001,
+          "unit": "10\u207b\u2075 s\u207b\u00b9",
+          "shap_value": 0.0035,
+          "contribution_pct": 0.0,
+          "direction": "RISK_INCREASING",
+          "description": "Strong boundary-layer wind convergence forcing continuous air parcel ascent."
+        },
+        {
+          "feature_id": "layer_metpy_cin_j_kg",
+          "display_name": "Convective Inhibition (CIN)",
+          "value": 0.0,
+          "unit": "J/kg",
+          "shap_value": -0.0034,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "Strong atmospheric capping inversion suppressing premature convection."
+        },
+        {
+          "feature_id": "layer_metpy_cape_j_kg",
+          "display_name": "Convective Instability (CAPE)",
+          "value": 3300.0,
+          "unit": "J/kg",
+          "shap_value": -0.0026,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "Extreme buoyant convective energy driving explosive vertical thunderstorm updrafts."
+        },
+        {
+          "feature_id": "layer_deep_layer_wind_shear_mps",
+          "display_name": "Deep-Layer Bulk Shear",
+          "value": 23.0,
+          "unit": "m/s",
+          "shap_value": -0.0026,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "High tropospheric shear sustaining severe squall lines and mesoscale convective systems."
+        },
+        {
+          "feature_id": "layer_ctt_cooling_rate_k_hr",
+          "display_name": "Rapid Cloud Cooling (-d(CTT)/dt)",
+          "value": 15.0,
+          "unit": "K/hr",
+          "shap_value": -0.0011,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "Violent cloud-top expansion and cooling signifying an intensifying cumulonimbus core."
+        },
+        {
+          "feature_id": "layer_vertical_wind_shear_mps",
+          "display_name": "Low-Level Wind Shear",
+          "value": 17.5,
+          "unit": "m/s",
+          "shap_value": 0.001,
+          "contribution_pct": 0.0,
+          "direction": "RISK_INCREASING",
+          "description": "Strong bulk vertical wind shear organizing multicell or supercell storms."
+        }
+      ],
+      "top_drivers": [
+        {
+          "feature_id": "layer_terrain_slope_deg",
+          "display_name": "Terrain Slope Gradient",
+          "value": 36.0,
+          "unit": "\u00b0",
+          "shap_value": 13.5936,
+          "contribution_pct": 91.7,
+          "direction": "RISK_INCREASING",
+          "description": "Steep mountain topography inducing rapid orographic lift and high runoff velocity."
+        },
+        {
+          "feature_id": "layer_precip_rate_mm_hr",
+          "display_name": "Surface Precipitation Rate",
+          "value": 82.0,
+          "unit": "mm/hr",
+          "shap_value": 0.8491,
+          "contribution_pct": 5.7,
+          "direction": "RISK_INCREASING",
+          "description": "Extreme localized cloudburst rainfall exceeding 50\u2013100 mm/hr."
+        },
+        {
+          "feature_id": "layer_flow_accumulation",
+          "display_name": "Drainage Flow Accumulation",
+          "value": 180.0,
+          "unit": "cells",
+          "shap_value": 0.3476,
+          "contribution_pct": 2.3,
+          "direction": "RISK_INCREASING",
+          "description": "Convergent hydrological channel concentrating upstream deluge into flash flooding."
+        },
+        {
+          "feature_id": "layer_iwv_mm",
+          "display_name": "Total Column Water Vapor (IWV)",
+          "value": 62.0,
+          "unit": "mm",
+          "shap_value": 0.0114,
+          "contribution_pct": 0.1,
+          "direction": "RISK_INCREASING",
+          "description": "Abundant atmospheric moisture reservoir available for precipitation."
+        },
+        {
+          "feature_id": "layer_iwv_rate_of_change_mm_hr",
+          "display_name": "Moisture Influx Rate (IWV Rate)",
+          "value": 4.5,
+          "unit": "mm/hr",
+          "shap_value": 0.01,
+          "contribution_pct": 0.1,
+          "direction": "RISK_INCREASING",
+          "description": "Intense atmospheric water vapor convergence rapidly refueling storm updrafts."
+        }
+      ],
+      "top_dampeners": [
+        {
+          "feature_id": "layer_elevation_m",
+          "display_name": "Surface Elevation (DEM)",
+          "value": 1250.0,
+          "unit": "m",
+          "shap_value": -0.0056,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "High-altitude mountainous basin or glaciated valley."
+        },
+        {
+          "feature_id": "layer_metpy_cin_j_kg",
+          "display_name": "Convective Inhibition (CIN)",
+          "value": 0.0,
+          "unit": "J/kg",
+          "shap_value": -0.0034,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "Strong atmospheric capping inversion suppressing premature convection."
+        },
+        {
+          "feature_id": "layer_metpy_cape_j_kg",
+          "display_name": "Convective Instability (CAPE)",
+          "value": 3300.0,
+          "unit": "J/kg",
+          "shap_value": -0.0026,
+          "contribution_pct": 0.0,
+          "direction": "RISK_DAMPENING",
+          "description": "Extreme buoyant convective energy driving explosive vertical thunderstorm updrafts."
+        }
+      ],
+      "plain_language_summary": "\u26a0\ufe0f **TOPOGRAPHIC FLASH FLOOD RISK ALERT (100.0% probability at T+2h lead time):**\nThe high risk score is driven primarily by **Terrain Slope Gradient** (36.0 \u00b0, contributing 91.7% of elevated risk) combined with **Surface Precipitation Rate** (82.0 mm/hr, contributing 5.7%) and **Drainage Flow Accumulation** (180.0 cells). Physical Diagnosis: Steep terrain gradients and high flow accumulation funnel gravitational runoff directly into drainage gullies and riverbeds, dramatically elevating flash flood vulnerability."
+    }
+  }
+}

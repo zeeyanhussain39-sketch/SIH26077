@@ -12,8 +12,8 @@ rasterio>=1.3.0
 scipy>=1.10.0
 metpy>=1.6.0
 
-# Machine Learning & Deep Learning (CPU-friendly PyTorch)
-torch>=2.0.0
+# Machine Learning & Deep Learning (Scikit-Learn Multi-Task Ensemble)
+# torch>=2.0.0  # Optional: only for offline experimental ConvLSTM in notebooks
 scikit-learn>=1.3.0
 
 # Explainable AI (XAI)
@@ -22,7 +22,6 @@ shap>=0.42.0
 # Interactive Dashboard & Spatial Visualization
 streamlit>=1.30.0
 folium>=0.15.0
-streamlit-folium>=0.16.0
 matplotlib>=3.7.0
 
 # Lightweight Alert API Backend (FastAPI) & Asynchronous Web Server

@@ -353,6 +353,14 @@ def extract_d8_streamlines(
             - 'confluences': list of dicts with 'lat', 'lon', 'flow_acc', 'risk_prob', 'label'
     """
     case_dir = PROCESSED_DATA_DIR / case_id
+    cached_json = case_dir / "d8_streamlines.json"
+    if cached_json.exists():
+        try:
+            with open(cached_json, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            pass
+
     cube_path = case_dir / f"feature_cube_{case_id}.nc"
     if not cube_path.exists():
         return {"streamlines": [], "confluences": []}
