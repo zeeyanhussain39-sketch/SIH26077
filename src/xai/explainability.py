@@ -222,23 +222,34 @@ class SevereWeatherShapExplainer:
         self._load_model_and_explainers()
 
     def _load_model_and_explainers(self) -> None:
-        """Loads trained multi-task model and initializes SHAP TreeExplainers."""
+        """Loads trained multi-task model and prepares on-demand SHAP TreeExplainers."""
         if not self.model_path.exists():
             print(f"[SHAP] Model not found at {self.model_path}. Running in fallback mode.")
             return
 
         try:
-            import shap
             self.model_wrapper = joblib.load(self.model_path)
             self.feature_columns = self.model_wrapper.feature_columns
-
-            # Initialize fast TreeExplainers for each head
-            self.explainers["severe_thunderstorm"] = shap.TreeExplainer(self.model_wrapper.head_thunderstorm)
-            self.explainers["cloudburst"] = shap.TreeExplainer(self.model_wrapper.head_cloudburst)
-            self.explainers["flash_flood"] = shap.TreeExplainer(self.model_wrapper.head_flash_flood)
-            print(f"[SHAP] Successfully initialized SHAP TreeExplainers for all 3 hazard heads.")
+            print(f"[SHAP] Successfully loaded multi-task model with {len(self.feature_columns)} feature columns.")
         except Exception as e:
-            print(f"[SHAP] Error initializing TreeExplainer: {e}. Falling back to gradient proxy.")
+            print(f"[SHAP] Error loading model wrapper: {e}. Falling back to gradient proxy.")
+
+    def _get_explainer(self, hazard_key: str):
+        """Lazily initializes and caches SHAP TreeExplainer for the requested hazard."""
+        if hazard_key not in self.explainers and self.model_wrapper is not None:
+            try:
+                import shap
+                if "thunder" in hazard_key:
+                    head = self.model_wrapper.head_thunderstorm
+                elif "flood" in hazard_key:
+                    head = self.model_wrapper.head_flash_flood
+                else:
+                    head = self.model_wrapper.head_cloudburst
+                self.explainers[hazard_key] = shap.TreeExplainer(head)
+                print(f"[SHAP] Initialized on-demand TreeExplainer for {hazard_key}.")
+            except Exception as e:
+                print(f"[SHAP] Error initializing TreeExplainer for {hazard_key}: {e}. Falling back to gradient proxy.")
+        return self.explainers.get(hazard_key)
 
     def explain_grid_cell(
         self,
@@ -274,8 +285,8 @@ class SevereWeatherShapExplainer:
             df_x = pd.DataFrame()
 
         # Execute SHAP TreeExplainer if available
-        if hazard_key in self.explainers and not df_x.empty:
-            explainer = self.explainers[hazard_key]
+        explainer = self._get_explainer(hazard_key)
+        if explainer is not None and not df_x.empty:
             if "thunder" in hazard_key:
                 head = self.model_wrapper.head_thunderstorm
             elif "flood" in hazard_key:

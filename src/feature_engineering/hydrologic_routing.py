@@ -36,6 +36,8 @@ except Exception as _rasterio_err:
     rasterio = None
     from_bounds = None
     HAS_RASTERIO = False
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 PROCESSED_DATA_DIR = PROJECT_ROOT / "data" / "processed"
 
 

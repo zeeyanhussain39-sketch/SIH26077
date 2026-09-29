@@ -304,6 +304,18 @@ def load_case_feature_table(case_id: str) -> Optional[pd.DataFrame]:
     return None
 
 
+@st.cache_resource(show_spinner=False)
+def get_cached_shap_explainer():
+    """Loads and caches the multi-task model and XAI explainer singleton."""
+    return get_default_shap_explainer()
+
+
+@st.cache_data(show_spinner=False)
+def get_cached_d8_streamlines(case_id: str, min_accumulation: float = 4.0, max_paths: int = 30) -> Dict[str, Any]:
+    """Caches topological D8 streamlines calculation across user interactions."""
+    return extract_d8_streamlines(case_id, min_accumulation=min_accumulation, max_paths=max_paths)
+
+
 def generate_convective_radar_chart(features: Dict[str, float], dark_theme: bool = True) -> plt.Figure:
     """Generates a 5-axis polar radar chart contrasting current convective precursors vs severe threshold."""
     categories = ['Moisture (IWV)', 'Buoyancy (CAPE)', 'Updraft (CTT)', 'Kinematics (Shear)', 'Topography (Slope)']
@@ -795,7 +807,7 @@ if is_scripted_mode:
 # -----------------------------------------------------------------------------
 # Data Ingestion & Model Nowcast Computation for Active Time Step
 # -----------------------------------------------------------------------------
-explainer = get_default_shap_explainer()
+explainer = get_cached_shap_explainer()
 model_wrapper = explainer.model_wrapper
 
 if is_scripted_mode:
@@ -945,7 +957,7 @@ with map_col:
     ).add_to(f_map)
 
     # 2. Topographic Drainage Network (Always visible or highlighted in flood mode)
-    routing_data = extract_d8_streamlines(selected_case_id, min_accumulation=4.0, max_paths=30)
+    routing_data = get_cached_d8_streamlines(selected_case_id, min_accumulation=4.0, max_paths=30)
     if not routing_data["streamlines"]:
         routing_data = generate_synthetic_drainage_streamlines(case_info["lat"], case_info["lon"], case_info["slope"])
 
