@@ -316,6 +316,18 @@ def get_cached_d8_streamlines(case_id: str, min_accumulation: float = 4.0, max_p
     return extract_d8_streamlines(case_id, min_accumulation=min_accumulation, max_paths=max_paths)
 
 
+@st.cache_data(show_spinner=False)
+def get_cached_zone_explanation(hazard_type: str, features_json: str, lead_hours: int) -> Dict[str, Any]:
+    """Caches computed SHAP attributions and plain-language explanation for instant UI reactivity."""
+    features = json.loads(features_json)
+    explainer = get_cached_shap_explainer()
+    return explainer.explain_grid_cell(
+        hazard_type=hazard_type,
+        features=features,
+        lead_hours=lead_hours
+    )
+
+
 def generate_convective_radar_chart(features: Dict[str, float], dark_theme: bool = True) -> plt.Figure:
     """Generates a 5-axis polar radar chart contrasting current convective precursors vs severe threshold."""
     categories = ['Moisture (IWV)', 'Buoyancy (CAPE)', 'Updraft (CTT)', 'Kinematics (Shear)', 'Topography (Slope)']
@@ -743,66 +755,49 @@ if is_scripted_mode:
     tier_color = "#ef4444" if tier == "RED" else ("#f97316" if tier == "ORANGE" else "#eab308")
 
     # 1. Scientific Transparency Banner
-    st.markdown(f"""
-    <div style="background: rgba(14, 165, 233, 0.12); border: 2px solid #0284c7; border-radius: 10px; padding: 14px 18px; margin-bottom: 14px; box-shadow: 0 4px 16px rgba(0,0,0,0.25);">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-            <div>
-                <span style="background: #0284c7; color: white; padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size: 0.76rem; letter-spacing: 0.04em;">
-                    🔬 HISTORICAL VALIDATION REPLAY
-                </span>
-                <span style="color: #f8fafc; font-weight: 700; font-size: 0.96rem; margin-left: 10px;">
-                    {active_scenario['title']}
-                </span>
-            </div>
-            <div style="color: #38bdf8; font-size: 0.8rem; font-weight: 600;">
-                IMD Report: {active_scenario['official_reference'].split(':')[0]}
-            </div>
-        </div>
-        <p style="margin: 0; color: #bae6fd; font-size: 0.84rem; line-height: 1.45;">
-            <strong>📢 Critical Transparency Notice for Judges:</strong> This scenario is an empirical historical case study validating the nowcasting model's physical precursor tracking against known, documented ground truth from published IMD post-disaster reports. It is <strong>explicitly NOT a mock live forecast</strong>. Validating on real disaster records demonstrates that the model captures physical convective precursors <strong>2 to 4 hours prior to onset</strong>.
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown(f"""<div style="background: rgba(14, 165, 233, 0.12); border: 2px solid #0284c7; border-radius: 10px; padding: 14px 18px; margin-bottom: 14px; box-shadow: 0 4px 16px rgba(0,0,0,0.25);">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+<div>
+<span style="background: #0284c7; color: white; padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size: 0.76rem; letter-spacing: 0.04em;">🔬 HISTORICAL VALIDATION REPLAY</span>
+<span style="color: #f8fafc; font-weight: 700; font-size: 0.96rem; margin-left: 10px;">{active_scenario['title']}</span>
+</div>
+<div style="color: #38bdf8; font-size: 0.8rem; font-weight: 600;">IMD Report: {active_scenario['official_reference'].split(':')[0]}</div>
+</div>
+<p style="margin: 0; color: #bae6fd; font-size: 0.84rem; line-height: 1.45;">
+<strong>📢 Critical Transparency Notice for Judges:</strong> This scenario is an empirical historical case study validating the nowcasting model's physical precursor tracking against known, documented ground truth from published IMD post-disaster reports. It is <strong>explicitly NOT a mock live forecast</strong>. Validating on real disaster records demonstrates that the model captures physical convective precursors <strong>2 to 4 hours prior to onset</strong>.
+</p>
+</div>""", unsafe_allow_html=True)
 
     # 2. Narration Teleprompter Card
-    st.markdown(f"""
-    <div style="background: rgba(18, 24, 38, 0.9); border: 1px solid rgba(255,255,255,0.12); border-left: 6px solid {tier_color}; border-radius: 10px; padding: 16px 20px; margin-bottom: 16px; box-shadow: 0 6px 20px rgba(0,0,0,0.35);">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <div>
-                <span style="background: {tier_color}; color: white; padding: 3px 8px; border-radius: 4px; font-weight: bold; font-size: 0.78rem;">
-                    {active_stage['predictions']['alert_tier']} ALERT
-                </span>
-                <strong style="color: #f8fafc; font-size: 1.05rem; margin-left: 10px;">
-                    {active_stage['stage_title']}
-                </strong>
-            </div>
-            <div style="font-size: 0.84rem; color: #94a3b8;">
-                Time: <strong style="color: #38bdf8;">{active_stage['time_utc']}</strong> ({active_stage['time_ist']}) | 
-                Lead Window: <strong style="color: #fbbf24;">T + {active_stage['lead_hours']}h</strong> | 
-                Hours to Onset: <strong style="color: {'#ef4444' if active_stage['hours_to_onset'] <= 2 else '#22c55e'};">{active_stage['hours_to_onset']:.1f}h</strong>
-            </div>
-        </div>
-        
-        <div style="display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 16px; margin-top: 8px;">
-            <div>
-                <div style="background: rgba(15, 23, 42, 0.75); border-left: 3px solid #38bdf8; padding: 10px 14px; border-radius: 6px; margin-bottom: 10px; font-size: 0.85rem; color: #cbd5e1; line-height: 1.45;">
-                    <strong style="color: #38bdf8;">🗺️ What's Happening on Screen:</strong><br>
-                    {active_stage['on_screen_visuals']}
-                </div>
-                <div style="background: rgba(15, 23, 42, 0.75); border-left: 3px solid #22c55e; padding: 10px 14px; border-radius: 6px; font-size: 0.83rem; color: #cbd5e1; line-height: 1.45;">
-                    <strong style="color: #22c55e;">📋 Documented IMD Ground Truth Fact:</strong><br>
-                    {active_stage['ground_truth_fact']}
-                </div>
-            </div>
-            <div>
-                <div style="background: rgba(2, 6, 23, 0.85); border: 1px solid rgba(56, 189, 248, 0.3); padding: 12px 16px; border-radius: 8px; font-size: 0.86rem; color: #f1f5f9; line-height: 1.5; font-style: italic;">
-                    <strong style="color: #fbbf24; font-style: normal; display: block; margin-bottom: 4px;">🎙️ Verbatim Narration Script for Judges:</strong>
-                    {active_stage['narration_script']}
-                </div>
-            </div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown(f"""<div style="background: rgba(18, 24, 38, 0.9); border: 1px solid rgba(255,255,255,0.12); border-left: 6px solid {tier_color}; border-radius: 10px; padding: 16px 20px; margin-bottom: 16px; box-shadow: 0 6px 20px rgba(0,0,0,0.35);">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+<div>
+<span style="background: {tier_color}; color: white; padding: 3px 8px; border-radius: 4px; font-weight: bold; font-size: 0.78rem;">{active_stage['predictions']['alert_tier']} ALERT</span>
+<strong style="color: #f8fafc; font-size: 1.05rem; margin-left: 10px;">{active_stage['stage_title']}</strong>
+</div>
+<div style="font-size: 0.84rem; color: #94a3b8;">
+Time: <strong style="color: #38bdf8;">{active_stage['time_utc']}</strong> ({active_stage['time_ist']}) | 
+Lead Window: <strong style="color: #fbbf24;">T + {active_stage['lead_hours']}h</strong> | 
+Hours to Onset: <strong style="color: {'#ef4444' if active_stage['hours_to_onset'] <= 2 else '#22c55e'};">{active_stage['hours_to_onset']:.1f}h</strong>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 16px; margin-top: 8px;">
+<div>
+<div style="background: rgba(15, 23, 42, 0.75); border-left: 3px solid #38bdf8; padding: 10px 14px; border-radius: 6px; margin-bottom: 10px; font-size: 0.85rem; color: #cbd5e1; line-height: 1.45;">
+<strong style="color: #38bdf8;">🗺️ What's Happening on Screen:</strong><br>{active_stage['on_screen_visuals']}
+</div>
+<div style="background: rgba(15, 23, 42, 0.75); border-left: 3px solid #22c55e; padding: 10px 14px; border-radius: 6px; font-size: 0.83rem; color: #cbd5e1; line-height: 1.45;">
+<strong style="color: #22c55e;">📋 Documented IMD Ground Truth Fact:</strong><br>{active_stage['ground_truth_fact']}
+</div>
+</div>
+<div>
+<div style="background: rgba(2, 6, 23, 0.85); border: 1px solid rgba(56, 189, 248, 0.3); padding: 12px 16px; border-radius: 8px; font-size: 0.86rem; color: #f1f5f9; line-height: 1.5; font-style: italic;">
+<strong style="color: #fbbf24; font-style: normal; display: block; margin-bottom: 4px;">🎙️ Verbatim Narration Script for Judges:</strong>
+{active_stage['narration_script']}
+</div>
+</div>
+</div>
+</div>""", unsafe_allow_html=True)
 
 # -----------------------------------------------------------------------------
 # Data Ingestion & Model Nowcast Computation for Active Time Step
@@ -1006,17 +1001,13 @@ with map_col:
 
     # Explanatory visual contrast callout
     if is_flood:
-        st.markdown("""
-        <div style="background: rgba(30, 58, 138, 0.25); border: 1px solid #3b82f6; border-radius: 8px; padding: 10px 14px; margin-top: 8px; font-size: 0.85rem; color: #bfdbfe;">
-            <strong>🌊 Topographic Hydrology Active:</strong> Risk concentrates strictly in low-lying gullies, riverbeds, and drainage channels (reaching 75–98%), while steep knife-edge ridges shed water instantly with low ponding risk.
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown("""<div style="background: rgba(30, 58, 138, 0.25); border: 1px solid #3b82f6; border-radius: 8px; padding: 10px 14px; margin-top: 8px; font-size: 0.85rem; color: #bfdbfe;">
+<strong>🌊 Topographic Hydrology Active:</strong> Risk concentrates strictly in low-lying gullies, riverbeds, and drainage channels (reaching 75–98%), while steep knife-edge ridges shed water instantly with low ponding risk.
+</div>""", unsafe_allow_html=True)
     else:
-        st.markdown("""
-        <div style="background: rgba(180, 83, 9, 0.2); border: 1px solid #d97706; border-radius: 8px; padding: 10px 14px; margin-top: 8px; font-size: 0.85rem; color: #fde68a;">
-            <strong>🌧️ Convective Core Active:</strong> Atmospheric footprint representing convective cloudburst core and torrential precipitation dumping from the storm cloud.
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown("""<div style="background: rgba(180, 83, 9, 0.2); border: 1px solid #d97706; border-radius: 8px; padding: 10px 14px; margin-top: 8px; font-size: 0.85rem; color: #fde68a;">
+<strong>🌧️ Convective Core Active:</strong> Atmospheric footprint representing convective cloudburst core and torrential precipitation dumping from the storm cloud.
+</div>""", unsafe_allow_html=True)
 
 
 with right_col:
@@ -1063,20 +1054,18 @@ with right_col:
             "lead_hours": float(lead_time)
         }
 
-    # Execute SHAP explanation for the zone
+    # Execute SHAP explanation for the zone (cached per hazard & features)
     hazard_to_explain = case_info["primary_hazard_key"]
-    shap_explanation = explainer.explain_grid_cell(
+    shap_explanation = get_cached_zone_explanation(
         hazard_type=hazard_to_explain,
-        features=zone_features,
-        lead_hours=lead_time
+        features_json=json.dumps(zone_features, sort_keys=True),
+        lead_hours=int(lead_time)
     )
 
     # 1. Plain-Language Operational Reasoning
-    st.markdown(f"""
-    <div style="background: rgba(15, 23, 42, 0.75); border-left: 4px solid #ef4444; padding: 12px 16px; border-radius: 6px; font-size: 0.86rem; margin-bottom: 12px; line-height: 1.5; color: #f1f5f9;">
-        {shap_explanation['plain_language_summary']}
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown(f"""<div style="background: rgba(15, 23, 42, 0.75); border-left: 4px solid #ef4444; padding: 12px 16px; border-radius: 6px; font-size: 0.86rem; margin-bottom: 12px; line-height: 1.5; color: #f1f5f9;">
+{shap_explanation['plain_language_summary']}
+</div>""", unsafe_allow_html=True)
 
     # 2. Multi-Tab Diagnostic Display: SHAP Attribution, Convective Radar, and Variables Table
     xai_tab1, xai_tab2, xai_tab3 = st.tabs([
@@ -1163,16 +1152,14 @@ df_timeline = pd.DataFrame(timeline_data)
 st.line_chart(df_timeline.set_index("Timestamp"), color=["#ef4444", "#eab308", "#0284c7"], height=240)
 
 # Lead Time Rationale Callout
-st.markdown(f"""
-<div style="background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 14px 18px; margin-top: 10px; font-size: 0.85rem; color: #cbd5e1;">
-    <strong>⏱️ 2–6 Hour Lead Time Operational Significance:</strong>
-    <ul>
-        <li><strong>T + 6h to T + 5h (Early Advisory):</strong> High total column water vapor influx and synoptic convergence detected. Climatological advisory issued to state control rooms.</li>
-        <li><strong>T + 4h to T + 3h (Orange Warning):</strong> Rapid cloud-top temperature drop ($-18$ K/hr) and extreme CAPE escalation pinpoint localized convective updraft cores. Pre-position NDRF teams.</li>
-        <li><strong>T + 2h (Immediate Red Alert):</strong> Radar reflectivity exceeds 50 dBZ and D8 hydraulic routing flags critical valley gullies for imminent flash flood inundation. Trigger public evacuation sirens.</li>
-    </ul>
-</div>
-""", unsafe_allow_html=True)
+st.markdown("""<div style="background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 14px 18px; margin-top: 10px; font-size: 0.85rem; color: #cbd5e1;">
+<strong>⏱️ 2–6 Hour Lead Time Operational Significance:</strong>
+<ul style="margin: 8px 0 0 18px; padding: 0;">
+<li><strong>T + 6h to T + 5h (Early Advisory):</strong> High total column water vapor influx and synoptic convergence detected. Climatological advisory issued to state control rooms.</li>
+<li><strong>T + 4h to T + 3h (Orange Warning):</strong> Rapid cloud-top temperature drop (-18 K/hr) and extreme CAPE escalation pinpoint localized convective updraft cores. Pre-position NDRF teams.</li>
+<li><strong>T + 2h (Immediate Red Alert):</strong> Radar reflectivity exceeds 50 dBZ and D8 hydraulic routing flags critical valley gullies for imminent flash flood inundation. Trigger public evacuation sirens.</li>
+</ul>
+</div>""", unsafe_allow_html=True)
 
 # -----------------------------------------------------------------------------
 # Bottom Section: Hydrologic Routing, CAP-v1.2, Architecture, & Datasets
@@ -1229,17 +1216,15 @@ with tab1:
     st.caption("Automated threshold-triggered hazard warnings conforming to Common Alerting Protocol (CAP-v1.2) with in-dashboard notification stream and free-tier email dispatch.")
 
     # Prominent Demo Disclaimer
-    st.markdown("""
-    <div style="background: rgba(30, 41, 59, 0.75); border-left: 4px solid #38bdf8; border-radius: 8px; padding: 14px 18px; margin-bottom: 20px; font-size: 0.86rem; line-height: 1.5; color: #cbd5e1;">
-        <strong>ℹ️ Operational Prototype Notice (Zero Paid Cloud / 100% Free Stack):</strong><br>
-        In strict adherence to the free/open-source requirement (no paid SMS/push services like Twilio, SendGrid, or AWS SNS), this system implements alert delivery via:
-        <ul style="margin: 6px 0 0 0; padding-left: 20px;">
-            <li><strong>(a) Live In-Dashboard Notification Feed:</strong> An active warning queue updating immediately whenever a risk grid cell crosses defined hazard thresholds (Yellow &ge;20%, Orange &ge;40%, Red &ge;70%).</li>
-            <li><strong>(b) Optional Free-Tier Email Alerting via Python <code>smtplib</code>:</strong> Standard library TLS dispatch compatible with free email providers (e.g. Gmail / Outlook with a free App Password), including an automated <strong>Simulated Demo Dispatch Mode</strong> for evaluation without requiring external credentials.</li>
-        </ul>
-        <em>In production, this module acts as the automated trigger feed for national emergency dissemination systems (NDMA SACHET, IMD Doppler Weather Radar bulletins, and telecom Cell Broadcast sirens).</em>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown("""<div style="background: rgba(30, 41, 59, 0.75); border-left: 4px solid #38bdf8; border-radius: 8px; padding: 14px 18px; margin-bottom: 20px; font-size: 0.86rem; line-height: 1.5; color: #cbd5e1;">
+<strong>ℹ️ Operational Prototype Notice (Zero Paid Cloud / 100% Free Stack):</strong><br>
+In strict adherence to the free/open-source requirement (no paid SMS/push services like Twilio, SendGrid, or AWS SNS), this system implements alert delivery via:
+<ul style="margin: 6px 0 0 0; padding-left: 20px;">
+<li><strong>(a) Live In-Dashboard Notification Feed:</strong> An active warning queue updating immediately whenever a risk grid cell crosses defined hazard thresholds (Yellow &ge;20%, Orange &ge;40%, Red &ge;70%).</li>
+<li><strong>(b) Optional Free-Tier Email Alerting via Python <code>smtplib</code>:</strong> Standard library TLS dispatch compatible with free email providers (e.g. Gmail / Outlook with a free App Password), including an automated <strong>Simulated Demo Dispatch Mode</strong> for evaluation without requiring external credentials.</li>
+</ul>
+<em>In production, this module acts as the automated trigger feed for national emergency dissemination systems (NDMA SACHET, IMD Doppler Weather Radar bulletins, and telecom Cell Broadcast sirens).</em>
+</div>""", unsafe_allow_html=True)
 
     # Official NDMA SITREP Generator
     sitrep_text = generate_ndma_sitrep(
@@ -1391,12 +1376,10 @@ with tab1:
 
         # Optional SMTP Credentials Accordion
         with st.expander("⚙️ Optional Free-Tier SMTP Provider Settings (Gmail / Outlook)"):
-            st.markdown("""
-            <div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 8px;">
-                Enter your free SMTP credentials (e.g. Gmail with a 16-character App Password).<br>
-                <em>If left empty, system operates in <strong>Simulated Demo Dispatch Mode</strong> (generates full responsive HTML email and logs dispatch to audit disk without errors).</em>
-            </div>
-            """, unsafe_allow_html=True)
+            st.markdown("""<div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 8px;">
+Enter your free SMTP credentials (e.g. Gmail with a 16-character App Password).<br>
+<em>If left empty, system operates in <strong>Simulated Demo Dispatch Mode</strong> (generates full responsive HTML email and logs dispatch to audit disk without errors).</em>
+</div>""", unsafe_allow_html=True)
             smtp_host_in = st.text_input("SMTP Host", value="smtp.gmail.com")
             smtp_port_in = st.number_input("SMTP Port", value=587, min_value=25, max_value=65535)
             smtp_user_in = st.text_input("SMTP Username / Email", value="", help="e.g. your-email@gmail.com")
