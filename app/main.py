@@ -67,30 +67,30 @@ st.set_page_config(
 )
 
 # -----------------------------------------------------------------------------
-# Premium Dark Atmospheric CSS Styling
+# Clean Modern Light / White Mode CSS Styling
 # -----------------------------------------------------------------------------
 st.markdown("""
 <style>
     /* Global Background and Fonts */
     .main {
-        background: radial-gradient(circle at 10% 20%, #0d131f 0%, #06090e 90%);
-        color: #e2e8f0;
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        background: #ffffff;
+        color: #0f172a;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
     
-    /* Metric Cards */
+    /* Clean Metric Cards */
     .metric-card {
-        background: rgba(18, 24, 38, 0.75);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
         border-radius: 12px;
         padding: 16px 18px;
-        backdrop-filter: blur(12px);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-        transition: transform 0.2s ease, border-color 0.2s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     }
     .metric-card:hover {
         transform: translateY(-2px);
-        border-color: rgba(56, 189, 248, 0.4);
+        border-color: #0284c7;
+        box-shadow: 0 8px 20px rgba(2, 132, 199, 0.12);
     }
     
     .card-title {
@@ -98,7 +98,7 @@ st.markdown("""
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.08em;
-        color: #94a3b8;
+        color: #64748b;
         margin-bottom: 6px;
     }
     
@@ -106,14 +106,14 @@ st.markdown("""
         font-size: 1.75rem;
         font-weight: 800;
         line-height: 1.2;
-        color: #f8fafc;
+        color: #0f172a;
     }
     
-    /* Alert Badges */
+    /* Alert Badges - High Contrast Light Mode */
     .badge-red {
-        background: linear-gradient(135deg, rgba(239, 68, 68, 0.25), rgba(185, 28, 28, 0.4));
-        border: 1px solid #ef4444;
-        color: #fca5a5;
+        background: #fee2e2;
+        border: 1px solid #f87171;
+        color: #b91c1c;
         padding: 4px 10px;
         border-radius: 9999px;
         font-size: 0.75rem;
@@ -122,9 +122,9 @@ st.markdown("""
         display: inline-block;
     }
     .badge-orange {
-        background: linear-gradient(135deg, rgba(249, 115, 22, 0.25), rgba(194, 65, 12, 0.4));
-        border: 1px solid #f97316;
-        color: #fdba74;
+        background: #ffedd5;
+        border: 1px solid #fb923c;
+        color: #c2410c;
         padding: 4px 10px;
         border-radius: 9999px;
         font-size: 0.75rem;
@@ -132,9 +132,9 @@ st.markdown("""
         display: inline-block;
     }
     .badge-yellow {
-        background: linear-gradient(135deg, rgba(234, 179, 8, 0.25), rgba(161, 98, 7, 0.4));
-        border: 1px solid #eab308;
-        color: #fef08a;
+        background: #fef9c3;
+        border: 1px solid #facc15;
+        color: #854d0e;
         padding: 4px 10px;
         border-radius: 9999px;
         font-size: 0.75rem;
@@ -142,9 +142,9 @@ st.markdown("""
         display: inline-block;
     }
     .badge-green {
-        background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(21, 128, 61, 0.3));
-        border: 1px solid #22c55e;
-        color: #86efac;
+        background: #dcfce7;
+        border: 1px solid #4ade80;
+        color: #15803d;
         padding: 4px 10px;
         border-radius: 9999px;
         font-size: 0.75rem;
@@ -154,21 +154,21 @@ st.markdown("""
     
     /* Header & Summary Boxes */
     .header-box {
-        background: linear-gradient(90deg, rgba(30, 41, 59, 0.75) 0%, rgba(15, 23, 42, 0.85) 100%);
-        border: 1px solid rgba(56, 189, 248, 0.2);
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f8fafc 100%);
+        border: 1px solid #bae6fd;
         border-radius: 14px;
         padding: 20px 24px;
         margin-bottom: 20px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        box-shadow: 0 4px 16px rgba(2, 132, 199, 0.08);
     }
 
     .summary-panel {
-        background: rgba(15, 23, 42, 0.85);
-        border: 1px solid rgba(56, 189, 248, 0.25);
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
         border-radius: 12px;
         padding: 16px 20px;
         margin-bottom: 20px;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
     }
     
     .lead-badge {
@@ -199,6 +199,7 @@ st.markdown("""
     }
 </style>
 """, unsafe_allow_html=True)
+
 
 # -----------------------------------------------------------------------------
 # Case Studies & Benchmark Hotspots Database
@@ -332,7 +333,7 @@ def load_scripted_shap_cache() -> Dict[str, Any]:
     return {}
 
 
-def generate_convective_radar_chart(features: Dict[str, float], dark_theme: bool = True) -> plt.Figure:
+def generate_convective_radar_chart(features: Dict[str, float], dark_theme: bool = False) -> plt.Figure:
     """Generates a 5-axis polar radar chart contrasting current convective precursors vs severe threshold."""
     categories = ['Moisture (IWV)', 'Buoyancy (CAPE)', 'Updraft (CTT)', 'Kinematics (Shear)', 'Topography (Slope)']
     N = len(categories)
@@ -360,8 +361,16 @@ def generate_convective_radar_chart(features: Dict[str, float], dark_theme: bool
         ax.tick_params(colors='#94a3b8')
         ax.spines['polar'].set_color('#334155')
         grid_color = '#1e293b'
+        val_color = '#00d2ff'
+        label_color = '#cbd5e1'
     else:
+        fig.patch.set_facecolor('#ffffff')
+        ax.set_facecolor('#f8fafc')
+        ax.tick_params(colors='#475569')
+        ax.spines['polar'].set_color('#cbd5e1')
         grid_color = '#e2e8f0'
+        val_color = '#0284c7'
+        label_color = '#1e293b'
         
     ax.set_theta_offset(np.pi / 2)
     ax.set_theta_direction(-1)
@@ -374,11 +383,11 @@ def generate_convective_radar_chart(features: Dict[str, float], dark_theme: bool
     ax.plot(angles, thresholds, color='#ef4444', linewidth=1.5, linestyle='--', label='Severe Convective Threshold')
     ax.fill(angles, thresholds, color='#ef4444', alpha=0.08)
     
-    ax.plot(angles, values, color='#00d2ff', linewidth=2.5, linestyle='solid', label='Current Measured Precursor State')
-    ax.fill(angles, values, color='#00d2ff', alpha=0.35)
+    ax.plot(angles, values, color=val_color, linewidth=2.5, linestyle='solid', label='Current Measured Precursor State')
+    ax.fill(angles, values, color=val_color, alpha=0.35)
     
     ax.grid(color=grid_color, linestyle=':')
-    ax.legend(loc='lower center', bbox_to_anchor=(0.5, -0.25), frameon=False, fontsize=8, labelcolor='#cbd5e1')
+    ax.legend(loc='lower center', bbox_to_anchor=(0.5, -0.25), frameon=False, fontsize=8, labelcolor=label_color)
     plt.tight_layout()
     return fig
 
@@ -455,15 +464,15 @@ System: SIH 26077 Open-Source Nowcasting Engine | Reference: MoES / NCMRWF
 def render_audio_siren_component(alert_tier: str = "RED"):
     """Renders a client-side Web Audio API synthesizer button for CAP emergency warning siren."""
     siren_html = """
-    <div style="display: flex; align-items: center; justify-content: space-between; background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 8px; padding: 10px 16px; margin: 10px 0;">
+    <div style="display: flex; align-items: center; justify-content: space-between; background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 10px 16px; margin: 10px 0; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.06);">
         <div style="display: flex; align-items: center; gap: 8px;">
             <span style="font-size: 1.25rem;">🚨</span>
             <div>
-                <strong style="color: #fca5a5; font-size: 0.86rem;">CAP Emergency Warning Siren (Audio Synthesizer)</strong>
-                <div style="color: #94a3b8; font-size: 0.76rem;">Client-side Web Audio API (zero audio files needed, works offline & cloud).</div>
+                <strong style="color: #991b1b; font-size: 0.86rem;">CAP Emergency Warning Siren (Audio Synthesizer)</strong>
+                <div style="color: #64748b; font-size: 0.76rem;">Client-side Web Audio API (zero audio files needed, works offline & cloud).</div>
             </div>
         </div>
-        <button id="cap-siren-btn" onclick="playCapSiren()" style="background: linear-gradient(135deg, #ef4444, #b91c1c); color: white; border: none; border-radius: 6px; padding: 7px 14px; font-weight: 700; font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(239,68,68,0.35); transition: transform 0.15s ease;">
+        <button id="cap-siren-btn" onclick="playCapSiren()" style="background: linear-gradient(135deg, #ef4444, #b91c1c); color: white; border: none; border-radius: 6px; padding: 7px 14px; font-weight: 700; font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(239,68,68,0.25); transition: transform 0.15s ease;">
             🔊 Play Siren Tone (800/960 Hz)
         </button>
     </div>
@@ -499,7 +508,7 @@ def render_audio_siren_component(alert_tier: str = "RED"):
 def generate_fallback_flood_graphic(case_id: str, lead_time: int) -> plt.Figure:
     """Generates an in-memory 4-panel comparison graphic ensuring zero broken placeholders."""
     fig, axes = plt.subplots(2, 2, figsize=(10, 8))
-    fig.patch.set_facecolor('#0b111e')
+    fig.patch.set_facecolor('#ffffff')
     
     y, x = np.ogrid[:80, :80]
     dist = np.sqrt((x - 40)**2 + (y - 40)**2)
@@ -510,28 +519,28 @@ def generate_fallback_flood_graphic(case_id: str, lead_time: int) -> plt.Figure:
     flood = np.clip(rain * 0.3 + (channel_mask * 65.0), 0, 100)
     
     for ax in axes.flat:
-        ax.set_facecolor('#0b111e')
-        ax.tick_params(colors='#64748b')
+        ax.set_facecolor('#f8fafc')
+        ax.tick_params(colors='#475569')
     
     im0 = axes[0, 0].imshow(rain, cmap='inferno')
-    axes[0, 0].set_title("1. Atmospheric Cloudburst Rain Core (mm/hr)", color='#f8fafc', fontsize=10, weight='bold')
+    axes[0, 0].set_title("1. Atmospheric Cloudburst Rain Core (mm/hr)", color='#0f172a', fontsize=10, weight='bold')
     plt.colorbar(im0, ax=axes[0, 0], fraction=0.046, pad=0.04)
     
     im1 = axes[0, 1].imshow(dem, cmap='terrain')
-    axes[0, 1].set_title("2. SRTM 30m Digital Elevation Model (m MSL)", color='#f8fafc', fontsize=10, weight='bold')
+    axes[0, 1].set_title("2. SRTM 30m Digital Elevation Model (m MSL)", color='#0f172a', fontsize=10, weight='bold')
     plt.colorbar(im1, ax=axes[0, 1], fraction=0.046, pad=0.04)
     
     im2 = axes[1, 0].imshow(flood, cmap='Blues')
-    axes[1, 0].set_title("3. D8 Topographically Routed Flash Flood Risk (%)", color='#38bdf8', fontsize=10, weight='bold')
+    axes[1, 0].set_title("3. D8 Topographically Routed Flash Flood Risk (%)", color='#0284c7', fontsize=10, weight='bold')
     plt.colorbar(im2, ax=axes[1, 0], fraction=0.046, pad=0.04)
     
-    axes[1, 1].plot(rain[40, :], label='Atmospheric Rain Intensity', color='#f97316', linewidth=2)
-    axes[1, 1].plot(flood[40, :], label='Valley Routed Flood Surge', color='#00d2ff', linewidth=2.5)
-    axes[1, 1].set_title("4. Cross-Section: Valley Surge vs Ridge Runoff", color='#f8fafc', fontsize=10, weight='bold')
-    axes[1, 1].set_xlabel("Cross-Section Grid Cells (Ridge to Valley)", color='#94a3b8', fontsize=8)
-    axes[1, 1].set_ylabel("Risk / Intensity", color='#94a3b8', fontsize=8)
-    axes[1, 1].grid(color='#1e293b', linestyle=':')
-    axes[1, 1].legend(fontsize=8, facecolor='#0f172a', edgecolor='#334155', labelcolor='#cbd5e1')
+    axes[1, 1].plot(rain[40, :], label='Atmospheric Rain Intensity', color='#ea580c', linewidth=2)
+    axes[1, 1].plot(flood[40, :], label='Valley Routed Flood Surge', color='#0284c7', linewidth=2.5)
+    axes[1, 1].set_title("4. Cross-Section: Valley Surge vs Ridge Runoff", color='#0f172a', fontsize=10, weight='bold')
+    axes[1, 1].set_xlabel("Cross-Section Grid Cells (Ridge to Valley)", color='#475569', fontsize=8)
+    axes[1, 1].set_ylabel("Risk / Intensity", color='#475569', fontsize=8)
+    axes[1, 1].grid(color='#e2e8f0', linestyle=':')
+    axes[1, 1].legend(fontsize=8, facecolor='#ffffff', edgecolor='#cbd5e1', labelcolor='#0f172a')
     
     plt.tight_layout()
     return fig
@@ -738,14 +747,14 @@ st.markdown(f"""
             <span class="lead-badge">SIH 26077 NOWCASTING ENGINE</span>
             <span class="badge-red">{"HISTORICAL VALIDATION MODE" if is_scripted_mode else "OPERATIONAL PROTOTYPE"}</span>
         </div>
-        <div style="color: #94a3b8; font-size: 0.85rem;">
-            Lead Window: <strong style="color:#38bdf8;">T + {lead_time}h</strong> | Simulated Time: <strong style="color:#22c55e;">{active_time_str}</strong>
+        <div style="color: #64748b; font-size: 0.85rem;">
+            Lead Window: <strong style="color: #0284c7;">T + {lead_time}h</strong> | Simulated Time: <strong style="color: #16a34a;">{active_time_str}</strong>
         </div>
     </div>
-    <h2 style="margin: 0; color: #f8fafc; font-size: 1.75rem; font-weight: 800;">
+    <h2 style="margin: 0; color: #0f172a; font-size: 1.75rem; font-weight: 800;">
         ⚡ AI-Driven Hyper-Local Severe Weather Nowcasting System
     </h2>
-    <p style="margin: 6px 0 0 0; color: #cbd5e1; font-size: 0.92rem;">
+    <p style="margin: 6px 0 0 0; color: #475569; font-size: 0.92rem;">
         Hyper-local early prediction of severe thunderstorms, cloudbursts, and flash floods <strong>2–6 hours ahead</strong> using INSAT-3D/3DR multispectral imagery, Doppler radar, MetPy thermodynamics, and D8 hydrological routing.
     </p>
 </div>
@@ -759,44 +768,44 @@ if is_scripted_mode:
     tier_color = "#ef4444" if tier == "RED" else ("#f97316" if tier == "ORANGE" else "#eab308")
 
     # 1. Scientific Transparency Banner
-    st.markdown(f"""<div style="background: rgba(14, 165, 233, 0.12); border: 2px solid #0284c7; border-radius: 10px; padding: 14px 18px; margin-bottom: 14px; box-shadow: 0 4px 16px rgba(0,0,0,0.25);">
+    st.markdown(f"""<div style="background: #f0f9ff; border: 2px solid #0284c7; border-radius: 10px; padding: 14px 18px; margin-bottom: 14px; box-shadow: 0 2px 10px rgba(2, 132, 199, 0.08);">
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
 <div>
 <span style="background: #0284c7; color: white; padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size: 0.76rem; letter-spacing: 0.04em;">🔬 HISTORICAL VALIDATION REPLAY</span>
-<span style="color: #f8fafc; font-weight: 700; font-size: 0.96rem; margin-left: 10px;">{active_scenario['title']}</span>
+<span style="color: #0f172a; font-weight: 700; font-size: 0.96rem; margin-left: 10px;">{active_scenario['title']}</span>
 </div>
-<div style="color: #38bdf8; font-size: 0.8rem; font-weight: 600;">IMD Report: {active_scenario['official_reference'].split(':')[0]}</div>
+<div style="color: #0369a1; font-size: 0.8rem; font-weight: 600;">IMD Report: {active_scenario['official_reference'].split(':')[0]}</div>
 </div>
-<p style="margin: 0; color: #bae6fd; font-size: 0.84rem; line-height: 1.45;">
+<p style="margin: 0; color: #1e293b; font-size: 0.84rem; line-height: 1.45;">
 <strong>📢 Critical Transparency Notice for Judges:</strong> This scenario is an empirical historical case study validating the nowcasting model's physical precursor tracking against known, documented ground truth from published IMD post-disaster reports. It is <strong>explicitly NOT a mock live forecast</strong>. Validating on real disaster records demonstrates that the model captures physical convective precursors <strong>2 to 4 hours prior to onset</strong>.
 </p>
 </div>""", unsafe_allow_html=True)
 
     # 2. Narration Teleprompter Card
-    st.markdown(f"""<div style="background: rgba(18, 24, 38, 0.9); border: 1px solid rgba(255,255,255,0.12); border-left: 6px solid {tier_color}; border-radius: 10px; padding: 16px 20px; margin-bottom: 16px; box-shadow: 0 6px 20px rgba(0,0,0,0.35);">
+    st.markdown(f"""<div style="background: #ffffff; border: 1px solid #e2e8f0; border-left: 6px solid {tier_color}; border-radius: 10px; padding: 16px 20px; margin-bottom: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
 <div>
 <span style="background: {tier_color}; color: white; padding: 3px 8px; border-radius: 4px; font-weight: bold; font-size: 0.78rem;">{active_stage['predictions']['alert_tier']} ALERT</span>
-<strong style="color: #f8fafc; font-size: 1.05rem; margin-left: 10px;">{active_stage['stage_title']}</strong>
+<strong style="color: #0f172a; font-size: 1.05rem; margin-left: 10px;">{active_stage['stage_title']}</strong>
 </div>
-<div style="font-size: 0.84rem; color: #94a3b8;">
-Time: <strong style="color: #38bdf8;">{active_stage['time_utc']}</strong> ({active_stage['time_ist']}) | 
-Lead Window: <strong style="color: #fbbf24;">T + {active_stage['lead_hours']}h</strong> | 
-Hours to Onset: <strong style="color: {'#ef4444' if active_stage['hours_to_onset'] <= 2 else '#22c55e'};">{active_stage['hours_to_onset']:.1f}h</strong>
+<div style="font-size: 0.84rem; color: #64748b;">
+Time: <strong style="color: #0284c7;">{active_stage['time_utc']}</strong> ({active_stage['time_ist']}) | 
+Lead Window: <strong style="color: #d97706;">T + {active_stage['lead_hours']}h</strong> | 
+Hours to Onset: <strong style="color: {'#dc2626' if active_stage['hours_to_onset'] <= 2 else '#16a34a'};">{active_stage['hours_to_onset']:.1f}h</strong>
 </div>
 </div>
 <div style="display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 16px; margin-top: 8px;">
 <div>
-<div style="background: rgba(15, 23, 42, 0.75); border-left: 3px solid #38bdf8; padding: 10px 14px; border-radius: 6px; margin-bottom: 10px; font-size: 0.85rem; color: #cbd5e1; line-height: 1.45;">
-<strong style="color: #38bdf8;">🗺️ What's Happening on Screen:</strong><br>{active_stage['on_screen_visuals']}
+<div style="background: #f8fafc; border: 1px solid #e2e8f0; border-left: 3px solid #0284c7; padding: 10px 14px; border-radius: 6px; margin-bottom: 10px; font-size: 0.85rem; color: #334155; line-height: 1.45;">
+<strong style="color: #0284c7;">🗺️ What's Happening on Screen:</strong><br>{active_stage['on_screen_visuals']}
 </div>
-<div style="background: rgba(15, 23, 42, 0.75); border-left: 3px solid #22c55e; padding: 10px 14px; border-radius: 6px; font-size: 0.83rem; color: #cbd5e1; line-height: 1.45;">
-<strong style="color: #22c55e;">📋 Documented IMD Ground Truth Fact:</strong><br>{active_stage['ground_truth_fact']}
+<div style="background: #f8fafc; border: 1px solid #e2e8f0; border-left: 3px solid #16a34a; padding: 10px 14px; border-radius: 6px; font-size: 0.83rem; color: #334155; line-height: 1.45;">
+<strong style="color: #16a34a;">📋 Documented IMD Ground Truth Fact:</strong><br>{active_stage['ground_truth_fact']}
 </div>
 </div>
 <div>
-<div style="background: rgba(2, 6, 23, 0.85); border: 1px solid rgba(56, 189, 248, 0.3); padding: 12px 16px; border-radius: 8px; font-size: 0.86rem; color: #f1f5f9; line-height: 1.5; font-style: italic;">
-<strong style="color: #fbbf24; font-style: normal; display: block; margin-bottom: 4px;">🎙️ Verbatim Narration Script for Judges:</strong>
+<div style="background: #fffbeb; border: 1px solid #fde68a; border-left: 3px solid #f59e0b; padding: 12px 16px; border-radius: 8px; font-size: 0.86rem; color: #1e293b; line-height: 1.5; font-style: italic;">
+<strong style="color: #92400e; font-style: normal; display: block; margin-bottom: 4px;">🎙️ Verbatim Narration Script for Judges:</strong>
 {active_stage['narration_script']}
 </div>
 </div>
@@ -873,34 +882,34 @@ else:
 
 st.markdown(f"""
 <div class="summary-panel">
-    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px; margin-bottom: 12px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 12px;">
         <div>
-            <strong style="color: #f8fafc; font-size: 1.05rem;">📍 Current Highest-Risk Vulnerability Corridors</strong>
+            <strong style="color: #0f172a; font-size: 1.05rem;">📍 Current Highest-Risk Vulnerability Corridors</strong>
             <span style="margin-left: 8px;">{alert_badge_html}</span>
         </div>
-        <div style="color: #94a3b8; font-size: 0.85rem;">
-            Estimated Time-to-Impact: <strong style="color: #fbbf24;">{time_to_impact_str}</strong>
+        <div style="color: #64748b; font-size: 0.85rem;">
+            Estimated Time-to-Impact: <strong style="color: #b45309;">{time_to_impact_str}</strong>
         </div>
     </div>
     <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 14px; font-size: 0.88rem;">
         <div>
-            <span style="color: #94a3b8;">Primary Hazard Category:</span><br>
-            <strong style="color: #38bdf8; font-size: 0.98rem;">{case_info['hazard_type']}</strong>
+            <span style="color: #64748b;">Primary Hazard Category:</span><br>
+            <strong style="color: #0284c7; font-size: 0.98rem;">{case_info['hazard_type']}</strong>
         </div>
         <div>
-            <span style="color: #94a3b8;">Peak Cloudburst Core:</span><br>
-            <strong style="color: {'#ef4444' if max_cb >= 0.65 else '#f97316'}; font-size: 1.05rem;">{max_cb * 100:.1f}%</strong>
+            <span style="color: #64748b;">Peak Cloudburst Core:</span><br>
+            <strong style="color: {'#dc2626' if max_cb >= 0.65 else '#d97706'}; font-size: 1.05rem;">{max_cb * 100:.1f}%</strong>
         </div>
         <div>
-            <span style="color: #94a3b8;">Valley Flood Channel:</span><br>
-            <strong style="color: {'#ef4444' if peak_channel_flood_risk >= 0.65 else '#38bdf8'}; font-size: 1.05rem;">{peak_channel_flood_risk * 100:.1f}%</strong>
+            <span style="color: #64748b;">Valley Flood Channel:</span><br>
+            <strong style="color: {'#dc2626' if peak_channel_flood_risk >= 0.65 else '#0284c7'}; font-size: 1.05rem;">{peak_channel_flood_risk * 100:.1f}%</strong>
         </div>
         <div>
-            <span style="color: #94a3b8;">Severe Thunderstorm:</span><br>
-            <strong style="color: {'#ef4444' if max_ts >= 0.65 else '#eab308'}; font-size: 1.05rem;">{max_ts * 100:.1f}%</strong>
+            <span style="color: #64748b;">Severe Thunderstorm:</span><br>
+            <strong style="color: {'#dc2626' if max_ts >= 0.65 else '#b45309'}; font-size: 1.05rem;">{max_ts * 100:.1f}%</strong>
         </div>
     </div>
-    <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.05); font-size: 0.82rem; color: #cbd5e1;">
+    <div style="margin-top: 10px; padding-top: 8px; border-top: 1px solid #e2e8f0; font-size: 0.82rem; color: #334155;">
         <strong>🚨 Actionable NDMA Protocol Directive:</strong> Evacuate immediate low-lying nullahs, camping zones, and drainage ravines within the 15km perimeter. Restrict vehicular transit across mountain causeways.
     </div>
 </div>
@@ -1005,11 +1014,11 @@ with map_col:
 
     # Explanatory visual contrast callout
     if is_flood:
-        st.markdown("""<div style="background: rgba(30, 58, 138, 0.25); border: 1px solid #3b82f6; border-radius: 8px; padding: 10px 14px; margin-top: 8px; font-size: 0.85rem; color: #bfdbfe;">
+        st.markdown("""<div style="background: #eff6ff; border: 1px solid #bfdbfe; border-left: 4px solid #0284c7; border-radius: 8px; padding: 10px 14px; margin-top: 8px; font-size: 0.85rem; color: #1e3a8a;">
 <strong>🌊 Topographic Hydrology Active:</strong> Risk concentrates strictly in low-lying gullies, riverbeds, and drainage channels (reaching 75–98%), while steep knife-edge ridges shed water instantly with low ponding risk.
 </div>""", unsafe_allow_html=True)
     else:
-        st.markdown("""<div style="background: rgba(180, 83, 9, 0.2); border: 1px solid #d97706; border-radius: 8px; padding: 10px 14px; margin-top: 8px; font-size: 0.85rem; color: #fde68a;">
+        st.markdown("""<div style="background: #fffbeb; border: 1px solid #fde68a; border-left: 4px solid #f59e0b; border-radius: 8px; padding: 10px 14px; margin-top: 8px; font-size: 0.85rem; color: #92400e;">
 <strong>🌧️ Convective Core Active:</strong> Atmospheric footprint representing convective cloudburst core and torrential precipitation dumping from the storm cloud.
 </div>""", unsafe_allow_html=True)
 
@@ -1073,7 +1082,7 @@ with right_col:
         )
 
     # 1. Plain-Language Operational Reasoning
-    st.markdown(f"""<div style="background: rgba(15, 23, 42, 0.75); border-left: 4px solid #ef4444; padding: 12px 16px; border-radius: 6px; font-size: 0.86rem; margin-bottom: 12px; line-height: 1.5; color: #f1f5f9;">
+    st.markdown(f"""<div style="background: #fef2f2; border: 1px solid #fecaca; border-left: 4px solid #ef4444; padding: 12px 16px; border-radius: 6px; font-size: 0.86rem; margin-bottom: 12px; line-height: 1.5; color: #1e293b;">
 {shap_explanation['plain_language_summary']}
 </div>""", unsafe_allow_html=True)
 
@@ -1091,14 +1100,14 @@ with right_col:
             explanation_result=shap_explanation,
             max_features=6,
             figsize=(6.2, 3.4),
-            dark_theme=True
+            dark_theme=False
         )
         st.pyplot(shap_fig, use_container_width=True)
         plt.close(shap_fig)
 
     with xai_tab2:
         st.caption("Normalized atmospheric state vs. severe convective warning threshold:")
-        radar_fig = generate_convective_radar_chart(zone_features, dark_theme=True)
+        radar_fig = generate_convective_radar_chart(zone_features, dark_theme=False)
         st.pyplot(radar_fig, use_container_width=True)
         plt.close(radar_fig)
 
@@ -1163,7 +1172,7 @@ df_timeline = pd.DataFrame(timeline_data)
 st.line_chart(df_timeline.set_index("Timestamp"), color=["#ef4444", "#eab308", "#0284c7"], height=240)
 
 # Lead Time Rationale Callout
-st.markdown("""<div style="background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 14px 18px; margin-top: 10px; font-size: 0.85rem; color: #cbd5e1;">
+st.markdown("""<div style="background: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #0284c7; border-radius: 10px; padding: 14px 18px; margin-top: 10px; font-size: 0.85rem; color: #334155; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
 <strong>⏱️ 2–6 Hour Lead Time Operational Significance:</strong>
 <ul style="margin: 8px 0 0 18px; padding: 0;">
 <li><strong>T + 6h to T + 5h (Early Advisory):</strong> High total column water vapor influx and synoptic convergence detected. Climatological advisory issued to state control rooms.</li>
@@ -1227,7 +1236,7 @@ with tab1:
     st.caption("Automated threshold-triggered hazard warnings conforming to Common Alerting Protocol (CAP-v1.2) with in-dashboard notification stream and free-tier email dispatch.")
 
     # Prominent Demo Disclaimer
-    st.markdown("""<div style="background: rgba(30, 41, 59, 0.75); border-left: 4px solid #38bdf8; border-radius: 8px; padding: 14px 18px; margin-bottom: 20px; font-size: 0.86rem; line-height: 1.5; color: #cbd5e1;">
+    st.markdown("""<div style="background: #f0f9ff; border: 1px solid #bae6fd; border-left: 4px solid #0284c7; border-radius: 8px; padding: 14px 18px; margin-bottom: 20px; font-size: 0.86rem; line-height: 1.5; color: #1e293b; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.05);">
 <strong>ℹ️ Operational Prototype Notice (Zero Paid Cloud / 100% Free Stack):</strong><br>
 In strict adherence to the free/open-source requirement (no paid SMS/push services like Twilio, SendGrid, or AWS SNS), this system implements alert delivery via:
 <ul style="margin: 6px 0 0 0; padding-left: 20px;">
@@ -1309,13 +1318,13 @@ In strict adherence to the free/open-source requirement (no paid SMS/push servic
                 is_acked = item.get("acknowledged", False)
 
                 st.markdown(f"""
-                <div style="background: rgba(18, 24, 38, 0.85); border: 1px solid {border_color}; border-left: 6px solid {border_color}; border-radius: 8px; padding: 14px 16px; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.25);">
+                <div style="background: #ffffff; border: 1px solid {border_color}; border-left: 6px solid {border_color}; border-radius: 8px; padding: 14px 16px; margin-bottom: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                         <div>
                             <span style="background: {badge_bg}; color: #ffffff; padding: 3px 8px; border-radius: 4px; font-weight: 700; font-size: 0.76rem; letter-spacing: 0.03em;">
                                 {tier} ALERT • {item.get('severity', 'Severe').upper()}
                             </span>
-                            <span style="color: #94a3b8; font-size: 0.8rem; margin-left: 8px; font-family: monospace;">
+                            <span style="color: #64748b; font-size: 0.8rem; margin-left: 8px; font-family: monospace;">
                                 {item.get('alert_id')}
                             </span>
                         </div>
@@ -1323,17 +1332,17 @@ In strict adherence to the free/open-source requirement (no paid SMS/push servic
                             {item.get('probability_pct', 80.0):.1f}% Prob
                         </div>
                     </div>
-                    <div style="font-size: 0.95rem; font-weight: 600; color: #f8fafc; margin-bottom: 4px;">
+                    <div style="font-size: 0.95rem; font-weight: 600; color: #0f172a; margin-bottom: 4px;">
                         ⚠️ {item.get('hazard_title', 'Hazard')} @ {item.get('location_name', 'Sector')}
                     </div>
-                    <div style="font-size: 0.82rem; color: #94a3b8; margin-bottom: 8px;">
-                        ⏱️ <strong>Estimated Window:</strong> <span style="color: #cbd5e1;">{time_win.get('window_summary', 'N/A')}</span> | 
-                        Horizon: <span style="color: #38bdf8;">T + {item.get('lead_hours', 3)}h</span> (Countdown: {time_win.get('time_to_impact', 'N/A')})
+                    <div style="font-size: 0.82rem; color: #64748b; margin-bottom: 8px;">
+                        ⏱️ <strong>Estimated Window:</strong> <span style="color: #334155;">{time_win.get('window_summary', 'N/A')}</span> | 
+                        Horizon: <span style="color: #0284c7; font-weight: 600;">T + {item.get('lead_hours', 3)}h</span> (Countdown: {time_win.get('time_to_impact', 'N/A')})
                     </div>
-                    <div style="font-size: 0.82rem; color: #cbd5e1; margin-bottom: 8px; background: rgba(0,0,0,0.25); padding: 8px 10px; border-radius: 4px;">
+                    <div style="font-size: 0.82rem; color: #334155; margin-bottom: 8px; background: #f8fafc; border: 1px solid #e2e8f0; padding: 8px 10px; border-radius: 4px;">
                         <strong>Physical Driver:</strong> {item.get('trigger_reason', '')}
                     </div>
-                    <div style="font-size: 0.82rem; color: #fca5a5; line-height: 1.4;">
+                    <div style="font-size: 0.82rem; color: #b91c1c; line-height: 1.4;">
                         <strong>🚨 NDMA Directive:</strong> {item.get('recommended_action', '')}
                     </div>
                 </div>
@@ -1387,7 +1396,7 @@ In strict adherence to the free/open-source requirement (no paid SMS/push servic
 
         # Optional SMTP Credentials Accordion
         with st.expander("⚙️ Optional Free-Tier SMTP Provider Settings (Gmail / Outlook)"):
-            st.markdown("""<div style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 8px;">
+            st.markdown("""<div style="font-size: 0.8rem; color: #64748b; margin-bottom: 8px;">
 Enter your free SMTP credentials (e.g. Gmail with a 16-character App Password).<br>
 <em>If left empty, system operates in <strong>Simulated Demo Dispatch Mode</strong> (generates full responsive HTML email and logs dispatch to audit disk without errors).</em>
 </div>""", unsafe_allow_html=True)
