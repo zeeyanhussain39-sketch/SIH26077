@@ -1,3 +1,15 @@
+---
+title: SIH 26077 Severe Weather Nowcaster
+emoji: ⚡
+colorFrom: blue
+colorTo: indigo
+sdk: streamlit
+sdk_version: "1.30.0"
+app_file: app/main.py
+pinned: false
+license: mit
+---
+
 # ⚡ AI-Driven Hyper-Local Severe Weather Nowcasting System
 ### Smart India Hackathon (SIH) — Problem Statement 26077
 **Nodal Ministry / Organization:** Ministry of Earth Sciences (MoES) / National Centre for Medium Range Weather Forecasting (NCMRWF)  

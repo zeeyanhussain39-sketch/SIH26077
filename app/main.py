@@ -36,22 +36,12 @@ if str(ROOT_DIR) not in sys.path:
 import streamlit as st
 import streamlit.components.v1 as components
 
-# Import internal modules from src
-from src.model.inference import run_nowcast_inference
-from src.data_ingestion.open_meteo_client import fetch_nowcast_atmospheric_features
-from src.xai.explainability import (
-    get_default_shap_explainer,
-    generate_shap_bar_chart,
-    compute_hazard_attributions,
-    explain_prediction_summary,
-)
+# Import internal modules from src (lean, decoupled for instant startup)
 from src.alerts.alert_engine import (
     generate_cap_alert,
     get_default_alert_engine,
     get_default_feed_manager,
-    get_default_smtp_dispatcher,
     SmtpAlertDispatcher,
-    CategorizedAlert
 )
 from src.feature_engineering.hydrologic_routing import (
     extract_d8_streamlines,
@@ -307,6 +297,7 @@ def load_case_feature_table(case_id: str) -> Optional[pd.DataFrame]:
 @st.cache_resource(show_spinner=False)
 def get_cached_shap_explainer():
     """Loads and caches the multi-task model and XAI explainer singleton."""
+    from src.xai.explainability import get_default_shap_explainer
     return get_default_shap_explainer()
 
 
@@ -1094,6 +1085,7 @@ with right_col:
     ])
 
     with xai_tab1:
+        from src.xai.explainability import generate_shap_bar_chart
         st.caption(f"Shapley values isolating physical risk drivers for **{active_hs['name']}**:")
         shap_fig = generate_shap_bar_chart(
             explanation_result=shap_explanation,

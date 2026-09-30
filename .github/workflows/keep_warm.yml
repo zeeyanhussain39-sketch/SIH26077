@@ -1,0 +1,24 @@
+name: Keep Render Instance Warm (Zero Cold Starts)
+
+on:
+  schedule:
+    # Run every 10 minutes to prevent Render's 15-minute free-tier spin-down
+    - cron: '*/10 * * * *'
+  workflow_dispatch: # Allows manual trigger anytime from GitHub Actions tab
+
+jobs:
+  ping-render:
+    name: Ping Deployed Prototype
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Render Web Service
+        run: |
+          URL="https://sih26077-weather-nowcaster.onrender.com/"
+          echo "Pinging $URL at $(date -u)"
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 "$URL" || echo "TIMEOUT")
+          echo "Render response status: $HTTP_STATUS"
+          if [ "$HTTP_STATUS" -eq 200 ] || [ "$HTTP_STATUS" -eq 301 ] || [ "$HTTP_STATUS" -eq 302 ]; then
+            echo "Instance is warm and healthy!"
+          else
+            echo "Warning: Response code was $HTTP_STATUS. Service may still be spinning up."
+          fi
