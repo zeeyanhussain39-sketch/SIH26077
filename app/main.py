@@ -79,7 +79,7 @@ PROCESSED_DATA_DIR = ROOT_DIR / "data" / "processed"
 # -----------------------------------------------------------------------------
 # Modern High-Performance Light Design System (CSS)
 # -----------------------------------------------------------------------------
-st.markdown("""
+CSS_DESIGN_SYSTEM = """
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
@@ -363,7 +363,29 @@ st.markdown("""
         background: #94a3b8;
     }
 </style>
-""", unsafe_allow_html=True)
+"""
+
+if hasattr(st, "html"):
+    st.html(CSS_DESIGN_SYSTEM)
+else:
+    st.markdown(CSS_DESIGN_SYSTEM, unsafe_allow_html=True)
+
+# Guard against stale chunk mismatches after hot redeployments
+RELOAD_GUARD_SCRIPT = """
+<script>
+window.addEventListener('error', function(event) {
+    if (event && event.message && (
+        event.message.indexOf('dynamically imported module') !== -1 ||
+        event.message.indexOf('Failed to fetch') !== -1
+    )) {
+        console.warn('Deployment chunk update detected. Auto-reloading fresh bundle...');
+        setTimeout(function() { window.location.reload(); }, 250);
+    }
+});
+</script>
+"""
+if hasattr(st, "html"):
+    st.html(RELOAD_GUARD_SCRIPT, unsafe_allow_javascript=True)
 
 
 # -----------------------------------------------------------------------------
