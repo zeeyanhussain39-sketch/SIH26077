@@ -23,6 +23,7 @@ shap>=0.42.0
 streamlit>=1.30.0
 folium>=0.15.0
 matplotlib>=3.7.0
+plotly>=5.18.0
 
 # Lightweight Alert API Backend (FastAPI) & Asynchronous Web Server
 fastapi>=0.100.0

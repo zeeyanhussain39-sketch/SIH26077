@@ -1,5 +1,149 @@
 [
   {
+    "alert_id": "SIH26077-A8BBD477",
+    "hazard_type": "cloudburst",
+    "hazard_title": "Cloudburst",
+    "severity": "Moderate",
+    "alert_tier": "YELLOW",
+    "probability": 0.25,
+    "probability_pct": 25.0,
+    "latitude": 34.215,
+    "longitude": 75.503,
+    "lead_hours": 4,
+    "location_name": "Amarnath Upper Holy Cave & Nullah (Case 1)",
+    "time_window": {
+      "start_utc": "19:19 UTC",
+      "peak_utc": "20:19 UTC",
+      "time_to_impact": "4h 00m",
+      "window_summary": "19:19 - 20:19 UTC (T+4h)"
+    },
+    "trigger_reason": "Nowcasting model predicts elevated cloudburst probability (25.0%) exceeding the moderate hazard threshold.",
+    "recommended_action": "Immediate evacuation of riverbeds, dry nullahs, talus slopes, and temporary camping zones. Suspend pilgrim transit and tourism on mountain causeways. Relocate livestock and personnel to pre-designated high-ground pucca shelters.",
+    "created_at": "2026-10-02T16:19:01.786933+00:00",
+    "acknowledged": false,
+    "cap_payload": {
+      "identifier": "SIH26077-A8BBD477",
+      "sender": "SIH26077-HyperLocal-Nowcaster@open-earth.in",
+      "sent": "2026-10-02T16:19:01.786909+00:00",
+      "status": "Actual",
+      "msgType": "Alert",
+      "scope": "Public",
+      "info": {
+        "category": "Met",
+        "event": "Cloudburst",
+        "urgency": "Expected",
+        "severity": "Moderate",
+        "certainty": "Possible",
+        "effective": "2026-10-02T16:19:01.786909+00:00",
+        "onset": "2026-10-02T20:19:01.786909+00:00",
+        "expires": "2026-10-02T22:19:01.786909+00:00",
+        "headline": "Severe Weather Nowcast (Lead Time T+4h): High Risk of Cloudburst",
+        "description": "Hyper-local atmospheric nowcasting indicates an estimated 25.0% probability of Cloudburst near coordinate (34.2150\u00b0N, 75.5030\u00b0E) within the next 4 hours.",
+        "instruction": "Immediate evacuation of riverbeds, dry nullahs, talus slopes, and temporary camping zones. Suspend pilgrim transit and tourism on mountain causeways. Relocate livestock and personnel to pre-designated high-ground pucca shelters.",
+        "area": {
+          "areaDesc": "Catchment buffer around (34.2150\u00b0N, 75.5030\u00b0E)",
+          "circle": "34.2150,75.5030,15.0"
+        }
+      }
+    }
+  },
+  {
+    "alert_id": "SIH26077-C57D41D8",
+    "hazard_type": "cloudburst",
+    "hazard_title": "Cloudburst",
+    "severity": "Moderate",
+    "alert_tier": "YELLOW",
+    "probability": 0.25,
+    "probability_pct": 25.0,
+    "latitude": 34.215,
+    "longitude": 75.503,
+    "lead_hours": 4,
+    "location_name": "Amarnath Upper Holy Cave & Nullah (Case 1)",
+    "time_window": {
+      "start_utc": "19:18 UTC",
+      "peak_utc": "20:18 UTC",
+      "time_to_impact": "4h 00m",
+      "window_summary": "19:18 - 20:18 UTC (T+4h)"
+    },
+    "trigger_reason": "Nowcasting model predicts elevated cloudburst probability (25.0%) exceeding the moderate hazard threshold.",
+    "recommended_action": "Immediate evacuation of riverbeds, dry nullahs, talus slopes, and temporary camping zones. Suspend pilgrim transit and tourism on mountain causeways. Relocate livestock and personnel to pre-designated high-ground pucca shelters.",
+    "created_at": "2026-10-02T16:18:39.173197+00:00",
+    "acknowledged": false,
+    "cap_payload": {
+      "identifier": "SIH26077-C57D41D8",
+      "sender": "SIH26077-HyperLocal-Nowcaster@open-earth.in",
+      "sent": "2026-10-02T16:18:39.173172+00:00",
+      "status": "Actual",
+      "msgType": "Alert",
+      "scope": "Public",
+      "info": {
+        "category": "Met",
+        "event": "Cloudburst",
+        "urgency": "Expected",
+        "severity": "Moderate",
+        "certainty": "Possible",
+        "effective": "2026-10-02T16:18:39.173172+00:00",
+        "onset": "2026-10-02T20:18:39.173172+00:00",
+        "expires": "2026-10-02T22:18:39.173172+00:00",
+        "headline": "Severe Weather Nowcast (Lead Time T+4h): High Risk of Cloudburst",
+        "description": "Hyper-local atmospheric nowcasting indicates an estimated 25.0% probability of Cloudburst near coordinate (34.2150\u00b0N, 75.5030\u00b0E) within the next 4 hours.",
+        "instruction": "Immediate evacuation of riverbeds, dry nullahs, talus slopes, and temporary camping zones. Suspend pilgrim transit and tourism on mountain causeways. Relocate livestock and personnel to pre-designated high-ground pucca shelters.",
+        "area": {
+          "areaDesc": "Catchment buffer around (34.2150\u00b0N, 75.5030\u00b0E)",
+          "circle": "34.2150,75.5030,15.0"
+        }
+      }
+    }
+  },
+  {
+    "alert_id": "SIH26077-FC1077EB",
+    "hazard_type": "cloudburst",
+    "hazard_title": "Cloudburst",
+    "severity": "Moderate",
+    "alert_tier": "YELLOW",
+    "probability": 0.25,
+    "probability_pct": 25.0,
+    "latitude": 34.215,
+    "longitude": 75.503,
+    "lead_hours": 4,
+    "location_name": "Amarnath Upper Holy Cave & Nullah (Case 1)",
+    "time_window": {
+      "start_utc": "19:14 UTC",
+      "peak_utc": "20:14 UTC",
+      "time_to_impact": "4h 00m",
+      "window_summary": "19:14 - 20:14 UTC (T+4h)"
+    },
+    "trigger_reason": "Nowcasting model predicts elevated cloudburst probability (25.0%) exceeding the moderate hazard threshold.",
+    "recommended_action": "Immediate evacuation of riverbeds, dry nullahs, talus slopes, and temporary camping zones. Suspend pilgrim transit and tourism on mountain causeways. Relocate livestock and personnel to pre-designated high-ground pucca shelters.",
+    "created_at": "2026-10-02T16:14:09.119991+00:00",
+    "acknowledged": false,
+    "cap_payload": {
+      "identifier": "SIH26077-FC1077EB",
+      "sender": "SIH26077-HyperLocal-Nowcaster@open-earth.in",
+      "sent": "2026-10-02T16:14:09.119956+00:00",
+      "status": "Actual",
+      "msgType": "Alert",
+      "scope": "Public",
+      "info": {
+        "category": "Met",
+        "event": "Cloudburst",
+        "urgency": "Expected",
+        "severity": "Moderate",
+        "certainty": "Possible",
+        "effective": "2026-10-02T16:14:09.119956+00:00",
+        "onset": "2026-10-02T20:14:09.119956+00:00",
+        "expires": "2026-10-02T22:14:09.119956+00:00",
+        "headline": "Severe Weather Nowcast (Lead Time T+4h): High Risk of Cloudburst",
+        "description": "Hyper-local atmospheric nowcasting indicates an estimated 25.0% probability of Cloudburst near coordinate (34.2150\u00b0N, 75.5030\u00b0E) within the next 4 hours.",
+        "instruction": "Immediate evacuation of riverbeds, dry nullahs, talus slopes, and temporary camping zones. Suspend pilgrim transit and tourism on mountain causeways. Relocate livestock and personnel to pre-designated high-ground pucca shelters.",
+        "area": {
+          "areaDesc": "Catchment buffer around (34.2150\u00b0N, 75.5030\u00b0E)",
+          "circle": "34.2150,75.5030,15.0"
+        }
+      }
+    }
+  },
+  {
     "alert_id": "SIH26077-43145B65",
     "hazard_type": "cloudburst",
     "hazard_title": "Cloudburst",

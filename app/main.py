@@ -27,8 +27,6 @@ import folium.plugins
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-import plotly.graph_objects as go
-import plotly.express as px
 
 # Ensure root directory is on PYTHONPATH for clean imports
 ROOT_DIR = Path(__file__).resolve().parent.parent
@@ -37,6 +35,26 @@ if str(ROOT_DIR) not in sys.path:
 
 import streamlit as st
 import streamlit.components.v1 as components
+
+# -----------------------------------------------------------------------------
+# Streamlit Page Configuration (Must run immediately after streamlit import)
+# -----------------------------------------------------------------------------
+st.set_page_config(
+    page_title="SIH 26077 | Severe Weather Nowcaster (2-6h)",
+    page_icon="⚡",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+# Safe optional Plotly import
+try:
+    import plotly.graph_objects as go
+    import plotly.express as px
+    HAS_PLOTLY = True
+except (ImportError, Exception):
+    HAS_PLOTLY = False
+    go = None
+    px = None
 
 # Import internal modules from src (lean, decoupled for instant startup)
 from src.alerts.alert_engine import (
@@ -59,16 +77,6 @@ from src.model.scripted_scenarios import (
 PROCESSED_DATA_DIR = ROOT_DIR / "data" / "processed"
 
 # -----------------------------------------------------------------------------
-# Streamlit Page Configuration
-# -----------------------------------------------------------------------------
-st.set_page_config(
-    page_title="SIH 26077 | Severe Weather Nowcaster (2-6h)",
-    page_icon="⚡",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
-
-# -----------------------------------------------------------------------------
 # Modern High-Performance Light Design System (CSS)
 # -----------------------------------------------------------------------------
 st.markdown("""
@@ -76,7 +84,7 @@ st.markdown("""
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
     /* Global Typography & Canvas */
-    html, body, [class*="css"], .stApp {
+    html, body, .stApp {
         font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
         background-color: #f8fafc;
         color: #0f172a;
@@ -1493,95 +1501,98 @@ for i, t_lbl in enumerate(time_labels):
 
 df_timeline = pd.DataFrame(timeline_data)
 
-# Interactive Plotly Spline Chart with Thresholds & Shading
-p_fig = go.Figure()
+if HAS_PLOTLY and go is not None:
+    # Interactive Plotly Spline Chart with Thresholds & Shading
+    p_fig = go.Figure()
 
-# Red Alert Critical Threshold (70%)
-p_fig.add_hline(
-    y=70,
-    line_dash="dot",
-    line_color="#ef4444",
-    annotation_text="Critical Red Alert (≥70%)",
-    annotation_position="bottom right",
-    annotation_font_size=10,
-    annotation_font_color="#b91c1c"
-)
+    # Red Alert Critical Threshold (70%)
+    p_fig.add_hline(
+        y=70,
+        line_dash="dot",
+        line_color="#ef4444",
+        annotation_text="Critical Red Alert (≥70%)",
+        annotation_position="bottom right",
+        annotation_font_size=10,
+        annotation_font_color="#b91c1c"
+    )
 
-# Orange Warning Threshold (40%)
-p_fig.add_hline(
-    y=40,
-    line_dash="dot",
-    line_color="#f97316",
-    annotation_text="Orange Warning (≥40%)",
-    annotation_position="bottom right",
-    annotation_font_size=10,
-    annotation_font_color="#c2410c"
-)
+    # Orange Warning Threshold (40%)
+    p_fig.add_hline(
+        y=40,
+        line_dash="dot",
+        line_color="#f97316",
+        annotation_text="Orange Warning (≥40%)",
+        annotation_position="bottom right",
+        annotation_font_size=10,
+        annotation_font_color="#c2410c"
+    )
 
-# Trace 1: Cloudburst Risk
-p_fig.add_trace(go.Scatter(
-    x=df_timeline["Timestamp"],
-    y=df_timeline["Cloudburst Risk (%)"],
-    mode="lines+markers",
-    name="🌧️ Cloudburst Risk",
-    line=dict(color="#ef4444", width=3, shape="spline"),
-    fill="tozeroy",
-    fillcolor="rgba(239, 68, 68, 0.08)",
-    hovertemplate="<b>%{x}</b><br>Cloudburst Risk: <b>%{y:.1f}%</b><extra></extra>"
-))
+    # Trace 1: Cloudburst Risk
+    p_fig.add_trace(go.Scatter(
+        x=df_timeline["Timestamp"],
+        y=df_timeline["Cloudburst Risk (%)"],
+        mode="lines+markers",
+        name="🌧️ Cloudburst Risk",
+        line=dict(color="#ef4444", width=3, shape="spline"),
+        fill="tozeroy",
+        fillcolor="rgba(239, 68, 68, 0.08)",
+        hovertemplate="<b>%{x}</b><br>Cloudburst Risk: <b>%{y:.1f}%</b><extra></extra>"
+    ))
 
-# Trace 2: Valley Flash Flood Risk
-p_fig.add_trace(go.Scatter(
-    x=df_timeline["Timestamp"],
-    y=df_timeline["Valley Flash Flood Risk (%)"],
-    mode="lines+markers",
-    name="🌊 Valley Flash Flood (D8 Surge)",
-    line=dict(color="#0284c7", width=3, shape="spline"),
-    fill="tozeroy",
-    fillcolor="rgba(2, 132, 199, 0.08)",
-    hovertemplate="<b>%{x}</b><br>Flash Flood Surge: <b>%{y:.1f}%</b><extra></extra>"
-))
+    # Trace 2: Valley Flash Flood Risk
+    p_fig.add_trace(go.Scatter(
+        x=df_timeline["Timestamp"],
+        y=df_timeline["Valley Flash Flood Risk (%)"],
+        mode="lines+markers",
+        name="🌊 Valley Flash Flood (D8 Surge)",
+        line=dict(color="#0284c7", width=3, shape="spline"),
+        fill="tozeroy",
+        fillcolor="rgba(2, 132, 199, 0.08)",
+        hovertemplate="<b>%{x}</b><br>Flash Flood Surge: <b>%{y:.1f}%</b><extra></extra>"
+    ))
 
-# Trace 3: Severe Thunderstorm Risk
-p_fig.add_trace(go.Scatter(
-    x=df_timeline["Timestamp"],
-    y=df_timeline["Severe Thunderstorm Risk (%)"],
-    mode="lines+markers",
-    name="🌩️ Thunderstorm / Gust Risk",
-    line=dict(color="#f59e0b", width=2.5, shape="spline"),
-    fill="tozeroy",
-    fillcolor="rgba(245, 158, 11, 0.05)",
-    hovertemplate="<b>%{x}</b><br>Thunderstorm Risk: <b>%{y:.1f}%</b><extra></extra>"
-))
+    # Trace 3: Severe Thunderstorm Risk
+    p_fig.add_trace(go.Scatter(
+        x=df_timeline["Timestamp"],
+        y=df_timeline["Severe Thunderstorm Risk (%)"],
+        mode="lines+markers",
+        name="🌩️ Thunderstorm / Gust Risk",
+        line=dict(color="#f59e0b", width=2.5, shape="spline"),
+        fill="tozeroy",
+        fillcolor="rgba(245, 158, 11, 0.05)",
+        hovertemplate="<b>%{x}</b><br>Thunderstorm Risk: <b>%{y:.1f}%</b><extra></extra>"
+    ))
 
-p_fig.update_layout(
-    template="plotly_white",
-    height=280,
-    margin=dict(l=35, r=20, t=15, b=35),
-    legend=dict(
-        orientation="h",
-        yanchor="bottom",
-        y=1.02,
-        xanchor="right",
-        x=1,
-        font=dict(size=11, family="Plus Jakarta Sans")
-    ),
-    xaxis=dict(
-        tickfont=dict(family="JetBrains Mono", size=10, color="#475569"),
-        gridcolor="#f1f5f9"
-    ),
-    yaxis=dict(
-        title=dict(text="Computed Hazard Risk (%)", font=dict(size=11, color="#64748b")),
-        range=[0, 105],
-        tickfont=dict(family="JetBrains Mono", size=10, color="#475569"),
-        gridcolor="#f1f5f9"
-    ),
-    hovermode="x unified",
-    paper_bgcolor="#ffffff",
-    plot_bgcolor="#ffffff"
-)
+    p_fig.update_layout(
+        template="plotly_white",
+        height=280,
+        margin=dict(l=35, r=20, t=15, b=35),
+        legend=dict(
+            orientation="h",
+            yanchor="bottom",
+            y=1.02,
+            xanchor="right",
+            x=1,
+            font=dict(size=11, family="Plus Jakarta Sans")
+        ),
+        xaxis=dict(
+            tickfont=dict(family="JetBrains Mono", size=10, color="#475569"),
+            gridcolor="#f1f5f9"
+        ),
+        yaxis=dict(
+            title=dict(text="Computed Hazard Risk (%)", font=dict(size=11, color="#64748b")),
+            range=[0, 105],
+            tickfont=dict(family="JetBrains Mono", size=10, color="#475569"),
+            gridcolor="#f1f5f9"
+        ),
+        hovermode="x unified",
+        paper_bgcolor="#ffffff",
+        plot_bgcolor="#ffffff"
+    )
 
-st.plotly_chart(p_fig, use_container_width=True)
+    st.plotly_chart(p_fig, use_container_width=True)
+else:
+    st.line_chart(df_timeline.set_index("Timestamp"))
 
 # 4-Milestone Operational Lead-Time Progression Roadmap
 st.markdown("""
