@@ -74,6 +74,19 @@ from src.model.scripted_scenarios import (
     get_scenario_stage
 )
 
+import textwrap
+
+def render_html(html_str: str, unsafe_allow_javascript: bool = False):
+    """
+    Renders pure HTML cleanly without CommonMark indentation escaping pitfalls.
+    Uses native st.html (Streamlit 1.33+) or an unindented fallback.
+    """
+    if hasattr(st, "html"):
+        st.html(html_str, unsafe_allow_javascript=unsafe_allow_javascript)
+    else:
+        unindented = "\n".join(line.lstrip() for line in html_str.strip().splitlines())
+        st.markdown(unindented, unsafe_allow_html=True)
+
 PROCESSED_DATA_DIR = ROOT_DIR / "data" / "processed"
 
 # -----------------------------------------------------------------------------
@@ -365,10 +378,7 @@ CSS_DESIGN_SYSTEM = """
 </style>
 """
 
-if hasattr(st, "html"):
-    st.html(CSS_DESIGN_SYSTEM)
-else:
-    st.markdown(CSS_DESIGN_SYSTEM, unsafe_allow_html=True)
+render_html(CSS_DESIGN_SYSTEM)
 
 # Guard against stale chunk mismatches after hot redeployments
 RELOAD_GUARD_SCRIPT = """
@@ -384,8 +394,7 @@ window.addEventListener('error', function(event) {
 });
 </script>
 """
-if hasattr(st, "html"):
-    st.html(RELOAD_GUARD_SCRIPT, unsafe_allow_javascript=True)
+render_html(RELOAD_GUARD_SCRIPT, unsafe_allow_javascript=True)
 
 
 # -----------------------------------------------------------------------------
@@ -836,7 +845,7 @@ with st.sidebar:
         time_labels = [s["time_utc"] for s in active_scenario["stages"]]
 
         if st.session_state.auto_walkthrough_active:
-            st.markdown(f'<span class="replay-live-badge">🔴 GUIDED TOUR ACTIVE: {active_stage["stage_title"].split(":")[0]}</span>', unsafe_allow_html=True)
+            render_html(f'<span class="replay-live-badge">🔴 GUIDED TOUR ACTIVE: {active_stage["stage_title"].split(":")[0]}</span>')
         else:
             st.info(f"Phase {active_stage['stage_idx']+1} of {total_stages}: **{active_stage['stage_title'].split(':')[0]}**")
 
@@ -899,7 +908,7 @@ with st.sidebar:
         active_time_str = time_labels[st.session_state.time_step_idx]
 
         if st.session_state.replay_active:
-            st.markdown(f'<span class="replay-live-badge">🔴 STREAMING LIVE REPLAY: {active_time_str}</span>', unsafe_allow_html=True)
+            render_html(f'<span class="replay-live-badge">🔴 STREAMING LIVE REPLAY: {active_time_str}</span>')
         else:
             st.info(f"Active Scan Time: **{active_time_str}**")
 
@@ -927,7 +936,7 @@ with st.sidebar:
 # -----------------------------------------------------------------------------
 # Main Header Banner & Live Operational Telemetry Strip
 # -----------------------------------------------------------------------------
-st.markdown(f"""
+render_html(f"""
 <div class="operational-header">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
         <div style="display: flex; align-items: center; gap: 10px;">
@@ -989,7 +998,7 @@ st.markdown(f"""
         <div style="font-size: 0.75rem; color: #64748b; margin-top: 2px;">WMO-1023 XML + GeoTIFF GIS</div>
     </div>
 </div>
-""", unsafe_allow_html=True)
+""")
 
 # -----------------------------------------------------------------------------
 # Scripted Replay Mode: Scientific Transparency Banner & Narration Teleprompter
@@ -999,7 +1008,7 @@ if is_scripted_mode:
     tier_color = "#ef4444" if tier == "RED" else ("#f97316" if tier == "ORANGE" else "#eab308")
 
     # 1. Scientific Transparency Banner
-    st.markdown(f"""<div style="background: #f0f9ff; border: 2px solid #0284c7; border-radius: 10px; padding: 14px 18px; margin-bottom: 14px; box-shadow: 0 2px 10px rgba(2, 132, 199, 0.08);">
+    render_html(f"""<div style="background: #f0f9ff; border: 2px solid #0284c7; border-radius: 10px; padding: 14px 18px; margin-bottom: 14px; box-shadow: 0 2px 10px rgba(2, 132, 199, 0.08);">
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
 <div>
 <span style="background: #0284c7; color: white; padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size: 0.76rem; letter-spacing: 0.04em;">🔬 HISTORICAL VALIDATION REPLAY</span>
@@ -1010,10 +1019,10 @@ if is_scripted_mode:
 <p style="margin: 0; color: #1e293b; font-size: 0.84rem; line-height: 1.45;">
 <strong>📢 Critical Transparency Notice for Judges:</strong> This scenario is an empirical historical case study validating the nowcasting model's physical precursor tracking against known, documented ground truth from published IMD post-disaster reports. It is <strong>explicitly NOT a mock live forecast</strong>. Validating on real disaster records demonstrates that the model captures physical convective precursors <strong>2 to 4 hours prior to onset</strong>.
 </p>
-</div>""", unsafe_allow_html=True)
+</div>""")
 
     # 2. Narration Teleprompter Card
-    st.markdown(f"""<div style="background: #ffffff; border: 1px solid #e2e8f0; border-left: 6px solid {tier_color}; border-radius: 10px; padding: 16px 20px; margin-bottom: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
+    render_html(f"""<div style="background: #ffffff; border: 1px solid #e2e8f0; border-left: 6px solid {tier_color}; border-radius: 10px; padding: 16px 20px; margin-bottom: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
 <div>
 <span style="background: {tier_color}; color: white; padding: 3px 8px; border-radius: 4px; font-weight: bold; font-size: 0.78rem;">{active_stage['predictions']['alert_tier']} ALERT</span>
@@ -1041,7 +1050,7 @@ Hours to Onset: <strong style="color: {'#dc2626' if active_stage['hours_to_onset
 </div>
 </div>
 </div>
-</div>""", unsafe_allow_html=True)
+</div>""")
 
 # -----------------------------------------------------------------------------
 # Data Ingestion & Model Nowcast Computation for Active Time Step
@@ -1118,83 +1127,83 @@ cb_color = "#ef4444" if max_cb >= 0.65 else ("#f97316" if max_cb >= 0.40 else "#
 ff_color = "#ef4444" if peak_channel_flood_risk >= 0.65 else ("#f97316" if peak_channel_flood_risk >= 0.40 else "#0284c7")
 ts_color = "#ef4444" if max_ts >= 0.65 else ("#f97316" if max_ts >= 0.40 else "#0284c7")
 
-st.markdown(f"""
+render_html(f"""
 <div class="threat-hud-grid">
-    <!-- Card 1: Executive Operational Status -->
-    <div class="hud-card" style="border-left: 5px solid {'#ef4444' if dominant_prob >= 0.70 else ('#f97316' if dominant_prob >= 0.40 else '#eab308')};">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
-            <div>
-                <span style="font-size: 0.74rem; font-weight: 700; color: #64748b; text-transform: uppercase;">📍 TARGET DISASTER SECTOR</span>
-                <div style="font-size: 1.05rem; font-weight: 800; color: #0f172a; margin-top: 2px;">{case_info['title'].split(':')[1].split('(')[0].strip() if ':' in case_info['title'] else case_info['title']}</div>
-            </div>
-            {alert_badge_html}
+<!-- Card 1: Executive Operational Status -->
+<div class="hud-card" style="border-left: 5px solid {'#ef4444' if dominant_prob >= 0.70 else ('#f97316' if dominant_prob >= 0.40 else '#eab308')};">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px;">
+        <div>
+            <span style="font-size: 0.74rem; font-weight: 700; color: #64748b; text-transform: uppercase;">📍 TARGET DISASTER SECTOR</span>
+            <div style="font-size: 1.05rem; font-weight: 800; color: #0f172a; margin-top: 2px;">{case_info['title'].split(':')[1].split('(')[0].strip() if ':' in case_info['title'] else case_info['title']}</div>
         </div>
-        <div style="font-size: 0.82rem; color: #64748b; margin-top: 4px;">
-            Impact Horizon: <strong style="color: #b45309; font-family: 'JetBrains Mono', monospace;">{time_to_impact_str}</strong> | Lead: <strong style="color: #0284c7; font-family: 'JetBrains Mono', monospace;">T+{lead_time}h</strong>
-        </div>
-        <div style="margin-top: 8px; font-size: 0.80rem; color: #334155; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px 10px; line-height: 1.4;">
-            <strong>🚨 NDMA Protocol Directive:</strong> {directive_str}
-        </div>
+        {alert_badge_html}
     </div>
-
-    <!-- Card 2: Cloudburst Convective Core -->
-    <div class="hud-card">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-size: 0.74rem; font-weight: 700; color: #64748b; text-transform: uppercase;">🌧️ CLOUDBURST CORE</span>
-            <span style="font-size: 0.72rem; font-weight: 700; color: {cb_color}; background: {'#fee2e2' if max_cb >= 0.65 else '#f8fafc'}; padding: 2px 6px; border-radius: 4px;">
-                {'CRITICAL >65%' if max_cb >= 0.65 else ('ELEVATED' if max_cb >= 0.40 else 'LOW')}
-            </span>
-        </div>
-        <div style="font-size: 1.85rem; font-weight: 800; color: {cb_color}; font-family: 'JetBrains Mono', monospace; margin: 4px 0 2px 0;">
-            {max_cb * 100:.1f}<span style="font-size: 1.05rem;">%</span>
-        </div>
-        <div class="meter-container">
-            <div class="meter-fill" style="width: {min(100.0, max_cb * 100):.1f}%; background-color: {cb_color};"></div>
-        </div>
-        <div style="font-size: 0.74rem; color: #64748b; margin-top: 8px;">
-            Rapid -dCTT/dt Ascent + MetPy CAPE
-        </div>
+    <div style="font-size: 0.82rem; color: #64748b; margin-top: 4px;">
+        Impact Horizon: <strong style="color: #b45309; font-family: 'JetBrains Mono', monospace;">{time_to_impact_str}</strong> | Lead: <strong style="color: #0284c7; font-family: 'JetBrains Mono', monospace;">T+{lead_time}h</strong>
     </div>
-
-    <!-- Card 3: Topographic Flash Flood Surge -->
-    <div class="hud-card">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-size: 0.74rem; font-weight: 700; color: #64748b; text-transform: uppercase;">🌊 D8 VALLEY FLOOD SURGE</span>
-            <span style="font-size: 0.72rem; font-weight: 700; color: {ff_color}; background: {'#fee2e2' if peak_channel_flood_risk >= 0.65 else '#f8fafc'}; padding: 2px 6px; border-radius: 4px;">
-                {'SURGE DANGER' if peak_channel_flood_risk >= 0.65 else ('CHANNEL POOLING' if peak_channel_flood_risk >= 0.40 else 'DRAINING')}
-            </span>
-        </div>
-        <div style="font-size: 1.85rem; font-weight: 800; color: {ff_color}; font-family: 'JetBrains Mono', monospace; margin: 4px 0 2px 0;">
-            {peak_channel_flood_risk * 100:.1f}<span style="font-size: 1.05rem;">%</span>
-        </div>
-        <div class="meter-container">
-            <div class="meter-fill" style="width: {min(100.0, peak_channel_flood_risk * 100):.1f}%; background-color: {ff_color};"></div>
-        </div>
-        <div style="font-size: 0.74rem; color: #64748b; margin-top: 8px;">
-            D8 Hydrologic Routing • Slope: {case_info['slope']}°
-        </div>
-    </div>
-
-    <!-- Card 4: Severe Thunderstorm & Squall -->
-    <div class="hud-card">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-size: 0.74rem; font-weight: 700; color: #64748b; text-transform: uppercase;">🌩️ SEVERE THUNDERSTORM</span>
-            <span style="font-size: 0.72rem; font-weight: 700; color: {ts_color}; background: {'#fee2e2' if max_ts >= 0.65 else '#f8fafc'}; padding: 2px 6px; border-radius: 4px;">
-                {'SQUALL / GUST' if max_ts >= 0.65 else ('MODERATE' if max_ts >= 0.40 else 'NORMAL')}
-            </span>
-        </div>
-        <div style="font-size: 1.85rem; font-weight: 800; color: {ts_color}; font-family: 'JetBrains Mono', monospace; margin: 4px 0 2px 0;">
-            {max_ts * 100:.1f}<span style="font-size: 1.05rem;">%</span>
-        </div>
-        <div class="meter-container">
-            <div class="meter-fill" style="width: {min(100.0, max_ts * 100):.1f}%; background-color: {ts_color};"></div>
-        </div>
-        <div style="font-size: 0.74rem; color: #64748b; margin-top: 8px;">
-            Bulk Wind Shear & Boundary Convergence
-        </div>
+    <div style="margin-top: 8px; font-size: 0.80rem; color: #334155; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 6px 10px; line-height: 1.4;">
+        <strong>🚨 NDMA Protocol Directive:</strong> {directive_str}
     </div>
 </div>
-""", unsafe_allow_html=True)
+
+<!-- Card 2: Cloudburst Convective Core -->
+<div class="hud-card">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 0.74rem; font-weight: 700; color: #64748b; text-transform: uppercase;">🌧️ CLOUDBURST CORE</span>
+        <span style="font-size: 0.72rem; font-weight: 700; color: {cb_color}; background: {'#fee2e2' if max_cb >= 0.65 else '#f8fafc'}; padding: 2px 6px; border-radius: 4px;">
+            {'CRITICAL >65%' if max_cb >= 0.65 else ('ELEVATED' if max_cb >= 0.40 else 'LOW')}
+        </span>
+    </div>
+    <div style="font-size: 1.85rem; font-weight: 800; color: {cb_color}; font-family: 'JetBrains Mono', monospace; margin: 4px 0 2px 0;">
+        {max_cb * 100:.1f}<span style="font-size: 1.05rem;">%</span>
+    </div>
+    <div class="meter-container">
+        <div class="meter-fill" style="width: {min(100.0, max_cb * 100):.1f}%; background-color: {cb_color};"></div>
+    </div>
+    <div style="font-size: 0.74rem; color: #64748b; margin-top: 8px;">
+        Rapid -dCTT/dt Ascent + MetPy CAPE
+    </div>
+</div>
+
+<!-- Card 3: Topographic Flash Flood Surge -->
+<div class="hud-card">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 0.74rem; font-weight: 700; color: #64748b; text-transform: uppercase;">🌊 D8 VALLEY FLOOD SURGE</span>
+        <span style="font-size: 0.72rem; font-weight: 700; color: {ff_color}; background: {'#fee2e2' if peak_channel_flood_risk >= 0.65 else '#f8fafc'}; padding: 2px 6px; border-radius: 4px;">
+            {'SURGE DANGER' if peak_channel_flood_risk >= 0.65 else ('CHANNEL POOLING' if peak_channel_flood_risk >= 0.40 else 'DRAINING')}
+        </span>
+    </div>
+    <div style="font-size: 1.85rem; font-weight: 800; color: {ff_color}; font-family: 'JetBrains Mono', monospace; margin: 4px 0 2px 0;">
+        {peak_channel_flood_risk * 100:.1f}<span style="font-size: 1.05rem;">%</span>
+    </div>
+    <div class="meter-container">
+        <div class="meter-fill" style="width: {min(100.0, peak_channel_flood_risk * 100):.1f}%; background-color: {ff_color};"></div>
+    </div>
+    <div style="font-size: 0.74rem; color: #64748b; margin-top: 8px;">
+        D8 Hydrologic Routing • Slope: {case_info['slope']}°
+    </div>
+</div>
+
+<!-- Card 4: Severe Thunderstorm & Squall -->
+<div class="hud-card">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 0.74rem; font-weight: 700; color: #64748b; text-transform: uppercase;">🌩️ SEVERE THUNDERSTORM</span>
+        <span style="font-size: 0.72rem; font-weight: 700; color: {ts_color}; background: {'#fee2e2' if max_ts >= 0.65 else '#f8fafc'}; padding: 2px 6px; border-radius: 4px;">
+            {'SQUALL / GUST' if max_ts >= 0.65 else ('MODERATE' if max_ts >= 0.40 else 'NORMAL')}
+        </span>
+    </div>
+    <div style="font-size: 1.85rem; font-weight: 800; color: {ts_color}; font-family: 'JetBrains Mono', monospace; margin: 4px 0 2px 0;">
+        {max_ts * 100:.1f}<span style="font-size: 1.05rem;">%</span>
+    </div>
+    <div class="meter-container">
+        <div class="meter-fill" style="width: {min(100.0, max_ts * 100):.1f}%; background-color: {ts_color};"></div>
+    </div>
+    <div style="font-size: 0.74rem; color: #64748b; margin-top: 8px;">
+        Bulk Wind Shear & Boundary Convergence
+    </div>
+</div>
+</div>
+""")
 
 # Render Audio Emergency Siren Synthesizer if hazard threshold is elevated
 if dominant_prob >= 0.35:
@@ -1317,7 +1326,7 @@ with map_col:
     components.html(map_html, height=480)
 
     # GIS Map Legend HUD Bar
-    st.markdown("""
+    render_html("""
     <div style="display: flex; justify-content: space-between; align-items: center; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 14px; margin-top: 6px; font-size: 0.78rem; color: #475569; flex-wrap: wrap; gap: 8px;">
         <div style="display: flex; align-items: center; gap: 12px;">
             <strong style="color: #0f172a;">🗺️ GIS Layer Legend:</strong>
@@ -1330,17 +1339,17 @@ with map_col:
             <span><span style="color: #ef4444; font-weight: 800;">⭕</span> 14 km Convective Perimeter</span>
         </div>
     </div>
-    """, unsafe_allow_html=True)
+    """)
 
     # Explanatory visual contrast callout
     if is_flood:
-        st.markdown("""<div style="background: #eff6ff; border: 1px solid #bfdbfe; border-left: 4px solid #0284c7; border-radius: 8px; padding: 10px 14px; margin-top: 8px; font-size: 0.85rem; color: #1e3a8a;">
+        render_html("""<div style="background: #eff6ff; border: 1px solid #bfdbfe; border-left: 4px solid #0284c7; border-radius: 8px; padding: 10px 14px; margin-top: 8px; font-size: 0.85rem; color: #1e3a8a;">
 <strong>🌊 Topographic Hydrology Active:</strong> Risk concentrates strictly in low-lying gullies, riverbeds, and drainage channels (reaching 75–98%), while steep knife-edge ridges shed water instantly with low ponding risk.
-</div>""", unsafe_allow_html=True)
+</div>""")
     else:
-        st.markdown("""<div style="background: #fffbeb; border: 1px solid #fde68a; border-left: 4px solid #f59e0b; border-radius: 8px; padding: 10px 14px; margin-top: 8px; font-size: 0.85rem; color: #92400e;">
+        render_html("""<div style="background: #fffbeb; border: 1px solid #fde68a; border-left: 4px solid #f59e0b; border-radius: 8px; padding: 10px 14px; margin-top: 8px; font-size: 0.85rem; color: #92400e;">
 <strong>🌧️ Convective Core Active:</strong> Atmospheric footprint representing convective cloudburst core and torrential precipitation dumping from the storm cloud.
-</div>""", unsafe_allow_html=True)
+</div>""")
 
 
 with right_col:
@@ -1362,13 +1371,13 @@ with right_col:
     active_hs = hotspot_list[selected_hs_idx]
 
     # Active Hotspot Telemetry Pill
-    st.markdown(f"""
+    render_html(f"""
     <div style="display: flex; justify-content: space-between; align-items: center; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px 12px; margin-bottom: 10px; font-size: 0.78rem;">
         <div><strong>Coordinates:</strong> <span class="font-mono" style="color: #0284c7;">{active_hs['lat']:.4f}°N, {active_hs['lon']:.4f}°E</span></div>
         <div><strong>Elevation:</strong> <span class="font-mono">{active_hs['elev']}m MSL</span></div>
         <div><strong>Slope:</strong> <span class="font-mono">{active_hs['slope']}°</span></div>
     </div>
-    """, unsafe_allow_html=True)
+    """)
 
     # Build feature vector for the selected hotspot
     if is_scripted_mode:
@@ -1411,9 +1420,9 @@ with right_col:
         )
 
     # 1. Plain-Language Operational Reasoning
-    st.markdown(f"""<div style="background: #fef2f2; border: 1px solid #fecaca; border-left: 4px solid #ef4444; padding: 12px 16px; border-radius: 6px; font-size: 0.86rem; margin-bottom: 12px; line-height: 1.5; color: #1e293b;">
+    render_html(f"""<div style="background: #fef2f2; border: 1px solid #fecaca; border-left: 4px solid #ef4444; padding: 12px 16px; border-radius: 6px; font-size: 0.86rem; margin-bottom: 12px; line-height: 1.5; color: #1e293b;">
 {shap_explanation['plain_language_summary']}
-</div>""", unsafe_allow_html=True)
+</div>""")
 
     # 2. Multi-Tab Diagnostic Display: SHAP Attribution, Convective Radar, Table, and Thermodynamics
     xai_tab1, xai_tab2, xai_tab3, xai_tab4 = st.tabs([
@@ -1470,11 +1479,11 @@ with right_col:
             st.metric("Cloud-Top Temp (CTT)", f"{ctt_cur:.1f} K", f"{ctt_cur - 273.15:.1f} °C Tropopause Core")
             st.metric("CTT Cooling Rate (-dCTT/dt)", f"{ctt_cooling:.1f} K/hr", "Rapid Vertical Convection")
 
-        st.markdown(f"""
+        render_html(f"""
         <div style="font-size: 0.80rem; color: #475569; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 12px; margin-top: 8px; line-height: 1.4;">
             <strong>Orographic Funneling Rationale:</strong> Terrain slope of <b>{active_hs['slope']}°</b> forces immediate mechanical lifting of incoming low-level moisture. Gravitational runoff concentrates discharge along the primary dendritic valley axis within <b>{max(15, int(45 - active_hs['slope']*0.5))} minutes</b>.
         </div>
-        """, unsafe_allow_html=True)
+        """)
 
 # -----------------------------------------------------------------------------
 # Alert Module: Auto-register active hotspot alert in Live Feed
@@ -1617,7 +1626,7 @@ else:
     st.line_chart(df_timeline.set_index("Timestamp"))
 
 # 4-Milestone Operational Lead-Time Progression Roadmap
-st.markdown("""
+render_html("""
 <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 10px; margin-bottom: 20px;">
     <!-- T+6h Milestone -->
     <div style="background: #ffffff; border: 1px solid #e2e8f0; border-top: 4px solid #0284c7; border-radius: 10px; padding: 12px 14px; box-shadow: 0 2px 6px rgba(0,0,0,0.03);">
@@ -1644,7 +1653,7 @@ st.markdown("""
         <div style="font-size: 0.76rem; color: #64748b; line-height: 1.4;">D8 surge reaches nullah corridors. Sound municipal sirens and execute Common Alerting Protocol evacuation.</div>
     </div>
 </div>
-""", unsafe_allow_html=True)
+""")
 
 # -----------------------------------------------------------------------------
 # Bottom Section: Hydrologic Routing, CAP-v1.2, Architecture, & Datasets
@@ -1662,7 +1671,7 @@ with tab0:
     st.caption("Addressing SIH Problem Statement 26077 Specific Requirement: Differentiating atmospheric rain footprint from topographic drainage convergence.")
 
     # Catchment Hydrology Telemetry Strip
-    st.markdown("""
+    render_html("""
     <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 16px;">
         <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
             <div style="font-size: 0.72rem; color: #64748b; font-weight: 700; text-transform: uppercase;">Catchment Area (A)</div>
@@ -1690,7 +1699,7 @@ with tab0:
             <div style="font-size: 0.70rem; color: #94a3b8;">Ridge to Pilgrim Camp</div>
         </div>
     </div>
-    """, unsafe_allow_html=True)
+    """)
 
     processed_case_dir = PROCESSED_DATA_DIR / selected_case_id
     graphic_path = processed_case_dir / f"flood_vs_rain_comparison_T+{lead_time}h.png"
@@ -1732,7 +1741,7 @@ with tab1:
     st.caption("Automated threshold-triggered hazard warnings conforming to Common Alerting Protocol (CAP-v1.2) with in-dashboard notification stream and free-tier email dispatch.")
 
     # Prominent Demo Disclaimer
-    st.markdown("""<div style="background: #f0f9ff; border: 1px solid #bae6fd; border-left: 4px solid #0284c7; border-radius: 8px; padding: 14px 18px; margin-bottom: 20px; font-size: 0.86rem; line-height: 1.5; color: #1e293b; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.05);">
+    render_html("""<div style="background: #f0f9ff; border: 1px solid #bae6fd; border-left: 4px solid #0284c7; border-radius: 8px; padding: 14px 18px; margin-bottom: 20px; font-size: 0.86rem; line-height: 1.5; color: #1e293b; box-shadow: 0 2px 8px rgba(2, 132, 199, 0.05);">
 <strong>ℹ️ Operational Prototype Notice (Zero Paid Cloud / 100% Free Stack):</strong><br>
 In strict adherence to the free/open-source requirement (no paid SMS/push services like Twilio, SendGrid, or AWS SNS), this system implements alert delivery via:
 <ul style="margin: 6px 0 0 0; padding-left: 20px;">
@@ -1740,7 +1749,7 @@ In strict adherence to the free/open-source requirement (no paid SMS/push servic
 <li><strong>(b) Optional Free-Tier Email Alerting via Python <code>smtplib</code>:</strong> Standard library TLS dispatch compatible with free email providers (e.g. Gmail / Outlook with a free App Password), including an automated <strong>Simulated Demo Dispatch Mode</strong> for evaluation without requiring external credentials.</li>
 </ul>
 <em>In production, this module acts as the automated trigger feed for national emergency dissemination systems (NDMA SACHET, IMD Doppler Weather Radar bulletins, and telecom Cell Broadcast sirens).</em>
-</div>""", unsafe_allow_html=True)
+</div>""")
 
     # Official NDMA SITREP Generator
     sitrep_text = generate_ndma_sitrep(
@@ -1813,7 +1822,7 @@ In strict adherence to the free/open-source requirement (no paid SMS/push servic
                 time_win = item.get("time_window", {})
                 is_acked = item.get("acknowledged", False)
 
-                st.markdown(f"""
+                render_html(f"""
                 <div style="background: #ffffff; border: 1px solid {border_color}; border-left: 6px solid {border_color}; border-radius: 8px; padding: 14px 16px; margin-bottom: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                         <div>
@@ -1842,13 +1851,13 @@ In strict adherence to the free/open-source requirement (no paid SMS/push servic
                         <strong>🚨 NDMA Directive:</strong> {item.get('recommended_action', '')}
                     </div>
                 </div>
-                """, unsafe_allow_html=True)
+                """)
 
                 # Acknowledgment status / action
                 ack_c1, ack_c2 = st.columns([3, 1])
                 with ack_c2:
                     if is_acked:
-                        st.markdown('<span style="color: #22c55e; font-size: 0.8rem; font-weight: 600;">✅ Operator Acknowledged</span>', unsafe_allow_html=True)
+                        render_html('<span style="color: #22c55e; font-size: 0.8rem; font-weight: 600;">✅ Operator Acknowledged</span>')
                     else:
                         if st.button("Acknowledge", key=f"ack_btn_{item.get('alert_id')}", help="Record operational acknowledgment in the audit log"):
                             feed_manager.acknowledge_alert(item.get("alert_id"))
@@ -1892,10 +1901,10 @@ In strict adherence to the free/open-source requirement (no paid SMS/push servic
 
         # Optional SMTP Credentials Accordion
         with st.expander("⚙️ Optional Free-Tier SMTP Provider Settings (Gmail / Outlook)"):
-            st.markdown("""<div style="font-size: 0.8rem; color: #64748b; margin-bottom: 8px;">
+            render_html("""<div style="font-size: 0.8rem; color: #64748b; margin-bottom: 8px;">
 Enter your free SMTP credentials (e.g. Gmail with a 16-character App Password).<br>
 <em>If left empty, system operates in <strong>Simulated Demo Dispatch Mode</strong> (generates full responsive HTML email and logs dispatch to audit disk without errors).</em>
-</div>""", unsafe_allow_html=True)
+</div>""")
             smtp_host_in = st.text_input("SMTP Host", value="smtp.gmail.com")
             smtp_port_in = st.number_input("SMTP Port", value=587, min_value=25, max_value=65535)
             smtp_user_in = st.text_input("SMTP Username / Email", value="", help="e.g. your-email@gmail.com")
