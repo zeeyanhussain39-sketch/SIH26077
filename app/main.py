@@ -98,7 +98,7 @@ CSS_DESIGN_SYSTEM = """
 
     /* Global Typography & Canvas */
     html, body, .stApp {
-        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Plus Jakarta Sans', sans-serif !important;
         background-color: #f8fafc;
         color: #0f172a;
     }
@@ -1064,9 +1064,6 @@ Hours to Onset: <strong style="color: {'#dc2626' if active_stage['hours_to_onset
 # -----------------------------------------------------------------------------
 # Data Ingestion & Model Nowcast Computation for Active Time Step
 # -----------------------------------------------------------------------------
-explainer = get_cached_shap_explainer()
-model_wrapper = explainer.model_wrapper
-
 if is_scripted_mode:
     mean_cb = active_stage["predictions"]["cloudburst_prob"]
     max_cb = active_stage["predictions"]["cloudburst_prob"]
@@ -1077,6 +1074,10 @@ if is_scripted_mode:
     dominant_prob = active_stage["predictions"]["dominant_prob"]
     peak_channel_flood_risk = active_stage["predictions"]["flash_flood_prob"]
 else:
+    # Heavy multi-task model explainer is lazily initialized only when in Free Explorer Mode
+    explainer = get_cached_shap_explainer()
+    model_wrapper = explainer.model_wrapper
+
     # Extract current time slice features
     if df_case is not None and "time" in df_case.columns:
         unique_times = df_case["time"].unique()
@@ -1419,8 +1420,18 @@ with right_col:
     shap_cache = load_scripted_shap_cache()
     cached_sc = shap_cache.get(st.session_state.get("selected_scenario_id", ""))
 
-    if is_scripted_mode and cached_sc and str(st.session_state.scripted_stage_idx) in cached_sc and st.session_state.selected_hotspot_idx == 0:
-        shap_explanation = cached_sc[str(st.session_state.scripted_stage_idx)]
+    if is_scripted_mode and cached_sc and str(st.session_state.scripted_stage_idx) in cached_sc:
+        base_exp = cached_sc[str(st.session_state.scripted_stage_idx)]
+        if st.session_state.selected_hotspot_idx == 0:
+            shap_explanation = base_exp
+        else:
+            import copy
+            shap_explanation = copy.deepcopy(base_exp)
+            for feat in shap_explanation.get("all_features", []):
+                if feat.get("feature_id") == "layer_terrain_slope_deg":
+                    feat["value"] = active_hs["slope"]
+                elif feat.get("feature_id") == "layer_elevation_m":
+                    feat["value"] = float(active_hs["elev"])
     else:
         shap_explanation = get_cached_zone_explanation(
             hazard_type=hazard_to_explain,
