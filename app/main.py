@@ -1458,7 +1458,7 @@ with right_col:
         shap_fig = generate_shap_bar_chart(
             explanation_result=shap_explanation,
             max_features=6,
-            figsize=(6.2, 3.4),
+            figsize=(7.2, 4.4),
             dark_theme=False
         )
         st.pyplot(shap_fig, use_container_width=True)

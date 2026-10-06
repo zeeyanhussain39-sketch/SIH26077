@@ -421,13 +421,14 @@ class SevereWeatherShapExplainer:
 def generate_shap_bar_chart(
     explanation_result: Dict[str, Any],
     max_features: int = 7,
-    figsize: Tuple[float, float] = (7.5, 4.2),
+    figsize: Tuple[float, float] = (7.6, 4.4),
     dark_theme: bool = True,
     save_path: Optional[Path] = None
 ) -> plt.Figure:
     """
     Generates a horizontal SHAP feature contribution bar chart suitable for
     embedding directly into the Streamlit dashboard or saving to disk.
+    Features zero-overlap geometry, adaptive label spacing, and publication-grade aesthetics.
 
     Parameters:
         explanation_result: Output from SevereWeatherShapExplainer.explain_grid_cell
@@ -439,6 +440,8 @@ def generate_shap_bar_chart(
     Returns:
         matplotlib.figure.Figure object
     """
+    from matplotlib.patches import Patch
+
     features = explanation_result["all_features"][:max_features]
     features.reverse()  # Reverse so highest contribution is at the top of horizontal bar
 
@@ -449,92 +452,128 @@ def generate_shap_bar_chart(
 
     # Theme colors
     if dark_theme:
-        bg_color = "#0f172a"        # Deep slate
-        card_color = "#1e293b"      # Slate 800
-        text_color = "#f8fafc"      # Off-white
+        bg_color = "#0b1120"        # Deep navy slate
+        card_color = "#0f172a"      # Slate 900
+        text_color = "#f8fafc"      # Crisp white
         subtext_color = "#94a3b8"   # Slate 400
-        grid_color = "#334155"      # Subtle divider
-        pos_color = "#ef4444"       # Red-orange (risk increasing)
+        grid_color = "#1e293b"      # Subtle grid divider
+        pos_color = "#f43f5e"       # Vibrant rose-red (risk increasing)
         neg_color = "#0ea5e9"       # Sky cyan (risk dampening)
     else:
-        bg_color = "#ffffff"
-        card_color = "#f8fafc"
-        text_color = "#0f172a"
-        subtext_color = "#475569"
-        grid_color = "#e2e8f0"
-        pos_color = "#dc2626"
-        neg_color = "#0284c7"
+        bg_color = "#ffffff"        # Pure canvas
+        card_color = "#f8fafc"      # Off-white panel
+        text_color = "#0f172a"      # High-contrast slate 900
+        subtext_color = "#64748b"   # Slate 500
+        grid_color = "#e2e8f0"      # Light neutral border
+        pos_color = "#e11d48"       # Crimson rose (risk increasing)
+        neg_color = "#0284c7"       # Sky blue (risk dampening)
 
     bar_colors = [pos_color if d == "RISK_INCREASING" else neg_color for d in directions]
 
-    fig, ax = plt.subplots(figsize=figsize, facecolor=bg_color)
+    # Dynamically scale height to give ample breathing room per row
+    fig_w, fig_h = figsize
+    actual_h = max(fig_h, 1.4 + 0.52 * len(names))
+    fig, ax = plt.subplots(figsize=(fig_w, actual_h), facecolor=bg_color)
     ax.set_facecolor(card_color)
 
     y_pos = np.arange(len(names))
-    bars = ax.barh(y_pos, shap_vals, color=bar_colors, height=0.62, edgecolor="none", zorder=3)
+    bars = ax.barh(y_pos, shap_vals, color=bar_colors, height=0.52, edgecolor="none", zorder=3)
 
-    # Add vertical zero baseline
-    ax.axvline(0, color=subtext_color, linestyle="-", linewidth=1.0, alpha=0.7, zorder=2)
+    # Vertical zero baseline
+    ax.axvline(0, color="#94a3b8" if not dark_theme else "#64748b", linestyle="-", linewidth=1.2, alpha=0.9, zorder=3)
+
+    # Calculate xlim with generous padding so text labels never collide with y-axis or edges
+    x_min, x_max = min(shap_vals), max(shap_vals)
+    span = max(0.25, x_max - x_min)
+    pad_left = span * 0.32 if x_min < 0 else span * 0.12
+    pad_right = span * 0.32 if x_max > 0 else span * 0.12
+    ax.set_xlim(x_min - pad_left, x_max + pad_right)
 
     # Format ticks and labels
     ax.set_yticks(y_pos)
-    ax.set_yticklabels(names, color=text_color, fontsize=9.0, fontweight="500")
-    ax.tick_params(colors=subtext_color, labelsize=8.5)
-    ax.grid(axis="x", color=grid_color, linestyle="--", linewidth=0.7, alpha=0.6, zorder=1)
+    ax.set_yticklabels(names, color=text_color, fontsize=8.6, fontweight="500", linespacing=1.25)
+    ax.tick_params(axis="y", colors=subtext_color, length=0, pad=12)
+    ax.tick_params(axis="x", colors=subtext_color, labelsize=8.2)
+    ax.grid(axis="x", color=grid_color, linestyle="--", linewidth=0.7, alpha=0.7, zorder=1)
 
-    # Label each bar with its percentage contribution
+    # Alternating subtle row shading for high legibility
+    for i in range(len(names)):
+        if i % 2 == 1:
+            ax.axhspan(i - 0.45, i + 0.45, color=grid_color, alpha=0.35, zorder=0)
+
+    # Direction header indicators above the top bar
+    ax.text(
+        0.5, 1.025,
+        "◀ Dampens Risk (Buffering Factors)       |       Increases Risk (Primary Drivers) ▶",
+        transform=ax.transAxes,
+        ha="center",
+        va="bottom",
+        fontsize=7.8,
+        color=subtext_color,
+        fontweight="600",
+        zorder=5
+    )
+
+    # Label each bar with percentage contribution and clean sign
     for i, bar in enumerate(bars):
         sv = shap_vals[i]
         pct = contrib_pcts[i]
-        offset = 0.08 * (1 if sv >= 0 else -1)
-        align = "left" if sv >= 0 else "right"
+        is_pos = (sv >= 0)
+        offset = span * 0.032 * (1 if is_pos else -1)
+        align = "left" if is_pos else "right"
+        sign_char = "+" if is_pos else "−"  # Unicode minus
+        col = pos_color if is_pos else neg_color
+
         ax.text(
             sv + offset,
             bar.get_y() + bar.get_height() / 2,
-            f"{'+' if sv > 0 else ''}{pct:.1f}%",
+            f"{sign_char}{pct:.1f}%",
             va="center",
             ha=align,
-            color=pos_color if sv > 0 else neg_color,
-            fontsize=8.5,
-            fontweight="bold"
+            color=col,
+            fontsize=8.8,
+            fontweight="bold",
+            zorder=5
         )
 
     # Titles & Labels
-    hazard_title = explanation_result["hazard_title"]
-    prob = explanation_result["predicted_probability"] * 100.0
-    lead_h = explanation_result["lead_hours"]
+    hazard_title = explanation_result.get("hazard_title", "Hazard")
+    prob = explanation_result.get("predicted_probability", 0.0) * 100.0
+    lead_h = explanation_result.get("lead_hours", 3)
+    prob_str = f"{prob:.1f}%" if prob >= 0.1 else "<0.1%"
 
     ax.set_title(
-        f"SHAP Feature Attribution: {hazard_title} ({prob:.1f}% Risk @ T+{lead_h}h)",
+        f"SHAP Feature Attribution: {hazard_title} ({prob_str} Risk @ T+{lead_h}h)",
         color=text_color,
-        fontsize=11.5,
+        fontsize=11.2,
         fontweight="bold",
-        pad=12
+        pad=24
     )
-    ax.set_xlabel("SHAP Attribution Value (log-odds impact on risk score)", color=subtext_color, fontsize=8.5, labelpad=6)
+    ax.set_xlabel("SHAP Attribution Value (log-odds impact on risk score)", color=subtext_color, fontsize=8.2, labelpad=7)
 
-    # Remove outer spine boxes
-    for spine in ["top", "right", "left"]:
-        ax.spines[spine].set_visible(False)
-    ax.spines["bottom"].set_color(grid_color)
-
-    # Custom Legend
-    from matplotlib.patches import Patch
+    # Custom Legend placed cleanly below the plot - completely eliminates bar occlusion
     legend_elements = [
         Patch(facecolor=pos_color, label="Increases Hazard Risk (Primary Driver)"),
         Patch(facecolor=neg_color, label="Dampens Hazard Risk (Buffering Factor)")
     ]
     ax.legend(
         handles=legend_elements,
-        loc="lower right",
-        facecolor=card_color,
-        edgecolor=grid_color,
+        loc="upper center",
+        bbox_to_anchor=(0.5, -0.16),
+        ncol=2,
+        frameon=False,
+        fontsize=8.0,
         labelcolor=text_color,
-        fontsize=7.8,
-        framealpha=0.9
+        handlelength=1.3,
+        handleheight=0.7
     )
 
-    plt.tight_layout()
+    # Remove outer spine boxes
+    for spine in ["top", "right", "left"]:
+        ax.spines[spine].set_visible(False)
+    ax.spines["bottom"].set_color(grid_color)
+
+    plt.subplots_adjust(left=0.36, right=0.94, top=0.88, bottom=0.20)
 
     if save_path is not None:
         save_path = Path(save_path)
